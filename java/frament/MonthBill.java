@@ -63,7 +63,7 @@ public class MonthBill extends Fragment {
             String[] value =
 
                     {
-                            applaication.getDate("operateName"), applaication.getDate("merchantId"), applaication.getDate("month")
+                            applaication.getDate("operateName"), applaication.getDate("merchantId"),BaihuijiNet.getTime("yyyyMM")
                     };
 
             public void run() {

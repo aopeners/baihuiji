@@ -12,37 +12,34 @@ import android.widget.ImageView;
 
 import baihuiji.jkqme.baihuiji.R;
 
-public class NormalPage extends Fragment
-{
-  private ImageView img;
-  private int showId;
+public class NormalPage extends Fragment {
+    private ImageView img;
+    private int showId;
 
-  public void onCreate(@Nullable Bundle paramBundle)
-  {
-    super.onCreate(paramBundle);
-  }
-
-  @Nullable
-  public View onCreateView(LayoutInflater paramLayoutInflater, ViewGroup paramViewGroup, Bundle paramBundle)
-  {
-    View localView = paramLayoutInflater.inflate(R.layout.nomalpage, null,true);
-    this.img = ((ImageView)localView.findViewById(R.id.nomalpage_img));
-    this.showId = getArguments().getInt("showId");
-    switch (this.showId)
-    {
-    default:
-      return localView;
-    case 0:
-      this.img.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.img1));
-      return localView;
-    case 1:
-      this.img.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.img2));
-      return localView;
-    case 2:
+    public void onCreate(@Nullable Bundle paramBundle) {
+        super.onCreate(paramBundle);
     }
-    this.img.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.img3));
-    return localView;
-  }
+
+    @Nullable
+    public View onCreateView(LayoutInflater paramLayoutInflater, ViewGroup paramViewGroup, Bundle paramBundle) {
+        View localView = paramLayoutInflater.inflate(R.layout.nomalpage, null, true);
+        this.img = ((ImageView) localView.findViewById(R.id.nomalpage_img));
+        this.showId = getArguments().getInt("showId");
+        switch (this.showId) {
+
+            case 0:
+                this.img.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.img1));
+                break;
+            case 1:
+                this.img.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.img2));
+                break;
+            case 2:
+
+                this.img.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.img3));
+                break;
+        }
+        return localView;
+    }
 }
 
 /* Location:           C:\Users\jkqme\Androids\Androids\classes_dex2jar.jar
