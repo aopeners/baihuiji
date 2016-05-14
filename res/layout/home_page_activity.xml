@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+<!--主页框架-->
+    <LinearLayout
+        android:id="@+id/home_page_activit_linear"
+        android:layout_width="fill_parent"
+        android:layout_height="0.0dip"
+        android:layout_weight="1.0"
+        android:orientation="vertical" />
+
+    <RadioGroup
+        android:id="@+id/buttom_radioh"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/buttom_radioh_bt1"
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:background="@null"
+            android:drawableTop="@drawable/home"
+            android:text="首页"
+            android:textColor="@color/bluetext"
+            android:textSize="10.0sp" />
+
+        <Button
+            android:id="@+id/buttom_radioh_bt2"
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:background="@null"
+            android:drawableTop="@drawable/paylist"
+            android:text="账单"
+            android:textColor="@color/black"
+            android:textSize="10.0sp" />
+
+        <Button
+            android:id="@+id/buttom_radioh_bt3"
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:background="@null"
+            android:drawableTop="@drawable/count"
+            android:text="统计"
+            android:textColor="@color/black"
+            android:textSize="10.0sp" />
+
+        <Button
+            android:id="@+id/buttom_radioh_bt4"
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:background="@null"
+            android:drawableTop="@drawable/mine"
+            android:text="我的"
+            android:textColor="@color/black"
+            android:textSize="10.0sp" />
+    </RadioGroup>
+</LinearLayout>

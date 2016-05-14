@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="horizontal"
+    android:paddingLeft="4.0dip">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="10.0dip"
+        android:layout_marginRight="20.0dip"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/lv_statistic_trad1_day_tx"
+            android:layout_width="wrap_content"
+            android:layout_height="0.0dip"
+            android:layout_marginLeft="13.0dip"
+            android:layout_weight="1.0"
+            android:gravity="bottom"
+            android:text="周三"
+            android:textColor="@color/black"
+            android:textSize="13.0sp" />
+
+        <TextView
+            android:id="@+id/trad_statistic_getMoney_tx"
+            android:layout_width="wrap_content"
+            android:layout_height="0.0dip"
+            android:layout_marginLeft="10.0dip"
+            android:layout_weight="1.0"
+            android:gravity="top"
+            android:paddingBottom="8.0dip"
+            android:paddingTop="8.0dip"
+            android:text="12月2日"
+            android:textColor="@color/grey"
+            android:textSize="10.0sp" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/lv_statistic_trad_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10.0dip"
+        android:src="@drawable/payweichar" />
+
+    <LinearLayout
+        android:layout_width="0.0dip"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17.0dip"
+        android:layout_weight="1.0"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/lv_statistic_trad_pay_tx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4.0dip"
+            android:text="微信支付"
+            android:textColor="@color/black"
+            android:textSize="13.0sp" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0.5dip"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="总收款:¥"
+                android:textColor="@color/black"
+                android:textSize="10.0sp" />
+
+            <TextView
+                android:id="@+id/trad_statistic1_getMoney_tx"
+                android:layout_width="0.0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:paddingBottom="8.0dip"
+                android:paddingTop="8.0dip"
+                android:text="1382.00"
+                android:textColor="@color/black"
+                android:textSize="10.0sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16.0dip"
+                android:gravity="center_vertical"
+                android:text="总退款:¥"
+                android:textColor="@color/black"
+                android:textSize="10.0sp" />
+
+            <TextView
+                android:id="@+id/trad_statistic_backMoney_tx"
+                android:layout_width="0.0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:paddingBottom="8.0dip"
+                android:paddingTop="8.0dip"
+                android:text="1382.00"
+                android:textColor="@color/black"
+                android:textSize="10.0sp" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

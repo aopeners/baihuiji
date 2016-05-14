@@ -1,0 +1,366 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/black"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/mine_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="4.0dip"
+            android:padding="7.0dip"
+            android:paddingEnd="23.0dip"
+            android:rotation="180.0"
+            android:src="@drawable/right" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:padding="8.0dip"
+            android:text="个人中心"
+            android:textColor="@android:color/white"
+            android:textSize="13.0sp" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="0.0dip"
+        android:layout_weight="1.0">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/mine_head_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_launcher" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/mine_head_img"
+                    android:layout_toRightOf="@id/mine_head_img"
+                    android:orientation="vertical"
+                    android:paddingTop="4.0dip">
+
+                    <TextView
+                        android:id="@+id/mine_operater_tx"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="3.0dip"
+                        android:text="操作员：001"
+                        android:textSize="11.0sp" />
+
+                    <TextView
+                        android:id="@+id/mine_operater_account_tx"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="3.0dip"
+                        android:text="账号：4324324"
+                        android:textSize="11.0sp" />
+
+                    <TextView
+                        android:id="@+id/mine_operater_logintime_tx"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="3.0dip"
+                        android:text="上次登录时间：23324324"
+                        android:textSize="11.0sp" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="14.0dip"
+                android:background="@color/loginback" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0.0dip"
+                android:layout_weight="15.0"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:padding="13.0dip"
+                    android:src="@drawable/ic_launcher" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:padding="13.0sp"
+                    android:text="商户号"
+                    android:textSize="13.0sp" />
+
+                <View
+                    android:layout_width="0.0dip"
+                    android:layout_height="14.0dip"
+                    android:layout_weight="1.0" />
+
+                <TextView
+                    android:id="@+id/mine_merchantId_tx"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="10.0dip"
+                    android:gravity="center"
+                    android:padding="11.0sp"
+                    android:text="23423432"
+                    android:textSize="13.0sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1.0dip"
+                android:background="@color/loginback" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0.0dip"
+                android:layout_weight="15.0"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:padding="13.0dip"
+                    android:src="@drawable/ic_launcher" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:padding="13.0sp"
+                    android:text="商户名称"
+                    android:textSize="13.0sp" />
+
+                <View
+                    android:layout_width="0.0dip"
+                    android:layout_height="14.0dip"
+                    android:layout_weight="1.0" />
+
+                <TextView
+                    android:id="@+id/mine_merchantName_tx"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="10.0dip"
+                    android:gravity="center"
+                    android:padding="11.0sp"
+                    android:text="23423432"
+                    android:textSize="13.0sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1.0dip"
+                android:background="@color/loginback" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0.0dip"
+                android:layout_weight="15.0"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:padding="13.0dip"
+                    android:src="@drawable/ic_launcher" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:padding="13.0sp"
+                    android:text="修改密码"
+                    android:textSize="13.0sp" />
+
+                <View
+                    android:layout_width="0.0dip"
+                    android:layout_height="14.0dip"
+                    android:layout_weight="1.0" />
+
+                <ImageView
+                    android:id="@+id/mine_modifiPassword_tx"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="10.0dip"
+                    android:padding="11.0sp"
+                    android:src="@drawable/right" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="6.0dip"
+                android:background="@color/loginback" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0.0dip"
+                android:layout_weight="15.0"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:padding="13.0dip"
+                    android:src="@drawable/ic_launcher" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:padding="13.0sp"
+                    android:text="消息通知"
+                    android:textSize="13.0sp" />
+
+                <View
+                    android:layout_width="0.0dip"
+                    android:layout_height="14.0dip"
+                    android:layout_weight="1.0" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="10.0dip"
+                    android:padding="11.0sp"
+                    android:src="@drawable/right" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0.0dip"
+                android:layout_weight="15.0"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:padding="13.0dip"
+                    android:src="@drawable/ic_launcher" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:padding="13.0sp"
+                    android:text="客服电话"
+                    android:textSize="13.0sp" />
+
+                <View
+                    android:layout_width="0.0dip"
+                    android:layout_height="14.0dip"
+                    android:layout_weight="1.0" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="10.0dip"
+                    android:padding="11.0sp"
+                    android:src="@drawable/right" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="0.0dip"
+                android:layout_height="14.0dip"
+                android:layout_weight="1.0" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0.0dip"
+                android:layout_weight="15.0"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:padding="13.0dip"
+                    android:src="@drawable/ic_launcher" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:padding="13.0sp"
+                    android:text="关于我们"
+                    android:textSize="13.0sp" />
+
+                <View
+                    android:layout_width="0.0dip"
+                    android:layout_height="14.0dip"
+                    android:layout_weight="1.0" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="10.0dip"
+                    android:padding="11.0sp"
+                    android:src="@drawable/right" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="6.0dip"
+                android:background="@color/loginback" />
+
+            <TextView
+                android:id="@+id/mine_loginout_tx"
+                android:layout_width="fill_parent"
+                android:layout_height="0.0dip"
+                android:layout_marginBottom="26.0dip"
+                android:layout_marginLeft="30.0dip"
+                android:layout_marginRight="30.0dip"
+                android:layout_marginTop="26.0dip"
+                android:layout_weight="20.0"
+                android:background="@drawable/logout"
+                android:gravity="center"
+                android:padding="10.0dip"
+                android:text="退出账号"
+                android:textSize="13.0sp" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1.0dip"
+                android:background="@color/loginback" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

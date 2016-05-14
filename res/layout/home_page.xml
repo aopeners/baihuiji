@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+<!--主页的fragment-->
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="0.0dip"
+        android:layout_weight="1.0">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/home_page_title"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@color/black"
+                android:gravity="center_horizontal"
+                android:padding="13.0sp"
+                android:text="@string/home_page_title"
+                android:textSize="13.0sp" />
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/home_page_vp"
+                android:layout_width="fill_parent"
+                android:layout_height="190.0dip"
+                android:scrollbars="none" />
+
+            <RadioGroup
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="0.0dip"
+                    android:layout_height="1.0dip"
+                    android:layout_weight="1.0" />
+
+                <TextView
+                    android:id="@+id/home_page_today_tx"
+                    android:layout_width="5.0dip"
+                    android:layout_height="5.0dip"
+                    android:background="@drawable/circle1" />
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="1.0dip"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1.0"
+                    android:background="@color/loginback" />
+
+                <TextView
+                    android:id="@+id/home_page_moth_tx"
+                    android:layout_width="5.0dip"
+                    android:layout_height="5.0dip"
+                    android:background="@drawable/circle"
+                    android:textColor="@color/loginback" />
+
+                <View
+                    android:layout_width="0.0dip"
+                    android:layout_height="1.0dip"
+                    android:layout_weight="1.0" />
+            </RadioGroup>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="0.0dip"
+                    android:layout_height="1.0dip"
+                    android:layout_weight="1.0" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="今日累计"
+                    android:textSize="10.0sp" />
+
+                <View
+                    android:layout_width="0.0dip"
+                    android:layout_height="1.0dip"
+                    android:layout_weight="1.0" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="本月累计"
+                    android:textSize="10.0sp" />
+
+                <View
+                    android:layout_width="0.0dip"
+                    android:layout_height="1.0dip"
+                    android:layout_weight="1.0" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="0.5dip"
+                android:layout_marginBottom="13.0dip"
+                android:layout_marginTop="13.0dip"
+                android:background="@color/loginback" />
+
+            <TextView
+                android:id="@+id/home_page_pay_tx"
+                android:layout_width="240.0dip"
+                android:layout_height="40.0dip"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/rounded"
+                android:gravity="center"
+                android:paddingBottom="10.0dip"
+                android:paddingTop="10.0dip"
+                android:text="我要收款"
+                android:textColor="@color/white"
+                android:textSize="13.0sp" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="6.0dip"
+                android:layout_marginTop="13.0dip"
+                android:background="@color/loginback" />
+
+            <RadioGroup
+                android:id="@+id/home_page_radio"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/home_page_radio_bt1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="13.0dip"
+                    android:layout_marginTop="13.0dip"
+                    android:layout_weight="1.0"
+                    android:background="@null"
+                    android:drawableTop="@drawable/payweichar"
+                    android:text="微信支付"
+                    android:textColor="@color/black"
+                    android:textSize="10.0sp" />
+
+                <View
+                    android:layout_width="0.5dip"
+                    android:layout_height="fill_parent"
+                    android:background="@color/loginback" />
+
+                <Button
+                    android:id="@+id/home_page_radio_bt2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="13.0dip"
+                    android:layout_marginTop="13.0dip"
+                    android:layout_weight="1.0"
+                    android:background="@null"
+                    android:drawableTop="@drawable/qqperse"
+                    android:text="qq钱包"
+                    android:textColor="@color/black"
+                    android:textSize="10.0sp" />
+
+                <View
+                    android:layout_width="0.5dip"
+                    android:layout_height="fill_parent"
+                    android:background="@color/loginback" />
+
+                <Button
+                    android:id="@+id/home_page_radio_bt3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="13.0dip"
+                    android:layout_marginTop="13.0dip"
+                    android:layout_weight="1.0"
+                    android:background="@null"
+                    android:drawableTop="@drawable/ailipay"
+                    android:text="支付宝支付"
+                    android:textColor="@color/black"
+                    android:textSize="10.0sp" />
+
+                <View
+                    android:layout_width="0.5dip"
+                    android:layout_height="fill_parent"
+                    android:background="@color/loginback" />
+
+                <Button
+                    android:id="@+id/home_page_radio_bt4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="13.0dip"
+                    android:layout_marginTop="13.0dip"
+                    android:layout_weight="1.0"
+                    android:background="@null"
+                    android:drawableTop="@drawable/baiduperse"
+                    android:text="百度钱包"
+                    android:textColor="@color/black"
+                    android:textSize="10.0sp" />
+            </RadioGroup>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="0.5dip"
+                android:background="@color/loginback" />
+        </LinearLayout>
+    </ScrollView>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="10.0dip"
+        android:background="@color/loginback" />
+</LinearLayout>

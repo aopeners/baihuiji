@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/loginback"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/bill_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:padding="7.0dip"
+            android:rotation="180.0"
+            android:src="@drawable/right" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:padding="8.0dip"
+            android:text="账单"
+            android:textColor="@color/white"
+            android:textSize="13.0sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10.0dip">
+
+        <ImageView
+            android:id="@+id/bill_swap_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:padding="4.0dip"
+            android:src="@drawable/scan" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:background="@drawable/bill_rund_ranctangl"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/bill_etx"
+                android:layout_width="0.0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:hint="请输入订单号进行查询和退款"
+                android:padding="12.0sp"
+                android:textColor="@color/black"
+                android:textSize="13.0sp" />
+
+            <ImageView
+                android:id="@+id/bill_serch_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/search" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1.0dip"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4.0dip"
+            android:padding="12.0sp"
+            android:text="本月"
+            android:textColor="@color/black"
+            android:textSize="13.0sp" />
+
+        <View
+            android:layout_width="0.0dip"
+            android:layout_height="1.0dip"
+            android:layout_weight="1.0" />
+
+        <TextView
+            android:id="@+id/bill_month_tx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4.0dip"
+            android:drawableRight="@drawable/right1"
+            android:padding="12.0sp"
+            android:text="月账单"
+            android:textColor="@color/black"
+            android:textSize="13.0sp" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/bill_lv"
+        android:layout_width="fill_parent"
+        android:layout_height="0.0dip"
+        android:layout_weight="1.0"
+        android:dividerHeight="0.5dip" />
+</LinearLayout>

@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Baihuiji</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="home_page_title">白汇集商户版</string>
+    <string name="operater">操作员：</string>
+    <string name="loginTime">上次登录时间：</string>
+    <string name="acount">操作员：</string>
+    <string name="weixing">微信支付</string>
+    <string name="zhifuboao">支付宝支付</string>
+    <string name="pay_suceess">支付成功</string>
+</resources>

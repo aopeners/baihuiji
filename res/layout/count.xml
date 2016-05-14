@@ -1,0 +1,340 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/black"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/count_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:padding="7.0dip"
+                android:rotation="180.0"
+                android:src="@drawable/right" />
+
+            <TextView
+                android:id="@+id/count_title_tx"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                android:padding="8.0dip"
+                android:text="收款"
+                android:textColor="@color/white"
+                android:textSize="13.0sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="140.0dip"
+            android:background="@color/loginback"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0.0dip"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.0"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/comt_tx"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.0dip"
+                    android:layout_weight="1.0"
+                    android:gravity="bottom|center"
+                    android:padding="1.0dip"
+                    android:textColor="@color/black"
+                    android:textSize="13.0sp" />
+
+                <TextView
+                    android:id="@+id/comt_1_tx"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.0dip"
+                    android:layout_weight="1.0"
+                    android:gravity="top|center"
+                    android:padding="1.0dip"
+                    android:textColor="@color/black"
+                    android:textSize="20.0sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/count_cancel_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center"
+                android:padding="5.0dip"
+                android:src="@drawable/cancel" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0.0dip"
+            android:layout_weight="1.2"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <TableLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0.0dip"
+                android:layout_weight="1.0"
+                android:orientation="vertical"
+                android:stretchColumns="4">
+
+                <TableRow android:layout_weight="1.0">
+
+                    <TextView
+                        android:id="@+id/count1_tx"
+                        android:layout_width="0.0dip"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1.0"
+                        android:background="@drawable/cont_strok"
+                        android:gravity="center"
+                        android:padding="13.0dip"
+                        android:text="1"
+                        android:textColor="@color/black"
+                        android:textSize="13.0sp" />
+
+                    <TextView
+                        android:id="@+id/count2_tx"
+                        android:layout_width="0.0dip"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1.0"
+                        android:background="@drawable/cont_strok"
+                        android:gravity="center"
+                        android:padding="13.0dip"
+                        android:text="2"
+                        android:textColor="@color/black"
+                        android:textSize="13.0sp" />
+
+                    <TextView
+                        android:id="@+id/count3_tx"
+                        android:layout_width="0.0dip"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1.0"
+                        android:background="@drawable/cont_strok"
+                        android:gravity="center"
+                        android:padding="13.0dip"
+                        android:text="3"
+                        android:textColor="@color/black"
+                        android:textSize="13.0sp" />
+
+                    <TextView
+                        android:id="@+id/countx_tx"
+                        android:layout_width="0.0dip"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1.0"
+                        android:background="@drawable/cont_strok"
+                        android:gravity="center"
+                        android:padding="13.0dip"
+                        android:text="*"
+                        android:textColor="@color/black"
+                        android:textSize="13.0sp" />
+                </TableRow>
+
+                <TableRow android:layout_weight="1.0">
+
+                    <TextView
+                        android:id="@+id/count4_tx"
+                        android:layout_width="0.0dip"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1.0"
+                        android:background="@drawable/cont_strok"
+                        android:gravity="center"
+                        android:padding="13.0dip"
+                        android:text="4"
+                        android:textColor="@color/black"
+                        android:textSize="13.0sp" />
+
+                    <TextView
+                        android:id="@+id/count5_tx"
+                        android:layout_width="0.0dip"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1.0"
+                        android:background="@drawable/cont_strok"
+                        android:gravity="center"
+                        android:padding="13.0dip"
+                        android:text="5"
+                        android:textColor="@color/black"
+                        android:textSize="13.0sp" />
+
+                    <TextView
+                        android:id="@+id/count6_tx"
+                        android:layout_width="0.0dip"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1.0"
+                        android:background="@drawable/cont_strok"
+                        android:gravity="center"
+                        android:padding="13.0dip"
+                        android:text="6"
+                        android:textColor="@color/black"
+                        android:textSize="13.0sp" />
+
+                    <TextView
+                        android:id="@+id/count_add_tx"
+                        android:layout_width="0.0dip"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1.0"
+                        android:background="@drawable/cont_strok"
+                        android:gravity="center"
+                        android:padding="13.0dip"
+                        android:text="+"
+                        android:textColor="@color/black"
+                        android:textSize="13.0sp" />
+                </TableRow>
+            </TableLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0.0dip"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TableLayout
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="3.0"
+                    android:orientation="vertical">
+
+                    <TableRow android:layout_weight="1.0">
+
+                        <TextView
+                            android:id="@+id/count7_tx"
+                            android:layout_width="0.0dip"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1.0"
+                            android:background="@drawable/cont_strok"
+                            android:gravity="center"
+                            android:padding="13.0dip"
+                            android:text="7"
+                            android:textColor="@color/black"
+                            android:textSize="13.0sp" />
+
+                        <TextView
+                            android:id="@+id/count8_tx"
+                            android:layout_width="0.0dip"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1.0"
+                            android:background="@drawable/cont_strok"
+                            android:gravity="center"
+                            android:padding="13.0dip"
+                            android:text="8"
+                            android:textColor="@color/black"
+                            android:textSize="13.0sp" />
+
+                        <TextView
+                            android:id="@+id/count9_tx"
+                            android:layout_width="0.0dip"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1.0"
+                            android:background="@drawable/cont_strok"
+                            android:gravity="center"
+                            android:padding="13.0dip"
+                            android:text="9"
+                            android:textColor="@color/black"
+                            android:textSize="13.0sp" />
+                    </TableRow>
+
+                    <TableRow android:layout_weight="1.0">
+
+                        <TextView
+                            android:id="@+id/count_clear_tx"
+                            android:layout_width="0.0dip"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1.0"
+                            android:background="@drawable/cont_strok"
+                            android:gravity="center"
+                            android:padding="13.0dip"
+                            android:text="清空"
+                            android:textColor="@color/black"
+                            android:textSize="13.0sp" />
+
+                        <TextView
+                            android:id="@+id/count0_tx"
+                            android:layout_width="0.0dip"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1.0"
+                            android:background="@drawable/cont_strok"
+                            android:gravity="center"
+                            android:padding="13.0dip"
+                            android:text="0"
+                            android:textColor="@color/black"
+                            android:textSize="13.0sp" />
+
+                        <TextView
+                            android:id="@+id/count_point_tx"
+                            android:layout_width="0.0dip"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1.0"
+                            android:background="@drawable/cont_strok"
+                            android:gravity="center"
+                            android:padding="13.0dip"
+                            android:text="."
+                            android:textColor="@color/black"
+                            android:textSize="13.0sp" />
+                    </TableRow>
+                </TableLayout>
+
+                <LinearLayout
+                    android:id="@+id/count_2row_linear"
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.0"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/cont_2row_1"
+                        android:layout_width="fill_parent"
+                        android:layout_height="0.0dip"
+                        android:layout_weight="1.0"
+                        android:background="@drawable/cont_strok_bulue_solid"
+                        android:gravity="center"
+                        android:padding="13.0dip"
+                        android:text="."
+                        android:textColor="@color/black"
+                        android:textSize="13.0sp" />
+
+                    <TextView
+                        android:id="@+id/cont_2row_2"
+                        android:layout_width="fill_parent"
+                        android:layout_height="0.0dip"
+                        android:layout_weight="1.0"
+                        android:background="@drawable/cont_strok_bulue_solid"
+                        android:gravity="center"
+                        android:padding="13.0dip"
+                        android:text="."
+                        android:textColor="@color/black"
+                        android:textSize="13.0sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/count_2row_tx"
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/cont_strok_bulue_solid"
+                    android:gravity="center"
+                    android:padding="13.0dip"
+                    android:text="扫一扫"
+                    android:textColor="@color/black"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

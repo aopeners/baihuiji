@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="bluetext">#ff43c4c0</color>
+    <color name="loginback">#ffefefef</color>
+    <color name="black">#ff000000</color>
+    <color name="white">#ffffffff</color>
+    <color name="orange">#fffd961f</color>
+    <color name="blue">#ff64c2ff</color>
+    <color name="red">#fffc7a6a</color>
+    <color name="green">#ff66d754</color>
+    <color name="grey">#ffcdcdcd</color>
+    <color name="tbluee">#ff66f0f2</color>
+    <color name="red1">#fffb96fe</color>
+</resources>

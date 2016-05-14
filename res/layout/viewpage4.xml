@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/background1"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="0.0dip"
+        android:layout_weight="13.0"
+        android:src="@drawable/title2" />
+
+    <ImageView
+        android:id="@+id/viewpage4_img_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="0.0dip"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="3.5"
+        android:src="@drawable/imgbt" />
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="0.0dip"
+        android:layout_weight="5.5"
+        android:scaleType="fitXY"
+        android:src="@drawable/bttom" />
+</LinearLayout>

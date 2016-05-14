@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/loginback"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1.0dip"
+            android:layout_weight="1.0"
+            android:orientation="vertical"
+            android:padding="15.0dip">
+
+            <TextView
+                android:id="@+id/lv_message_time_tx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="今天"
+                android:textColor="@android:color/black"
+                android:textSize="13.0sp" />
+
+            <TextView
+                android:id="@+id/lv_message_time1_tx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="13:27:05"
+                android:textColor="@color/black"
+                android:textSize="10.0sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/lv_message_pay_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/payweichar" />
+
+        <LinearLayout
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1.0dip"
+            android:layout_weight="1.0"
+            android:orientation="vertical"
+            android:padding="15.0dip">
+
+            <TextView
+                android:id="@+id/lv_message_pay_tx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/acount"
+                android:textColor="@android:color/black"
+                android:textSize="13.0sp" />
+
+            <TextView
+                android:id="@+id/lv_message_pay1_tx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="13213123"
+                android:textColor="@color/black"
+                android:textSize="10.0sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1.0dip"
+            android:layout_weight="1.0"
+            android:orientation="vertical"
+            android:padding="15.0dip">
+
+            <TextView
+                android:id="@+id/lv_message_pay_num_tx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="¥456456"
+                android:textColor="@android:color/black"
+                android:textSize="13.0sp" />
+
+            <TextView
+                android:id="@+id/lv_message_pay_num1_tx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pay_suceess"
+                android:textColor="@color/black"
+                android:textSize="10.0sp" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

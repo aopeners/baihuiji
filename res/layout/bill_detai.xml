@@ -1,0 +1,325 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/bill_detail_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:padding="7.0dip"
+            android:rotation="180.0"
+            android:src="@drawable/right" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:padding="8.0dip"
+            android:text="账单详情"
+            android:textColor="@color/white"
+            android:textSize="13.0sp" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="0.0dip"
+        android:layout_weight="2.0"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0.0dip"
+                android:layout_weight="1.0"
+                android:background="@color/loginback"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/bill_detail_mony_tx"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="30.0dip"
+                    android:layout_weight="1.0"
+                    android:gravity="bottom|center"
+                    android:padding="8.0dip"
+                    android:text="付款金额"
+                    android:textColor="@color/black"
+                    android:textSize="8.0sp" />
+
+                <TextView
+                    android:id="@+id/bill_money_tx"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="30.0dip"
+                    android:layout_weight="1.0"
+                    android:gravity="top|center"
+                    android:padding="8.0dip"
+                    android:text="¥1532.00"
+                    android:textColor="@color/black"
+                    android:textSize="15.0sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5.0dip"
+                    android:layout_weight="1.0"
+                    android:padding="13.0dip"
+                    android:text="商户名称"
+                    android:textColor="@color/black"
+                    android:textSize="13.0sp" />
+
+                <TextView
+                    android:id="@+id/bill_detail_marchtName_tx"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5.0dip"
+                    android:layout_weight="1.0"
+                    android:gravity="right"
+                    android:padding="13.0dip"
+                    android:text="微客巴巴"
+                    android:textColor="@color/black"
+                    android:textSize="13.0sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5.0dip"
+                    android:layout_weight="1.0"
+                    android:padding="13.0dip"
+                    android:text="门店名称"
+                    android:textColor="@color/black"
+                    android:textSize="13.0sp" />
+
+                <TextView
+                    android:id="@+id/bill_detail_marchtShop_tx"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5.0dip"
+                    android:layout_weight="1.0"
+                    android:gravity="right"
+                    android:padding="13.0dip"
+                    android:text="波波的小店"
+                    android:textColor="@color/black"
+                    android:textSize="13.0sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5.0dip"
+                    android:layout_weight="1.0"
+                    android:padding="13.0dip"
+                    android:text="探作员"
+                    android:textColor="@color/black"
+                    android:textSize="13.0sp" />
+
+                <TextView
+                    android:id="@+id/bill_detail_operater_tx"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5.0dip"
+                    android:layout_weight="1.0"
+                    android:gravity="right"
+                    android:padding="13.0dip"
+                    android:text="001"
+                    android:textColor="@color/black"
+                    android:textSize="13.0sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5.0dip"
+                    android:layout_weight="1.0"
+                    android:padding="13.0dip"
+                    android:text="当前状态"
+                    android:textColor="@color/black"
+                    android:textSize="13.0sp" />
+
+                <TextView
+                    android:id="@+id/bill_detail_state_tx"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5.0dip"
+                    android:layout_weight="1.0"
+                    android:gravity="right"
+                    android:padding="13.0dip"
+                    android:text="支付成功"
+                    android:textColor="@color/black"
+                    android:textSize="13.0sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5.0dip"
+                    android:layout_weight="1.0"
+                    android:padding="13.0dip"
+                    android:text="支付方式"
+                    android:textColor="@color/black"
+                    android:textSize="13.0sp" />
+
+                <TextView
+                    android:id="@+id/bill_detail_pay_tx"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5.0dip"
+                    android:layout_weight="1.0"
+                    android:gravity="right"
+                    android:padding="13.0dip"
+                    android:text="支付宝"
+                    android:textColor="@color/black"
+                    android:textSize="13.0sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5.0dip"
+                    android:layout_weight="1.0"
+                    android:padding="13.0dip"
+                    android:text="交易单号"
+                    android:textColor="@color/black"
+                    android:textSize="13.0sp" />
+
+                <TextView
+                    android:id="@+id/bill_detail_trade_tx"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5.0dip"
+                    android:layout_weight="1.0"
+                    android:gravity="right"
+                    android:padding="13.0dip"
+                    android:text="464564"
+                    android:textColor="@color/black"
+                    android:textSize="13.0sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5.0dip"
+                    android:layout_weight="1.0"
+                    android:padding="13.0dip"
+                    android:text="交易时间"
+                    android:textColor="@color/black"
+                    android:textSize="13.0sp" />
+
+                <TextView
+                    android:id="@+id/bill_detail_trade_time_tx"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5.0dip"
+                    android:layout_weight="1.0"
+                    android:gravity="right"
+                    android:padding="13.0dip"
+                    android:text="2015-12-03"
+                    android:textColor="@color/black"
+                    android:textSize="13.0sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5.0dip"
+                    android:layout_weight="1.0"
+                    android:padding="13.0dip"
+                    android:text="退款时间"
+                    android:textColor="@color/black"
+                    android:textSize="13.0sp" />
+
+                <TextView
+                    android:id="@+id/bill_detail_refund_time_tx"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5.0dip"
+                    android:layout_weight="1.0"
+                    android:gravity="right"
+                    android:padding="13.0dip"
+                    android:text="2015-12-03"
+                    android:textColor="@color/black"
+                    android:textSize="13.0sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/bill_detail_refund_bt_tx"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="23.0dip"
+                android:layout_marginLeft="17.0dip"
+                android:layout_marginRight="17.0dip"
+                android:layout_marginTop="23.0dip"
+                android:background="@drawable/grey_ranctangle"
+                android:gravity="center"
+                android:padding="10.0dip"
+                android:text="退款"
+                android:textColor="@color/black"
+                android:textSize="13.0sp" />
+
+            <View
+                android:layout_width="1.0dip"
+                android:layout_height="1.0dip" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
