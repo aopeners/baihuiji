@@ -1,11 +1,15 @@
 package frament;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -58,7 +62,51 @@ public class Bil_detail extends Fragment {
                     break;
                 case R.id.bill_detail_refund_bt_tx:
                     break;
+                case R.id.dialog_refund_close:
+                    dialog.cancel();
+                    break;
             }
+        }
+    };
+
+    /**
+     * 点击退款时
+     */
+    private void onClicRefund() {
+        showDialog();
+    }
+
+    private AlertDialog dialog;
+
+    private void showDialog() {
+        if (dialog == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getParentFragment().getContext());
+            View view = getParentFragment().getActivity().getLayoutInflater().inflate(R.layout.dialog_refund, null, true);
+            ImageView imageView = (ImageView) view.findViewById(R.id.dialog_refund_close);
+            imageView.setOnClickListener(listener);
+            EditText editText = (EditText) view.findViewById(R.id.dialog_refund_etx);
+            editText.setOnEditorActionListener(elstener);
+
+            TextView textView = (TextView) view.findViewById(R.id.dialog_refund_tx);
+            textView.setText(map.get("ordPrice"));
+            dialog = builder.create();
+            dialog.setCanceledOnTouchOutside(false);
+        }
+        dialog.show();
+
+
+    }
+
+    /**
+     * 点击退款监听
+     */
+    private TextView.OnEditorActionListener elstener = new TextView.OnEditorActionListener() {
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            if(actionId == KeyEvent.ACTION_DOWN || actionId == EditorInfo.IME_ACTION_DONE){
+                onRefund(v.getText().toString());
+            }
+            return false;
         }
     };
 
@@ -196,6 +244,29 @@ public class Bil_detail extends Fragment {
         }
     }
 
+    /**
+     * 获取json窜中一个值
+     *
+     * @param json
+     * @param key
+     * @return
+     */
+    private String getJsonValu(String json, String key) {
+        JSONObject object;
+        try {
+            object = new JSONObject(json);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return "";
+        }
+        try {
+            return object.getString(key);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
     //退款
     private void onRefund(final String password) {
         new Thread(new Runnable() {
@@ -211,10 +282,10 @@ public class Bil_detail extends Fragment {
             @Override
             public void run() {
                 requst = urlconection(Ip.refund, json);
-                if(refundSuccess(requst)){
-                map.put("backTime", BaihuijiNet.getTime("yyyy-MM-dd HH:mm:ss"));
-                    state=false;
-                    setState(false,map);
+                if (refundSuccess(requst)) {
+                    map.put("backTime", getJsonValu(requst, "time"));
+                    state = false;
+                    setState(false, map);
                 }
             }
         }).start();
@@ -223,6 +294,7 @@ public class Bil_detail extends Fragment {
 
     /**
      * 判断退款成功
+     *
      * @param requst
      * @return
      */

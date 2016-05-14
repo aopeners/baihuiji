@@ -110,8 +110,11 @@ public class Paylist_Fragment extends Fragment {
                 e.printStackTrace();
             }
         }
+        if(billAdpter==null){
         billAdpter=new BillAdpter(list,getParentFragment().getActivity());
-        listView.setAdapter(billAdpter);
+        listView.setAdapter(billAdpter);}else {
+            billAdpter.setList(list);
+        }
     }
 
     /**
@@ -173,7 +176,15 @@ private AdapterView.OnItemClickListener lvLisntener=new AdapterView.OnItemClickL
     }
 
     private void onSerch() {
-
+        View view=getView();
+        EditText editText= (EditText) view.findViewById(R.id.bill_etx);
+            ArrayList<HashMap<String,String>>list1=new ArrayList<HashMap<String, String>>();
+        for(int i=0;i<list.size();i++){
+            if(list1.get(i).get("singal").startsWith(editText.getText().toString())){
+                list1.add(list.get(i));
+            }
+        }
+        billAdpter.setList(list1);
     }
 
     public View onCreateView(LayoutInflater paramLayoutInflater, @Nullable ViewGroup paramViewGroup, @Nullable Bundle paramBundle) {
@@ -186,5 +197,13 @@ private AdapterView.OnItemClickListener lvLisntener=new AdapterView.OnItemClickL
         super.onHiddenChanged(paramBoolean);
         if ((!paramBoolean) && (this.billAdpter == null))
             getDate();
+    }
+
+    /**
+     * 退款时的动作
+     */
+    public void setOnRefound(){
+        getDate();
+        list=new ArrayList<HashMap<String, String>>();
     }
 }

@@ -29,7 +29,10 @@ public class BillAdpter extends BaseAdapter {
         this.context = paramContext;
         this.inflater = LayoutInflater.from(paramContext);
     }
-public void setList(){}
+    public void setList(ArrayList<HashMap<String, String>> list){
+        this.list=list;
+        notifyDataSetChanged();
+    }
     public int getCount() {
         return this.list.size();
     }
