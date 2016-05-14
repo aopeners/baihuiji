@@ -14,6 +14,8 @@ public abstract interface Ip
   public static final String thirtyDetail = "http://baihuiji.weikebaba.com/aide/bill";
   //日收入
   public static final String todyConmulative = "http://baihuiji.weikebaba.com/aide/dayCount";
+  //退款
+  public static String refund="http://baihuiji.weikebaba.com/pospay/posPayBack";
 }
 
 /* Location:           C:\Users\jkqme\Androids\Androids\classes_dex2jar.jar
