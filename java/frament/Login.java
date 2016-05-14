@@ -43,10 +43,12 @@ public class Login extends Fragment {
     };
     private OnClickListener listener = new OnClickListener() {
         public void onClick(View paramAnonymousView) {
-            Login.this.userNameEtx.getText().toString();
-            Login.this.passwordEtx.getText().toString();
-            Log.i("Onclick", "18716398031" + "  " + "123456");
-            if ((Login.this.checkBox.isChecked()) && ("18716398031" != null) && (!"18716398031".equals("")) && ("123456" != null) && (!"123456".equals("")))
+            String user = userNameEtx.getText().toString();
+            String password = passwordEtx.getText().toString();
+            user = "18716398031";
+            password = "123456";
+            Log.i("Onclick", "" + user + password);
+            if ((Login.this.checkBox.isChecked()) && user.trim().length() > 0 && password.trim().length() > 0)
                 Login.this.conect("18716398031", "123456");
         }
     };
@@ -280,7 +282,7 @@ public class Login extends Fragment {
     }
 
     public View onCreateView(LayoutInflater paramLayoutInflater, @Nullable ViewGroup paramViewGroup, @Nullable Bundle paramBundle) {
-        View localView = paramLayoutInflater.inflate(R.layout.login, null,true);
+        View localView = paramLayoutInflater.inflate(R.layout.login, null, true);
         loadComponent(localView);
         return localView;
     }

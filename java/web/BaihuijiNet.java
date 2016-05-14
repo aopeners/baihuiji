@@ -51,7 +51,7 @@ public class BaihuijiNet {
     /**
      * md532位加密
      */
-    private synchronized static String getMd5_32(String str) {
+    public synchronized static String getMd5_32(String str) {
         StringBuffer buffer = new StringBuffer();
         MessageDigest md5 = null;
         try {
