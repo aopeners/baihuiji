@@ -22,16 +22,17 @@ import java.util.Date;
 
 public class BaihuijiNet {
     public static String getJson(String[] paramArrayOfString1, String[] paramArrayOfString2, String paramString) {
-        while (true) {
-            int i;
+        int i = 0;
+        StringBuffer localStringBuffer = new StringBuffer();
+        while (i <= paramArrayOfString1.length) {
+
             try {
-                StringBuffer localStringBuffer = new StringBuffer();
-                localStringBuffer.append("{");
-                i = 0;
+                if (i == 0)//头
+                    localStringBuffer.append("{");
                 if (i >= paramArrayOfString1.length) {
                     localStringBuffer.append("}");
                     String str = localStringBuffer.toString();
-                    return str;
+                    break;
                 }
                 if (paramArrayOfString1[i].equals(paramString)) {
                     localStringBuffer.append("\"" + paramArrayOfString1[i] + "\"" + ":");
@@ -44,6 +45,7 @@ public class BaihuijiNet {
             }
             i++;
         }
+        return localStringBuffer.toString();
     }
 
     /**
@@ -99,7 +101,7 @@ public class BaihuijiNet {
      * @return
      */
     public static String urlconection(String paramString1, String paramString2) {
-        StringBuffer stringBuffer=new StringBuffer();
+        StringBuffer stringBuffer = new StringBuffer();
         URL urL = null;
         HttpURLConnection connection = null;
         DataOutputStream dataOutputStream = null;
@@ -130,7 +132,7 @@ public class BaihuijiNet {
             dataOutputStream = new DataOutputStream(connection.getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();
-            return   "上传失败";
+            return "上传失败";
         }
         try {
             dataOutputStream.writeBytes(paramString2);
@@ -141,11 +143,11 @@ public class BaihuijiNet {
             return "上传失败";
         }
         try {
-            if(connection.getResponseCode()==HttpURLConnection.HTTP_OK){
-                InputStreamReader reader=new InputStreamReader(connection.getInputStream());
-                BufferedReader bufferedReader=new BufferedReader(reader);
-                String inputLine=null;
-                while((inputLine =bufferedReader.readLine())!=null){
+            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                InputStreamReader reader = new InputStreamReader(connection.getInputStream());
+                BufferedReader bufferedReader = new BufferedReader(reader);
+                String inputLine = null;
+                while ((inputLine = bufferedReader.readLine()) != null) {
                     stringBuffer.append(inputLine);
                 }
                 reader.close();
@@ -154,7 +156,7 @@ public class BaihuijiNet {
 
         } catch (IOException e) {
             e.printStackTrace();
-            return  "获取数据返回失败";
+            return "获取数据返回失败";
         }
         connection.disconnect();
         return stringBuffer.toString();
