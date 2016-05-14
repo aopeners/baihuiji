@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import baihuiji.jkqme.baihuiji.HomPage;
+import baihuiji.jkqme.baihuiji.R;
+
 import java.lang.reflect.Field;
 
 public class Home_fragment extends Fragment
@@ -27,8 +29,8 @@ public class Home_fragment extends Fragment
     {
       this.manager = getChildFragmentManager();
       this.transaction = this.manager.beginTransaction();
-      this.transaction.add(2131230788, this.hDisplay_fragment);
-      this.transaction.add(2131230788, this.countFragment).hide(this.countFragment);
+      this.transaction.add(R.id.home_page_fragment_linear, this.hDisplay_fragment);
+      this.transaction.add(R.id.home_page_fragment_linear, this.countFragment).hide(this.countFragment);
       this.transaction.show(this.hDisplay_fragment);
       this.transaction.commit();
       this.curentFragment = this.hDisplay_fragment;
@@ -67,11 +69,14 @@ public class Home_fragment extends Fragment
 
   public View onCreateView(LayoutInflater paramLayoutInflater, @Nullable ViewGroup paramViewGroup, @Nullable Bundle paramBundle)
   {
-    View localView = paramLayoutInflater.inflate(2130903053, null, true);
+    View localView = paramLayoutInflater.inflate(R.layout.home_page_fragment, null, true);
     loadFragment();
     return localView;
   }
 
+  /**
+   * 防止suporV4bug
+   */
   public void onDetach()
   {
     super.onDetach();
@@ -106,8 +111,3 @@ public class Home_fragment extends Fragment
     showFragment(this.countFragment);
   }
 }
-
-/* Location:           C:\Users\jkqme\Androids\Androids\classes_dex2jar.jar
- * Qualified Name:     frament.Home_fragment
- * JD-Core Version:    0.6.2
- */
