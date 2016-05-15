@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import frament.Bill;
 import frament.Home_fragment;
 import frament.MineFragment;
+import frament.MineHome;
+import frament.StatisticHome;
 import frament.StatisticsFragment;
 import views.MyViewPager;
 
@@ -48,12 +50,12 @@ public class HomPage extends FragmentActivity {
                     return;
                 case R.id.home_page_radio_bt4:
             }
-            HomPage.this.showFragment(HomPage.this.mineFragment);
+            HomPage.this.showFragment(HomPage.this.mineHome);
         }
     };
     private MyViewPager mViewPager;
     private FragmentManager manager = getSupportFragmentManager();
-    private MineFragment mineFragment;
+    private MineHome mineHome;
     private pagerAdpters padpter;
     private RadioGroup rGroup;
     private OnCheckedChangeListener rlistener = new OnCheckedChangeListener() {
@@ -74,10 +76,10 @@ public class HomPage extends FragmentActivity {
                     return;
                 case 2131230787:
             }
-            HomPage.this.showFragment(HomPage.this.mineFragment);
+            HomPage.this.showFragment(HomPage.this.mineHome);
         }
     };
-    private StatisticsFragment statisticsFragment;
+    private StatisticHome statisticsFragment;
     private FragmentTransaction transaction = this.manager.beginTransaction();
 
     /**
@@ -86,12 +88,12 @@ public class HomPage extends FragmentActivity {
     private void getFragment() {
         this.home_fragment = new Home_fragment();
         this.bill = new Bill();
-        this.statisticsFragment = new StatisticsFragment();
-        this.mineFragment = new MineFragment();
+        this.statisticsFragment = new StatisticHome();
+        this.mineHome = new MineHome();
         this.transaction.add(R.id.home_page_activit_linear, this.home_fragment);
         this.transaction.add(R.id.home_page_activit_linear, this.bill).hide(this.bill);
         this.transaction.add(R.id.home_page_activit_linear, this.statisticsFragment).hide(this.statisticsFragment);
-        this.transaction.add(R.id.home_page_activit_linear, this.mineFragment).hide(this.mineFragment);
+        this.transaction.add(R.id.home_page_activit_linear, this.mineHome).hide(this.mineHome);
         this.transaction.show(this.home_fragment);
         this.transaction.commit();
         this.currentFragment = this.home_fragment;
@@ -104,7 +106,7 @@ public class HomPage extends FragmentActivity {
     private void showFragment(Fragment paramFragment) {//判断当前显示是否改变
         if (this.currentFragment.hashCode() != paramFragment.hashCode()) {
             this.transaction = this.manager.beginTransaction();
-            this.transaction.hide(this.home_fragment).hide(this.mineFragment).hide(this.bill).hide(this.statisticsFragment);
+            this.transaction.hide(this.home_fragment).hide(this.mineHome).hide(this.bill).hide(this.statisticsFragment);
             this.transaction.show(paramFragment);
             this.transaction.commit();
             this.currentFragment = paramFragment;
@@ -118,7 +120,7 @@ public class HomPage extends FragmentActivity {
             } else if (paramFragment.hashCode() == this.statisticsFragment.hashCode()) {
                 upDateBottomState(0);
                 return;
-            } else if (paramFragment.hashCode() == this.mineFragment.hashCode()) {
+            } else if (paramFragment.hashCode() == this.mineHome.hashCode()) {
                 upDateBottomState(0);
                 return;
             }

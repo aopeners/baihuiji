@@ -60,7 +60,7 @@
                     android:layout_height="1.0dip"
                     android:layout_weight="1.0" />
 
-                <views.Sector1
+                <views.Sector
                     android:layout_width="0.0dip"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.0" />

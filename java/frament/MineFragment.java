@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import baihuiji.jkqme.baihuiji.MyApplaication;
@@ -26,6 +27,9 @@ public class MineFragment extends Fragment {
 
                 case R.id.mine_loginout_tx:
                     MineFragment.this.loginOut();
+                    break;
+                case R.id.mine_password_linear:
+                    jump(1);
                     break;
                 default:
                     return;
@@ -55,6 +59,8 @@ public class MineFragment extends Fragment {
     private void loadComponent(View paramView) {
         this.loginout = ((TextView) paramView.findViewById(R.id.mine_loginout_tx));
         this.loginout.setOnClickListener(this.listener);
+        LinearLayout linearLayout= (LinearLayout) paramView.findViewById(R.id.mine_password_linear);
+        linearLayout.setOnClickListener(listener);
     }
 
     private void loginOut() {
@@ -89,6 +95,10 @@ public class MineFragment extends Fragment {
         View localView = paramLayoutInflater.inflate(R.layout.mine, null, true);
         loadComponent(localView);
         return localView;
+    }
+    private void jump(int a){
+        MineHome mineHome= (MineHome) getParentFragment();
+        mineHome.showFragment(a);
     }
 }
 
