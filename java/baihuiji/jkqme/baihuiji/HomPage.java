@@ -150,8 +150,13 @@ public class HomPage extends FragmentActivity {
         this.rGroup.setVisibility(View.GONE);
     }
 
-    public void jumptoDecode() {
-        startActivity(new Intent(this, Decoder.class));
+    public void jumptoDecode(int payType,float moneycont) {
+        Intent intent=new Intent(this, Decoder.class);
+        Bundle bundle=new Bundle();
+        bundle.putInt("payType",payType);
+        bundle.putFloat("money",moneycont);
+        intent.putExtra("count",bundle);
+        startActivity(intent);
     }
 
     protected void onCreate(Bundle paramBundle) {

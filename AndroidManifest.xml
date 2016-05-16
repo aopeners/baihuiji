@@ -26,7 +26,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".HomPage"></activity>
+        <activity android:name=".HomPage" android:launchMode="singleInstance" ></activity>
     </application>
 
 </manifest>

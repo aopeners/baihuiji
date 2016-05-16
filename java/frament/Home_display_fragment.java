@@ -58,20 +58,20 @@ public class Home_display_fragment extends Fragment {
                 case 2131230777:
                 default:
                     return;
-                case 2131230776:
-                    Home_display_fragment.this.showFragment(1);
+                case R.id.home_page_pay_tx:
+                    Home_display_fragment.this.showFragment(1,0);
                     return;
-                case 2131230778:
-                    Home_display_fragment.this.showFragment(1);
+                case R.id.home_page_radio_bt1:
+                    Home_display_fragment.this.showFragment(1,1);
                     return;
-                case 2131230779:
-                    Home_display_fragment.this.showFragment(1);
+                case R.id.home_page_radio_bt2:
+                    Home_display_fragment.this.showFragment(1,2);
                     return;
-                case 2131230780:
-                    Home_display_fragment.this.showFragment(1);
+                case R.id.home_page_radio_bt3:
+                    Home_display_fragment.this.showFragment(1,3);
                     return;
-                case 2131230781:
-                    Home_display_fragment.this.showFragment(1);
+                case R.id.home_page_radio_bt4:
+                    Home_display_fragment.this.showFragment(1,4);
             }
 
         }
@@ -168,8 +168,10 @@ public class Home_display_fragment extends Fragment {
     private void setMonthDate() {
     }
 
-    private void showFragment(int paramInt) {
+    private void showFragment(int paramInt,int type) {
         ((Home_fragment) getParentFragment()).showFragment(paramInt);
+        //设置支付类型
+        ((Home_fragment) getParentFragment()).setType(type);
     }
 
     public void onCreate(Bundle paramBundle) {

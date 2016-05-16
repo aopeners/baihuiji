@@ -110,4 +110,7 @@ public class Home_fragment extends Fragment
     }
     showFragment(this.countFragment);
   }
+  public void setType(int type){
+    countFragment.setPayType(type);
+  }
 }

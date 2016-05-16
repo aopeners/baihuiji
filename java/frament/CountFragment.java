@@ -30,6 +30,7 @@ public class CountFragment extends Fragment {
     private TextView disView2;
     private ImageView img;
     private LinearLayout linearLayout;
+    private  int payTaype=-1;
     private OnClickListener listener = new OnClickListener() {
         public void onClick(View paramAnonymousView) {
             String string, string0;
@@ -162,8 +163,8 @@ public class CountFragment extends Fragment {
         ((HomPage) getParentFragment().getActivity()).hideButtom();
     }
 
-    private void jumptoDecoder() {
-        ((HomPage) getParentFragment().getActivity()).jumptoDecode();
+    private void jumptoDecoder(int type,float money) {
+        ((HomPage) getParentFragment().getActivity()).jumptoDecode(type,money);
     }
 
     private void loadComponent(View paramView) {
@@ -190,7 +191,7 @@ public class CountFragment extends Fragment {
      * @param paramString 传人的键值
      */
     private void onClicRight(String paramString) {
-
+        String moneyCount= disView2.getText().toString().trim();
         if (paramString.equals("=")) {
             //当v1有数据时
             if (disView.getText().toString().trim().length() > 0) {
@@ -199,8 +200,8 @@ public class CountFragment extends Fragment {
             }
 
             setState(1);
-        } else if (paramString.equals("扫一扫") && disView2.getText().toString().trim().length() > 0) {
-            jumptoDecoder();
+        } else if (paramString.equals("扫一扫") &&moneyCount.length() > 0) {
+            jumptoDecoder(payTaype,Float.parseFloat(moneyCount));
         }
     }
 
@@ -263,6 +264,9 @@ public class CountFragment extends Fragment {
         this.linearLayout.setVisibility(View.GONE);
         this.rowView.setVisibility(View.VISIBLE);
         this.rowView.setText("扫一扫");
+    }
+    public void setPayType(int type){
+        payTaype=type;
     }
 }
 

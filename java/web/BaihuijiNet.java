@@ -21,6 +21,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class BaihuijiNet {
+    /**
+     * 合成json
+     * @param paramArrayOfString1
+     * @param paramArrayOfString2
+     * @param paramString
+     * @return
+     */
     public static String getJson(String[] paramArrayOfString1, String[] paramArrayOfString2, String paramString) {
         int i = 0;
         StringBuffer localStringBuffer = new StringBuffer();
@@ -78,7 +85,11 @@ public class BaihuijiNet {
         return stringBuffer.toString();
     }
 
-
+    /**
+     * 网络状态
+     * @param paramContext
+     * @return
+     */
     public static boolean getNetState(Context paramContext) {
         ConnectivityManager localConnectivityManager = (ConnectivityManager) paramContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (localConnectivityManager != null) {
