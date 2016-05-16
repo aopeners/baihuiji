@@ -3,7 +3,9 @@ package baihuiji.jkqme.baihuiji;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.PointF;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -15,6 +17,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
@@ -26,6 +31,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -34,6 +40,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.nio.Buffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
@@ -48,23 +55,30 @@ public class Decoder extends Activity {
     //获取订单号，扫别人
     private final String ordSource = "http://baihuiji.weiekbaba.com/pospay/getPosOrderNo";
     //收款，扫比人
-    private final String getMony="http://baihuiji.weiekbaba.com/pospay/posPayStart";
+    private final String getMony = "http://baihuiji.weiekbaba.com/pospay/posPayStart";
+    //收款，给别人扫
+    private final String getMonny_bySwap = "http://baihuiji.weiekbaba.com/pospay/erWeiCodePay";
 
+    private String bitmapurl;
     private TextView bTextView;
+    private TextView pleaseSwap;//请求烧苗的
+
     private ImageView backimg;
     private ImageView swichImg;//给出二维码的视图
     private RelativeLayout layout;//二位码扫描框的视图
     private int payType;
     private float money;
     private String orderNO;
-   // private String authCode;//授权码
-    private boolean onOrder=false;//正在收款
+    // private String authCode;//授权码
+    private boolean onOrder = false;//正在收款
     private OnClickListener listener = new OnClickListener() {
         public void onClick(View paramAnonymousView) {
             switch (paramAnonymousView.getId()) {
                 case R.id.count_back:
+                        finish();
                     break;
                 case R.id.decod1_bt_tx:
+                    swich();
                     break;
             }
 
@@ -81,15 +95,21 @@ public class Decoder extends Activity {
         public void onQRCodeRead(String paramAnonymousString, PointF[] paramAnonymousArrayOfPointF) {
             Log.i("QRcode", paramAnonymousString);
             // Toast.makeText(Decoder.this,paramAnonymousString,Toast.LENGTH_LONG).show();
-          //  authCode=paramAnonymousString;
-            if(!onOrder){
-                onOrder=true;
+            //  authCode=paramAnonymousString;
+            if (!onOrder) {
+                onOrder = true;
                 getOrder(paramAnonymousString);
             }
 
         }
     };
     private QRCodeReaderView readerView;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+
+
 
     /**
      * @param paramBundle
@@ -100,31 +120,40 @@ public class Decoder extends Activity {
         this.readerView = ((QRCodeReaderView) findViewById(R.id.decode1_qv));
         this.readerView.setOnQRCodeReadListener(this.onQRCodeReadListener);
         this.bTextView = ((TextView) findViewById(R.id.decod1_bt_tx));
+            pleaseSwap=(TextView)findViewById(R.id.decod_plsese_swap_tx);
         this.backimg = ((ImageView) findViewById(R.id.count_back));
-        swichImg= (ImageView) findViewById(R.id.decode1_scan_img);
-        layout= (RelativeLayout) findViewById(R.id.decode1_relative);
+        swichImg = (ImageView) findViewById(R.id.decode1_scan_img);
+        layout = (RelativeLayout) findViewById(R.id.decode1_relative);
         this.backimg.setOnClickListener(this.listener);
         this.bTextView.setOnClickListener(this.listener);
         getDate();
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+
     }
 
     /**
      * 視圖
      * 視圖切换
      */
-    private void swich(){
-        if(layout.getVisibility()==View.VISIBLE){
-            onOrder=false;
+    private void swich() {
+        if (layout.getVisibility() == View.VISIBLE) {
+            onOrder = false;
             readerView.getCameraManager().stopPreview();
             layout.setVisibility(View.GONE);
             swichImg.setVisibility(View.VISIBLE);
-
-        }else {
+            pleaseSwap.setText("请顾客扫描二维码");
+            bTextView.setText("切换到扫码收款");
+            getOrderBitmap();
+        } else {
             readerView.getCameraManager().startPreview();
             layout.setVisibility(View.VISIBLE);
             swichImg.setVisibility(View.GONE);
+            pleaseSwap.setText("将二维码放入框内即可自行扫码");
+            bTextView.setText("切换成二维码收款");
         }
     }
+
     /**
      * 设置收款方式，和收款金额
      */
@@ -159,10 +188,93 @@ public class Decoder extends Activity {
     }
 
     /**
+     * 获得一个给别人扫的二维码
+     */
+    private void getOrderBitmap() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                MyApplaication applaication = (MyApplaication) getApplication();
+                String key[] = {"merchantId", "ordSource", "payType", "totalFee", "operateId", "MD5"};
+                String value[] = {applaication.getDate(key[0]), "pc", payType + "", money + "", applaication.getDate(key[4]), getMd5_32("merchantId&ordSource&payType&totalFee&operateId&=*"
+                        + applaication.getDate(key[0]) + "*" + "pc" + "*" + payType + "*" + money + "*" + applaication.getDate(key[4]))};
+                String json = getJson(key, value, "MD5");
+                String requst = urlconection(getMonny_bySwap, json);
+                if (getRequstSuccess(requst)) {
+                    onGetBitmapSucced(requst);
+                }
+            }
+        }).start();
+    }
+
+    /**
+     * 当获取被扫描的bitmap成功时
+     *
+     * @param requst
+     */
+    private void onGetBitmapSucced(String requst) {
+        JSONObject jsonObject;
+        String bitUrl = null;
+        String codUrl;
+        try {
+            jsonObject = new JSONObject(requst);
+            bitUrl = jsonObject.getString("img");
+            codUrl = jsonObject.getString("codeUrl");
+            orderNO = jsonObject.getString("orderNo");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        //切换显示
+        URL url = null;
+        HttpURLConnection connection;
+        Bitmap bitma=null;
+        try {
+            url = new URL(bitUrl);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.setDoOutput(false);
+            connection.setInstanceFollowRedirects(true);
+            connection.setUseCaches(false);
+            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK){
+                bitma = BitmapFactory.decodeStream(connection.getInputStream());}
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        swichImg.setImageBitmap(bitma);
+    }
+
+    /**
+     * "msg"=>成功
+     *
+     * @param requst
+     * @return
+     */
+    private boolean getRequstSuccess(String requst) {
+        try {
+            JSONObject jsonObject = new JSONObject(requst);
+            if (jsonObject.getString("msg").endsWith("成功")) {
+                // orderNO=jsonObject.getString("orderNo");
+                // bitmapurl=jsonObject.getString("img");
+                return true;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return false;
+    }
+
+    /**
      * 获得订单号，扫比人
      */
     private void getOrder(String authCode) {
-        final String authcods=authCode;
+        final String authcods = authCode;
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -175,20 +287,20 @@ public class Decoder extends Activity {
                 if (getOrderSucced(orRequst)) {
                     orderNO = getOrderNo(orRequst);
                     //收款部分
-                    String key1[]={"authCode","merchantId","orderNo","ordSource","payType","totalFee","operateId","MD5"};
-                    String value1[]={authcods,applaication.getDate(key1[1]),orderNO,"pc",payType+"",money+"",applaication.getDate(key1[6]),
+                    String key1[] = {"authCode", "merchantId", "orderNo", "ordSource", "payType", "totalFee", "operateId", "MD5"};
+                    String value1[] = {authcods, applaication.getDate(key1[1]), orderNO, "pc", payType + "", money + "", applaication.getDate(key1[6]),
                             getMd5_32("authCode&merchantId&orderNo&ordSource&payType&totalFee&operateId&=*"
-                                    +authcods+"*"+applaication.getDate(key1[1])+"*"+orderNO+"*"+"pc"+"*"+payType+"*"+money+"*"+applaication.getDate(key1[6]))};
-                    String json1=getJson(key1,value1,"MD5");
-                    String requst1=urlconection(getMony,json1);
-                    if(collectionSucced(requst1)){
+                                    + authcods + "*" + applaication.getDate(key1[1]) + "*" + orderNO + "*" + "pc" + "*" + payType + "*" + money + "*" + applaication.getDate(key1[6]))};
+                    String json1 = getJson(key1, value1, "MD5");
+                    String requst1 = urlconection(getMony, json1);
+                    if (collectionSucced(requst1)) {
                         ShowTost("支付成功");
                         //没有返回或者没有支付成功的情况
-                    }else {
+                    } else {
 
                     }
-                }else {
-                   ShowTost("获取订单失败");
+                } else {
+                    ShowTost("获取订单失败");
                 }
                 //
 
@@ -200,13 +312,14 @@ public class Decoder extends Activity {
 
     /**
      * 判断 扫别人收款是否成功
+     *
      * @param requsnt
      * @return
      */
-    private boolean collectionSucced(String requsnt){
+    private boolean collectionSucced(String requsnt) {
         try {
-            JSONObject jsonObject=new JSONObject(requsnt);
-            if(jsonObject.getString("msg").endsWith("成功")){
+            JSONObject jsonObject = new JSONObject(requsnt);
+            if (jsonObject.getString("msg").endsWith("成功")) {
                 return true;
             }
         } catch (JSONException e) {
@@ -215,6 +328,7 @@ public class Decoder extends Activity {
         }
         return false;
     }
+
     /**
      * 获得订单号
      *
@@ -374,25 +488,27 @@ public class Decoder extends Activity {
         }
         return localStringBuffer.toString();
     }
-    private void ShowTost(final String tost){
-        final String str=tost;
+
+    private void ShowTost(final String tost) {
+        final String str = tost;
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(Decoder.this,str,Toast.LENGTH_LONG).show();
+                Toast.makeText(Decoder.this, str, Toast.LENGTH_LONG).show();
             }
         });
     }
 
     /**
      * 形成二维码图片
+     *
      * @param date 二维码内容
      * @return
      */
     protected Bitmap createZxing(String date) {
-        String contentS = date;
-        int width = 200;
-        int height = 200;
+        String contentS = date;//
+        int width = swichImg.getMeasuredWidth();
+        int height = swichImg.getMeasuredHeight();
         //String format = "png";
         Map<EncodeHintType, Object> hintep = new HashMap<EncodeHintType, Object>();
         hintep.put(EncodeHintType.CHARACTER_SET, "UTF-8");
@@ -426,8 +542,19 @@ public class Decoder extends Activity {
         bitmap.setPixels(data, 0, w, 0, 0, w, h);
 
 
-       return bitmap;
+        return bitmap;
     }
+
+
+
+    @Override
+    public void onStop() {
+        readerView.getCameraManager().stopPreview();
+        super.onStop();
+
+
+    }
+
 }
 
 /* Location:           C:\Users\jkqme\Androids\Androids\classes_dex2jar.jar

@@ -65,7 +65,8 @@
         android:padding="13.0dip"
         android:text="将二维码/条形码放入框内，即可自动扫描"
         android:textColor="@color/white"
-        android:textSize="13.0sp" />
+        android:textSize="13.0sp"
+        android:id="@+id/decod_plsese_swap_tx" />
 
     <TextView
         android:id="@+id/decod1_bt_tx"
