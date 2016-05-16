@@ -202,8 +202,8 @@ public class CountFragment extends Fragment {
         ((HomPage) getParentFragment().getActivity()).hideButtom();
     }
 
-    private void jumptoDecoder(int type, float money) {
-        ((HomPage) getParentFragment().getActivity()).jumptoDecode(type, money);
+    private void jumptoDecoder(int type, float money,boolean fukuanma) {
+        ((HomPage) getParentFragment().getActivity()).jumptoDecode(type, money,fukuanma);
     }
 
     private void loadComponent(View paramView) {
@@ -251,7 +251,9 @@ public class CountFragment extends Fragment {
 
             setState(1);
         } else if (paramString.equals("扫一扫") && moneyCount.length() > 0) {
-            jumptoDecoder(payTaype, Float.parseFloat(moneyCount));
+            jumptoDecoder(payTaype, Float.parseFloat(moneyCount),false);
+        }else if(paramString.equals("付款码")&&moneyCount.length()>0){
+            jumptoDecoder(payTaype,Float.parseFloat(moneyCount),true);
         }
     }
 

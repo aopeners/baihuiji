@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PointF;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -53,11 +54,11 @@ import views.MyView;
  */
 public class Decoder extends Activity {
     //获取订单号，扫别人
-    private final String ordSource = "http://baihuiji.weiekbaba.com/pospay/getPosOrderNo";
+    private final String ordSource = "http://baihuiji.weikebaba.com/pospay/getPosOrderNo";
     //收款，扫比人
-    private final String getMony = "http://baihuiji.weiekbaba.com/pospay/posPayStart";
+    private final String getMony = "http://baihuiji.weikebaba.com/pospay/posPayStart";
     //收款，给别人扫
-    private final String getMonny_bySwap = "http://baihuiji.weiekbaba.com/pospay/erWeiCodePay";
+    private final String getMonny_bySwap = "http://baihuiji.weikebaba.com/pospay/erWeiCodePay";
 
     private String bitmapurl;
     private TextView bTextView;
@@ -75,7 +76,7 @@ public class Decoder extends Activity {
         public void onClick(View paramAnonymousView) {
             switch (paramAnonymousView.getId()) {
                 case R.id.count_back:
-                        finish();
+                    finish();
                     break;
                 case R.id.decod1_bt_tx:
                     swich();
@@ -93,7 +94,7 @@ public class Decoder extends Activity {
         }
 
         public void onQRCodeRead(String paramAnonymousString, PointF[] paramAnonymousArrayOfPointF) {
-            Log.i("QRcode", paramAnonymousString);
+            Log.i("QRcode", paramAnonymousString + "   " + onOrder);
             // Toast.makeText(Decoder.this,paramAnonymousString,Toast.LENGTH_LONG).show();
             //  authCode=paramAnonymousString;
             if (!onOrder) {
@@ -110,7 +111,6 @@ public class Decoder extends Activity {
      */
 
 
-
     /**
      * @param paramBundle
      */
@@ -120,7 +120,7 @@ public class Decoder extends Activity {
         this.readerView = ((QRCodeReaderView) findViewById(R.id.decode1_qv));
         this.readerView.setOnQRCodeReadListener(this.onQRCodeReadListener);
         this.bTextView = ((TextView) findViewById(R.id.decod1_bt_tx));
-            pleaseSwap=(TextView)findViewById(R.id.decod_plsese_swap_tx);
+        pleaseSwap = (TextView) findViewById(R.id.decod_plsese_swap_tx);
         this.backimg = ((ImageView) findViewById(R.id.count_back));
         swichImg = (ImageView) findViewById(R.id.decode1_scan_img);
         layout = (RelativeLayout) findViewById(R.id.decode1_relative);
@@ -144,7 +144,7 @@ public class Decoder extends Activity {
             swichImg.setVisibility(View.VISIBLE);
             pleaseSwap.setText("请顾客扫描二维码");
             bTextView.setText("切换到扫码收款");
-            getOrderBitmap();
+            new MyAsy().execute("");
         } else {
             readerView.getCameraManager().startPreview();
             layout.setVisibility(View.VISIBLE);
@@ -162,6 +162,10 @@ public class Decoder extends Activity {
         Bundle bundle = intent.getBundleExtra("count");
         payType = bundle.getInt("payType");
         money = bundle.getFloat("money");
+        boolean fukuanma = bundle.getBoolean("fukuan");
+        if (fukuanma) {
+            swich();
+        }
     }
 
     protected void onDestroy() {
@@ -190,23 +194,23 @@ public class Decoder extends Activity {
     /**
      * 获得一个给别人扫的二维码
      */
-    private void getOrderBitmap() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                MyApplaication applaication = (MyApplaication) getApplication();
-                String key[] = {"merchantId", "ordSource", "payType", "totalFee", "operateId", "MD5"};
-                String value[] = {applaication.getDate(key[0]), "pc", payType + "", money + "", applaication.getDate("operateName"), getMd5_32("merchantId&ordSource&payType&totalFee&operateId&=*"
-                        + applaication.getDate(key[0]) + "*" + "pc" + "*" + payType + "*" + money + "*" + applaication.getDate("operateName"))};
-                String json = getJson(key, value, "MD5");
-                String requst = urlconection(getMonny_bySwap, json);
+    private Bitmap getOrderBitmap() {
+        MyApplaication applaication = (MyApplaication) getApplication();
 
-                Log.i("OrderBitmap",json+"   "+requst);
-                if (getRequstSuccess(requst)) {
-                    onGetBitmapSucced(requst);
-                }
-            }
-        }).start();
+        String date = "operateTel";
+
+        String key[] = {"merchantId", "ordSource", "payType", "totalFee", "operateId", "MD5"};
+        String value[] = {applaication.getDate(key[0]), "pc", payType + "", (int) (money * 100) + "", applaication.getDate(date), getMd5_32("merchantId&ordSource&payType&totalFee&operateId&=*"
+                + applaication.getDate(key[0]) + "*" + "pc" + "*" + payType + "*" + (int) (money * 100) + "*" + applaication.getDate(date))};
+        String json = getJson(key, value, "MD5");
+        String requst = urlconection(getMonny_bySwap, json);
+
+        Log.i("OrderBitmap", json + "   " + requst);
+        if (getRequstSuccess(requst)) {
+            return onGetBitmapSucced("");
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -214,7 +218,7 @@ public class Decoder extends Activity {
      *
      * @param requst
      */
-    private void onGetBitmapSucced(String requst) {
+    private Bitmap onGetBitmapSucced(String requst) {
         JSONObject jsonObject;
         String bitUrl = null;
         String codUrl;
@@ -229,7 +233,7 @@ public class Decoder extends Activity {
         //切换显示
         URL url = null;
         HttpURLConnection connection;
-        Bitmap bitma=null;
+        Bitmap bitma = null;
         try {
             url = new URL(bitUrl);
         } catch (MalformedURLException e) {
@@ -242,13 +246,13 @@ public class Decoder extends Activity {
             connection.setDoOutput(false);
             connection.setInstanceFollowRedirects(true);
             connection.setUseCaches(false);
-            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK){
-                bitma = BitmapFactory.decodeStream(connection.getInputStream());}
+            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                bitma = BitmapFactory.decodeStream(connection.getInputStream());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        swichImg.setImageBitmap(bitma);
+        return bitma;
     }
 
     /**
@@ -286,15 +290,17 @@ public class Decoder extends Activity {
                 String json = getJson(key, value, "MD5");
                 //获取订单
                 String orRequst = urlconection(ordSource, json);
+                //   Log.i("Decoder_getOrder",orRequst);
                 if (getOrderSucced(orRequst)) {
                     orderNO = getOrderNo(orRequst);
                     //收款部分
                     String key1[] = {"authCode", "merchantId", "orderNo", "ordSource", "payType", "totalFee", "operateId", "MD5"};
-                    String value1[] = {authcods, applaication.getDate(key1[1]), orderNO, "pc", payType + "", money + "", applaication.getDate(key1[6]),
+                    String value1[] = {authcods, applaication.getDate(key1[1]), orderNO, "pc", payType + "", (int) (money * 100) + "", applaication.getDate(key1[6]),
                             getMd5_32("authCode&merchantId&orderNo&ordSource&payType&totalFee&operateId&=*"
-                                    + authcods + "*" + applaication.getDate(key1[1]) + "*" + orderNO + "*" + "pc" + "*" + payType + "*" + money + "*" + applaication.getDate(key1[6]))};
+                                    + authcods + "*" + applaication.getDate(key1[1]) + "*" + orderNO + "*" + "pc" + "*" + payType + "*" + (int) (money * 100) + "*" + applaication.getDate(key1[6]))};
                     String json1 = getJson(key1, value1, "MD5");
                     String requst1 = urlconection(getMony, json1);
+                    Log.i("Decoder_getOrder", requst1);
                     if (collectionSucced(requst1)) {
                         ShowTost("支付成功");
                         //没有返回或者没有支付成功的情况
@@ -548,7 +554,6 @@ public class Decoder extends Activity {
     }
 
 
-
     @Override
     public void onStop() {
         readerView.getCameraManager().stopPreview();
@@ -557,6 +562,21 @@ public class Decoder extends Activity {
 
     }
 
+    class MyAsy extends AsyncTask<String, String, Bitmap> {
+
+        @Override
+        protected Bitmap doInBackground(String... strings) {
+            return getOrderBitmap();
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            super.onPostExecute(bitmap);
+            swichImg.setImageBitmap(bitmap);
+        }
+    }
+
+    ;
 }
 
 /* Location:           C:\Users\jkqme\Androids\Androids\classes_dex2jar.jar

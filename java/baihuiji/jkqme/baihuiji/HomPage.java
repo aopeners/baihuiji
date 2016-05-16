@@ -41,19 +41,20 @@ public class HomPage extends FragmentActivity {
             switch (paramAnonymousView.getId()) {
                 default:
                     return;
-                case R.id.home_page_radio_bt1:
+                case R.id.buttom_radioh_bt1:
                     HomPage.this.showFragment(HomPage.this.home_fragment);
-                  //  Log.i("OnChekedRedio", "home");
+                    //  Log.i("OnChekedRedio", "home");
                     return;
-                case R.id.home_page_radio_bt2:
+                case R.id.buttom_radioh_bt2:
                     HomPage.this.showFragment(HomPage.this.bill);
                     return;
-                case R.id.home_page_radio_bt3:
+                case R.id.buttom_radioh_bt3:
                     HomPage.this.showFragment(HomPage.this.statisticsFragment);
                     return;
-                case R.id.home_page_radio_bt4:
+                case R.id.buttom_radioh_bt4:
+                    HomPage.this.showFragment(HomPage.this.mineHome);
             }
-            HomPage.this.showFragment(HomPage.this.mineHome);
+
         }
     };
     private MyViewPager mViewPager;
@@ -104,6 +105,7 @@ public class HomPage extends FragmentActivity {
 
     /**
      * 显示fragment,点击底部时调用
+     *
      * @param paramFragment
      */
     private void showFragment(Fragment paramFragment) {//判断当前显示是否改变
@@ -118,13 +120,13 @@ public class HomPage extends FragmentActivity {
                 upDateBottomState(0);
                 return;
             } else if (paramFragment.hashCode() == this.bill.hashCode()) {
-                upDateBottomState(0);
+                upDateBottomState(1);
                 return;
             } else if (paramFragment.hashCode() == this.statisticsFragment.hashCode()) {
-                upDateBottomState(0);
+                upDateBottomState(2);
                 return;
             } else if (paramFragment.hashCode() == this.mineHome.hashCode()) {
-                upDateBottomState(0);
+                upDateBottomState(3);
                 return;
             }
         }
@@ -153,12 +155,14 @@ public class HomPage extends FragmentActivity {
         this.rGroup.setVisibility(View.GONE);
     }
 
-    public void jumptoDecode(int payType,float moneycont) {
-        Intent intent=new Intent(this, Decoder.class);
-        Bundle bundle=new Bundle();
-        bundle.putInt("payType",payType);
-        bundle.putFloat("money",moneycont);
-        intent.putExtra("count",bundle);
+    public void jumptoDecode(int payType, float moneycont, boolean fukuanma) {
+        Intent intent = new Intent(this, Decoder.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("payType", payType);
+        bundle.putFloat("money", moneycont);
+        bundle.putBoolean("fukuan", fukuanma);
+        intent.putExtra("count", bundle);
+
         startActivity(intent);
     }
 
