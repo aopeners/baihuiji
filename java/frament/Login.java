@@ -66,13 +66,15 @@ public class Login extends Fragment {
         arrayOfString2[3] = paramString2;
         arrayOfString2[4] = getMd5_32("merchantId&ordSource&operateId&operatePass&=*0*app*" + paramString1 + "*" + paramString2);
         Log.i("Md5", "merchantId&ordSource&operateId&operatePass&=*0*app*" + paramString1 + "*" + paramString2);
+        final String json=getJson(arrayOfString1,arrayOfString2);
+        Log.i("Conect",json);
         new Thread() {
             public void run() {
                 try {
-                    Login.this.requst = BaihuijiNet.urlconection("http://baihuiji.weikebaba.com/pospay/queryShopMerchant", getJson(arrayOfString1, arrayOfString2));
+                    Login.this.requst = BaihuijiNet.urlconection("http://baihuiji.weikebaba.com/pospay/queryShopMerchant", json);
+                    Log.i("Login", Login.this.requst);
                     if (Login.this.loginSuccess(Login.this.requst)) {
                         Login.this.saveDate(Login.this.requst);
-                        Log.i("Login", Login.this.requst);
                         Login.this.jumptoHomepage();
                         return;
                     }
@@ -125,15 +127,12 @@ public class Login extends Fragment {
         StringBuffer localStringBuffer = new StringBuffer();
         localStringBuffer.append("{");
         int i = 0;
-        while (i <= paramArrayOfString1.length) {
-
-            if (i >= paramArrayOfString1.length) {
-                localStringBuffer.append("}");
-                return localStringBuffer.toString();
-            }
+        while (i < paramArrayOfString1.length) {
             if (paramArrayOfString1[i].equals("MD5")) {
                 localStringBuffer.append("\"" + paramArrayOfString1[i] + "\"" + ":");
                 localStringBuffer.append("\"" + paramArrayOfString2[i] + "\"");
+                localStringBuffer.append("}");
+                return localStringBuffer.toString();
             } else {
                 localStringBuffer.append("\"" + paramArrayOfString1[i] + "\"" + ":");
                 localStringBuffer.append("\"" + paramArrayOfString2[i] + "\"" + ",");
@@ -232,6 +231,7 @@ public class Login extends Fragment {
             localJSONObject1 = new JSONObject(paramString);
         } catch (JSONException e) {
             e.printStackTrace();
+            return false;
         }
 
         String str = "";

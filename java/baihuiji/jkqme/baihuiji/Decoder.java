@@ -196,10 +196,12 @@ public class Decoder extends Activity {
             public void run() {
                 MyApplaication applaication = (MyApplaication) getApplication();
                 String key[] = {"merchantId", "ordSource", "payType", "totalFee", "operateId", "MD5"};
-                String value[] = {applaication.getDate(key[0]), "pc", payType + "", money + "", applaication.getDate(key[4]), getMd5_32("merchantId&ordSource&payType&totalFee&operateId&=*"
-                        + applaication.getDate(key[0]) + "*" + "pc" + "*" + payType + "*" + money + "*" + applaication.getDate(key[4]))};
+                String value[] = {applaication.getDate(key[0]), "pc", payType + "", money + "", applaication.getDate("operateName"), getMd5_32("merchantId&ordSource&payType&totalFee&operateId&=*"
+                        + applaication.getDate(key[0]) + "*" + "pc" + "*" + payType + "*" + money + "*" + applaication.getDate("operateName"))};
                 String json = getJson(key, value, "MD5");
                 String requst = urlconection(getMonny_bySwap, json);
+
+                Log.i("OrderBitmap",json+"   "+requst);
                 if (getRequstSuccess(requst)) {
                     onGetBitmapSucced(requst);
                 }

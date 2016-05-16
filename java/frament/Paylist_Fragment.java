@@ -138,7 +138,7 @@ public class Paylist_Fragment extends Fragment {
     }
 
     private void jumptoDecode() {
-        ((HomPage) getParentFragment().getActivity()).jumptoDecode();
+       // ((HomPage) getParentFragment().getActivity()).jumptoDecode();
     }
 
     private void loadComponent(View paramView) {

@@ -83,6 +83,9 @@ public class PageView extends FragmentActivity
     }
   }
 
+  /**
+   * 判断直接跳到登录
+   */
   private void jugShowViewPager()
   {
     MyApplaication localMyApplaication = (MyApplaication)getApplication();
@@ -105,6 +108,7 @@ public class PageView extends FragmentActivity
   {
     if (this.vpager != null)
       this.vpager.setVisibility(View.GONE);
+    transaction=manager.beginTransaction();
     this.transaction.show(this.login);
     this.transaction.commit();
   }
@@ -116,7 +120,7 @@ public class PageView extends FragmentActivity
     setContentView(R.layout.viewpage);
     this.vpager = ((ViewPager)findViewById(R.id.viewpage_vp));
     this.login = new Login();
-    this.transaction.add(R.id.home_page_fragment_linear, this.login);
+    this.transaction.add(R.id.viewpage_liner, this.login).hide(login).commit();
     jugShowViewPager();
   }
 

@@ -12,8 +12,9 @@ import java.io.File;
 public class DbHelper extends SQLiteOpenHelper
 {
   private static final String dbName = "user";
-  public String dbPath = this.drict + File.separator + "user";
+
   private String drict = Environment.getExternalStorageDirectory().getPath() + File.separator + "android" + File.separator + "data" + File.separator + "baihuiji";
+  public String dbPath = this.drict + File.separator + "user";
   private File drictsFile = new File(this.drict);
 
   public DbHelper(Context paramContext)

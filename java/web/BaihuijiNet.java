@@ -25,30 +25,22 @@ public class BaihuijiNet {
      * 合成json
      * @param paramArrayOfString1
      * @param paramArrayOfString2
-     * @param paramString
+     * @param param
      * @return
      */
-    public static String getJson(String[] paramArrayOfString1, String[] paramArrayOfString2, String paramString) {
-        int i = 0;
+    public synchronized static String getJson(String[] paramArrayOfString1, String[] paramArrayOfString2,String param) {
         StringBuffer localStringBuffer = new StringBuffer();
-        while (i <= paramArrayOfString1.length) {
-
-            try {
-                if (i == 0)//头
-                    localStringBuffer.append("{");
-                if (i >= paramArrayOfString1.length) {
-                    localStringBuffer.append("}");
-                    String str = localStringBuffer.toString();
-                    break;
-                }
-                if (paramArrayOfString1[i].equals(paramString)) {
-                    localStringBuffer.append("\"" + paramArrayOfString1[i] + "\"" + ":");
-                    localStringBuffer.append("\"" + paramArrayOfString2[i] + "\"");
-                } else {
-                    localStringBuffer.append("\"" + paramArrayOfString1[i] + "\"" + ":");
-                    localStringBuffer.append("\"" + paramArrayOfString2[i] + "\"" + ",");
-                }
-            } finally {
+        localStringBuffer.append("{");
+        int i = 0;
+        while (i < paramArrayOfString1.length) {
+            if (paramArrayOfString1[i].equals(param)) {
+                localStringBuffer.append("\"" + paramArrayOfString1[i] + "\"" + ":");
+                localStringBuffer.append("\"" + paramArrayOfString2[i] + "\"");
+                localStringBuffer.append("}");
+                return localStringBuffer.toString();
+            } else {
+                localStringBuffer.append("\"" + paramArrayOfString1[i] + "\"" + ":");
+                localStringBuffer.append("\"" + paramArrayOfString2[i] + "\"" + ",");
             }
             i++;
         }
@@ -90,7 +82,7 @@ public class BaihuijiNet {
      * @param paramContext
      * @return
      */
-    public static boolean getNetState(Context paramContext) {
+    public synchronized static boolean getNetState(Context paramContext) {
         ConnectivityManager localConnectivityManager = (ConnectivityManager) paramContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (localConnectivityManager != null) {
             NetworkInfo localNetworkInfo = localConnectivityManager.getActiveNetworkInfo();
@@ -100,7 +92,7 @@ public class BaihuijiNet {
         return false;
     }
 
-    public static String getTime(String paramString) {
+    public synchronized static String getTime(String paramString) {
         return new SimpleDateFormat(paramString).format(new Date());
     }
 
@@ -111,7 +103,7 @@ public class BaihuijiNet {
      * @param paramString2 请求的jison
      * @return
      */
-    public static String urlconection(String paramString1, String paramString2) {
+    public synchronized static String urlconection(String paramString1, String paramString2) {
         StringBuffer stringBuffer = new StringBuffer();
         URL urL = null;
         HttpURLConnection connection = null;
@@ -143,7 +135,7 @@ public class BaihuijiNet {
             dataOutputStream = new DataOutputStream(connection.getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();
-            return "上传失败";
+            return "上传失败0";
         }
         try {
             dataOutputStream.writeBytes(paramString2);

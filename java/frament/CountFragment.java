@@ -30,7 +30,7 @@ public class CountFragment extends Fragment {
     private TextView disView2;
     private ImageView img;
     private LinearLayout linearLayout;
-    private  int payTaype=-1;
+    private int payTaype = -1;
     private OnClickListener listener = new OnClickListener() {
         public void onClick(View paramAnonymousView) {
             String string, string0;
@@ -41,9 +41,16 @@ public class CountFragment extends Fragment {
                     break;
                 case R.id.count_cancel_img:
                     string = disView2.getText().toString().trim();
-                    if (string.length() > 0) {
-                        disView2.setText(string.substring(0, string.length() - 2));
+                    if (string.length() > 1) {//有一位以上时
+                        disView2.setText(string.substring(0, string.length() - 1));
+                    } else {
+                        disView2.setText("");
                     }
+                    break;
+                case R.id.count_clear_tx:
+                    disView.setText("");
+                    Log.i("count", "clear");
+                    disView2.setText("");
                     break;
                 case R.id.count0_tx:
                     disView2.append("0");
@@ -76,29 +83,50 @@ public class CountFragment extends Fragment {
                     disView2.append("9");
                     break;
                 case R.id.count_point_tx:
-                    string = disView2.getText().toString();
-                    if (!string.contains("."))
+                    string = disView2.getText().toString().trim();
+                    if (!string.contains(".") && string.length() > 0)
                         disView2.append(".");
                     break;
                 case R.id.countx_tx:
                     string = disView2.getText().toString().trim();
                     string0 = disView.getText().toString().trim();
-                    if (string.length() > 0 && string0.length() > 0) {
+                    if (string.length() > 0 && string0.length() == 0) {
+                        disView.setText(string);
+                        disView2.setText("");
+                        disView.append("*");
+                    } else if (string.length() > 0 && string0.length() > 0) {
                         disView.setText(count(string0, string));
                         disView2.setText("");
                         disView.append("*");
+                    } else if (string.length() == 0 && string0.length() > 0) {
+                        if (!string0.endsWith("*")) {
+                            string0 = string0.substring(0, string0.length() - 2);
+                            disView.setText(string0);
+                            disView.append("*");
+                        }
                     }
-
+                    setState(0);
                     break;
                 case R.id.count_add_tx:
                     string = disView2.getText().toString().trim();
                     string0 = disView.getText().toString().trim();
-                    if (string.length() > 0 && string0.length() > 0) {
+                    if (string.length() > 0 && string0.length() == 0) {
+                        disView.setText(string);
+                        disView2.setText("");
+
+                        disView.append("+");
+                    } else if (string.length() > 0 && string0.length() > 0) {
                         disView.setText(count(string0, string));
                         disView2.setText("");
                         disView.append("+");
+                    } else if (string.length() == 0 && string0.length() > 0) {
+                        if (!string0.endsWith("*")) {
+                            string0 = string0.substring(0, string0.length() - 2);
+                            disView.setText(string0);
+                            disView.append("+");
+                        }
                     }
-
+                    setState(0);
                     break;
                 case R.id.count_2row_tx:
                     onClicRight(rowView.getText().toString());
@@ -106,6 +134,7 @@ public class CountFragment extends Fragment {
                     break;
                 case R.id.cont_2row_1:
                     textView = (TextView) linearLayout.findViewById(R.id.cont_2row_1);
+
                     onClicRight(textView.getText().toString());
                     break;
                 case R.id.cont_2row_2:
@@ -135,17 +164,27 @@ public class CountFragment extends Fragment {
         float f1;
         float f2;
         if (paramString1.endsWith("+")) {
-            f1 = Float.valueOf(paramString1.substring(0, -1 + paramString1.length())).floatValue();
+            try {
+                f1 = Float.parseFloat(paramString1.substring(0, paramString1.length() - 2));
+            } catch (NumberFormatException e) {
+               return "";
+            }
+
             if ((paramString2.length() > 0)) {
-                f2 = 0.0F;
+                f2 = Float.parseFloat(paramString2);
                 Log.i("countf2", "f2=0");
-                return paramString2 = f1 + f2 + "";
+
+                return f1 + f2 + "";
             }
         }
         if (paramString1.endsWith("*")) {
-            f1 = Float.valueOf(paramString1.substring(0, -1 + paramString1.length())).floatValue();
+            try {
+                f1 = Float.parseFloat(paramString1.substring(0, paramString1.length() - 2));
+            } catch (NumberFormatException e) {
+                return "";
+            }
             if ((paramString2.length() > 0)) {
-                f2 = 0.0F;
+                f2 = Float.valueOf(paramString2);
                 Log.i("countf2", "f2=0");
                 return paramString2 = f1 * f2 + "";
             }
@@ -163,8 +202,8 @@ public class CountFragment extends Fragment {
         ((HomPage) getParentFragment().getActivity()).hideButtom();
     }
 
-    private void jumptoDecoder(int type,float money) {
-        ((HomPage) getParentFragment().getActivity()).jumptoDecode(type,money);
+    private void jumptoDecoder(int type, float money) {
+        ((HomPage) getParentFragment().getActivity()).jumptoDecode(type, money);
     }
 
     private void loadComponent(View paramView) {
@@ -191,17 +230,28 @@ public class CountFragment extends Fragment {
      * @param paramString 传人的键值
      */
     private void onClicRight(String paramString) {
-        String moneyCount= disView2.getText().toString().trim();
+        String moneyCount = disView2.getText().toString().trim();
+
         if (paramString.equals("=")) {
             //当v1有数据时
-            if (disView.getText().toString().trim().length() > 0) {
-                this.disView2.setText(count(this.disView.getText().toString().trim(), this.disView2.getText().toString().trim()));
-                this.disView.setText("");
+            String string = disView2.getText().toString().trim();
+            String string0 = disView.getText().toString().trim();
+            //2 不空0为空
+            if (string.length() > 0 && string0.length() == 0) {
+                disView.setText("");
+
+            } else if (string.length() > 0 && string0.length() > 0) {
+                disView2.setText(count(string0, string));
+                disView.setText("");
+                //当disview2为空时
+            } else if (string.length() == 0 && string0.length() > 0) {
+                disView2.setText(string0.substring(0, string0.length() - 2));
+                disView.setText("");
             }
 
             setState(1);
-        } else if (paramString.equals("扫一扫") &&moneyCount.length() > 0) {
-            jumptoDecoder(payTaype,Float.parseFloat(moneyCount));
+        } else if (paramString.equals("扫一扫") && moneyCount.length() > 0) {
+            jumptoDecoder(payTaype, Float.parseFloat(moneyCount));
         }
     }
 
@@ -217,6 +267,8 @@ public class CountFragment extends Fragment {
     @SuppressLint({"NewApi"})
     private void showFragment(int paramInt) {
         ((Home_fragment) getParentFragment()).showFragment(paramInt);
+        HomPage homPage = (HomPage) getParentFragment().getActivity();
+        homPage.showButtom();
     }
 
     public View onCreateView(LayoutInflater paramLayoutInflater, @Nullable ViewGroup paramViewGroup, @Nullable Bundle paramBundle) {
@@ -265,8 +317,9 @@ public class CountFragment extends Fragment {
         this.rowView.setVisibility(View.VISIBLE);
         this.rowView.setText("扫一扫");
     }
-    public void setPayType(int type){
-        payTaype=type;
+
+    public void setPayType(int type) {
+        payTaype = type;
     }
 }
 

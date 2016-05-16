@@ -25,10 +25,13 @@ import frament.StatisticHome;
 import frament.StatisticsFragment;
 import views.MyViewPager;
 
+/**
+ * 主fragment
+ */
 
 public class HomPage extends FragmentActivity {
     private Bill bill;
-    private int[] btId = {2131230784, 2131230785, 2131230786, 2131230787};
+    private int[] btId = {R.id.buttom_radioh_bt1, R.id.buttom_radioh_bt2, R.id.buttom_radioh_bt3, R.id.buttom_radioh_bt4};
     private Button[] button = new Button[4];
     private Fragment currentFragment;
     private ArrayList<Fragment> flist = new ArrayList();
@@ -64,17 +67,17 @@ public class HomPage extends FragmentActivity {
             switch (paramAnonymousInt) {
                 default:
                     return;
-                case 2131230784:
+                case R.id.buttom_radioh_bt1:
                     HomPage.this.showFragment(HomPage.this.home_fragment);
                     Log.i("OnChekedRedio", "home");
                     return;
-                case 2131230785:
+                case R.id.buttom_radioh_bt2:
                     HomPage.this.showFragment(HomPage.this.bill);
                     return;
-                case 2131230786:
+                case R.id.buttom_radioh_bt3:
                     HomPage.this.showFragment(HomPage.this.statisticsFragment);
                     return;
-                case 2131230787:
+                case R.id.buttom_radioh_bt4:
             }
             HomPage.this.showFragment(HomPage.this.mineHome);
         }
@@ -163,7 +166,7 @@ public class HomPage extends FragmentActivity {
         super.onCreate(paramBundle);
         requestWindowFeature(1);
         setContentView(R.layout.home_page_activity);
-        this.rGroup = ((RadioGroup) findViewById(R.id.home_page_radio));
+        this.rGroup = ((RadioGroup) findViewById(R.id.buttom_radioh));
         this.rGroup.setOnCheckedChangeListener(this.rlistener);
         getFragment();
         for (int i = 0; ; i++) {

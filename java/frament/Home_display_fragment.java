@@ -17,6 +17,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,8 +46,8 @@ public class Home_display_fragment extends Fragment {
             this.bundle = paramAnonymousMessage.getData();
             if (this.bundle.getIntArray("requst") != null) {
                 int[] arrayOfInt = this.bundle.getIntArray("requst");
-                ((TextView) Home_display_fragment.this.tody.findViewById(R.id.home_page_totle_tx)).setText(arrayOfInt[0] + "元");
-                ((TextView) Home_display_fragment.this.month.findViewById(R.id.home_page_totle1_tx)).setText(arrayOfInt[1] + "元");
+                ((TextView) Home_display_fragment.this.tody.findViewById(R.id.home_page_totle_number_tx)).setText(arrayOfInt[0] + "元");
+                ((TextView) Home_display_fragment.this.month.findViewById(R.id.home_page_totle_number1_tx)).setText(arrayOfInt[1] + "元");
             }
         }
     };
@@ -54,28 +55,47 @@ public class Home_display_fragment extends Fragment {
     private ArrayList<View> list = new ArrayList();
     private OnClickListener listener = new OnClickListener() {
         public void onClick(View paramAnonymousView) {
+            MyApplaication applaication = (MyApplaication) getParentFragment().getActivity().getApplication();
             switch (paramAnonymousView.getId()) {
                 case 2131230777:
                 default:
                     return;
                 case R.id.home_page_pay_tx:
-                    Home_display_fragment.this.showFragment(1,0);
+                    Home_display_fragment.this.showFragment(1, 0);
                     return;
                 case R.id.home_page_radio_bt1:
-                    Home_display_fragment.this.showFragment(1,1);
+                    if (applaication.getDate("payTypeStatus").charAt(0) == '1') {
+                        Home_display_fragment.this.showFragment(1, 1);
+                    }else {
+                        showTost("尚未开通微信支付");
+                    }
                     return;
                 case R.id.home_page_radio_bt2:
-                    Home_display_fragment.this.showFragment(1,2);
+                    if (applaication.getDate("payTypeStatus").charAt(1) == '1') {
+                        Home_display_fragment.this.showFragment(1, 2);
+                    }else {showTost("尚未开通qq钱包支付");}
                     return;
                 case R.id.home_page_radio_bt3:
-                    Home_display_fragment.this.showFragment(1,3);
+                    if (applaication.getDate("payTypeStatus").charAt(2) == '1') {
+                        Home_display_fragment.this.showFragment(1, 3);
+                    }else {showTost("尚未开通支付宝支付");}
                     return;
                 case R.id.home_page_radio_bt4:
-                    Home_display_fragment.this.showFragment(1,4);
+                    if (applaication.getDate("payTypeStatus").charAt(3) == '1') {
+                        Home_display_fragment.this.showFragment(1, 4);
+                    }else {showTost("尚未开通百度钱包支付");}
             }
 
         }
     };
+    private void showTost(final String tost){
+        getParentFragment().getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getParentFragment().getActivity(),tost,Toast.LENGTH_LONG).show();
+            }
+        });
+    }
     private View month;
     private OnPageChangeListener pListener = new OnPageChangeListener() {
         public void onPageScrollStateChanged(int paramAnonymousInt) {
@@ -86,12 +106,12 @@ public class Home_display_fragment extends Fragment {
 
         public void onPageSelected(int paramAnonymousInt) {
             if (paramAnonymousInt == 1) {
-                ((TextView) Home_display_fragment.this.view.findViewById(R.id.home_page_today_tx)).setBackgroundDrawable(Home_display_fragment.this.view.getResources().getDrawable(R.drawable.circle1));
-                ((TextView) Home_display_fragment.this.view.findViewById(R.id.home_page_moth_tx)).setBackgroundDrawable(Home_display_fragment.this.view.getResources().getDrawable(R.drawable.circle));
+                ((TextView) Home_display_fragment.this.view.findViewById(R.id.home_page_today_tx)).setBackgroundDrawable(Home_display_fragment.this.view.getResources().getDrawable(R.drawable.circle));
+                ((TextView) Home_display_fragment.this.view.findViewById(R.id.home_page_moth_tx)).setBackgroundDrawable(Home_display_fragment.this.view.getResources().getDrawable(R.drawable.circle1));
                 return;
             }
-            ((TextView) Home_display_fragment.this.view.findViewById(R.id.home_page_today_tx)).setBackgroundDrawable(Home_display_fragment.this.view.getResources().getDrawable(R.drawable.circle));
-            ((TextView) Home_display_fragment.this.view.findViewById(R.id.home_page_moth_tx)).setBackgroundDrawable(Home_display_fragment.this.view.getResources().getDrawable(R.drawable.circle1));
+            ((TextView) Home_display_fragment.this.view.findViewById(R.id.home_page_today_tx)).setBackgroundDrawable(Home_display_fragment.this.view.getResources().getDrawable(R.drawable.circle1));
+            ((TextView) Home_display_fragment.this.view.findViewById(R.id.home_page_moth_tx)).setBackgroundDrawable(Home_display_fragment.this.view.getResources().getDrawable(R.drawable.circle));
         }
     };
     private ViewPager pager;
@@ -101,6 +121,7 @@ public class Home_display_fragment extends Fragment {
 
     /**
      * 返回用于显示日收入和月收入的数组
+     *
      * @param paramString1 今日 json
      * @param paramString2 月   json
      * @return
@@ -108,16 +129,16 @@ public class Home_display_fragment extends Fragment {
     private int[] getDate(String paramString1, String paramString2) {
         JSONObject object;
 
-            int a[]=new int[2];
+        int a[] = new int[2];
         try {
-            object=new JSONObject(paramString1);
-            a[0]=object.getInt("o2o");
-            object=new JSONObject(paramString2);
-            a[1]=object.getInt("o2o");
+            object = new JSONObject(paramString1);
+            a[0] = object.getInt("o2o");
+            object = new JSONObject(paramString2);
+            a[1] = object.getInt("o2o");
         } catch (JSONException e) {
             e.printStackTrace();
-            a[0]=0;
-            a[1]=0;
+            a[0] = 0;
+            a[1] = 0;
         }
         return a;
     }
@@ -128,16 +149,19 @@ public class Home_display_fragment extends Fragment {
     private void getDayDate() {
         new Thread(new Runnable() {
             MyApplaication applaication = (MyApplaication) Home_display_fragment.this.getParentFragment().getActivity().getApplication();
-            Bundle bundle;
-            String json;
+            Bundle bundle = new Bundle();
+
             String[] key = {"uId", "merchantId", "day", "rule"};
-            Message message;
-            String mjson;
-            String[] mkey;
-            String[] mvalue;
+            String[] value = {applaication.getDate("operateName"), applaication.getDate("merchantId"), BaihuijiNet.getTime("yyyyMMdd"), "ss"};
+            String json = BaihuijiNet.getJson(key, value, "rule");//日json
+            Message message = new Message();
+
+            String[] mkey = {"uId", "merchantId", "month", "rule"};
+            String[] mvalue = {applaication.getDate("operateName"), applaication.getDate("merchantId"), BaihuijiNet.getTime("yyyyMM"), "ss"};
+            String mjson = BaihuijiNet.getJson(mkey, mvalue, "rule");
             String requstDay;
             String requstMonth;
-            String[] value;
+
 
             public void run() {
                 Log.i("Home_setDate", this.json);
@@ -152,7 +176,7 @@ public class Home_display_fragment extends Fragment {
     }
 
     private void hideButtom() {
-      HomPage homPage=((HomPage) getParentFragment().getActivity());
+        HomPage homPage = ((HomPage) getParentFragment().getActivity());
         homPage.hideButtom();
     }
 
@@ -168,7 +192,9 @@ public class Home_display_fragment extends Fragment {
     private void setMonthDate() {
     }
 
-    private void showFragment(int paramInt,int type) {
+    private void showFragment(int paramInt, int type) {
+
+        Log.i("showCount", paramInt + "");
         ((Home_fragment) getParentFragment()).showFragment(paramInt);
         //设置支付类型
         ((Home_fragment) getParentFragment()).setType(type);
