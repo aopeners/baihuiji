@@ -155,6 +155,7 @@ public class BaihuijiNet {
                 while ((inputLine = bufferedReader.readLine()) != null) {
                     stringBuffer.append(inputLine);
                 }
+                
                 reader.close();
                 bufferedReader.close();
             }
@@ -190,7 +191,7 @@ public class BaihuijiNet {
      * @param url
      * @return
      */
-    private synchronized static String  connection(String url){
+    public synchronized static String  connection(String url){
         StringBuffer stringBuffer = new StringBuffer();
         URL urls = null;
         HttpURLConnection connection;
@@ -223,10 +224,11 @@ public class BaihuijiNet {
             while ((inputLine = bufferedReader.readLine()) != null) {
                 stringBuffer.append(inputLine);
             }
-
+            streamReader.close();
             bufferedReader.close();
         } catch (IOException e) {
             e.printStackTrace();
+            return "读取流文件失败";
         }
         connection.disconnect();
         return stringBuffer.toString();

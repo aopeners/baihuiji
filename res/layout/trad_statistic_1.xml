@@ -22,7 +22,7 @@
             android:textColor="@android:color/white"
             android:textSize="13.0sp" />
 
-        <TextView
+        <TextView android:visibility="gone"
             android:id="@+id/trad_statistic_select_tx"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -79,7 +79,8 @@
             android:padding="13.0dip"
             android:text="卡券核销量"
             android:textColor="@color/black"
-            android:textSize="13.0sp" />
+            android:textSize="13.0sp"
+            android:visibility="gone" />
     </LinearLayout>
 
     <ScrollView

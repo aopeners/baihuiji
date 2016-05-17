@@ -3,7 +3,9 @@ package frament;
 import adpter.MonthAdpter;
 
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.NetworkOnMainThreadException;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -40,6 +42,7 @@ import org.json.JSONObject;
 
 import baihuiji.jkqme.baihuiji.R;
 import web.BaihuijiNet;
+import web.Ip;
 
 public class MonthBill extends Fragment {
     private ListView listView;
@@ -66,55 +69,67 @@ public class MonthBill extends Fragment {
     /**
      * 显示date pick
      */
-        private void showDatePick(){
-            if(dialog==null){
-                AlertDialog.Builder builder=new AlertDialog.Builder(getParentFragment().getActivity());
-                View view=getParentFragment().getActivity().getLayoutInflater().inflate(R.layout.dialog_data,null,true);
-                DatePicker picker= (DatePicker) view.findViewById(R.id.dialog_date);
-                picker.init(2016,05,4,dateChangedListener);
-                builder.setView(view);
-                dialog=builder.create();
-                dialog.setOnDismissListener(dismissListener);
-            }
-            dialog.show();
+    private void showDatePick() {
+        if (dialog == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getParentFragment().getActivity());
+            View view = getParentFragment().getActivity().getLayoutInflater().inflate(R.layout.dialog_data, null, true);
+            DatePicker picker = (DatePicker) view.findViewById(R.id.dialog_date);
+            picker.init(2016, 05, 4, dateChangedListener);
+            builder.setView(view);
+            dialog = builder.create();
+            dialog.setOnDismissListener(dismissListener);
         }
+        dialog.show();
+    }
 
     /**
      * dialog消失时
      */
-    private DialogInterface.OnDismissListener dismissListener=new DialogInterface.OnDismissListener() {
+    private DialogInterface.OnDismissListener dismissListener = new DialogInterface.OnDismissListener() {
         @Override
         public void onDismiss(DialogInterface dialogInterface) {
-                Log.i("OnDismis",time);
+            if (time != null) {
+                Log.i("OnDismis", time);
+            }
         }
     };
-    private DatePicker.OnDateChangedListener dateChangedListener=new DatePicker.OnDateChangedListener() {
+    private DatePicker.OnDateChangedListener dateChangedListener = new DatePicker.OnDateChangedListener() {
         @Override
         public void onDateChanged(DatePicker datePicker, int i, int i1, int i2) {
-            Log.i("  Date picker",""+i+"   "+i1+"   "+i2);
-            time=i+i1+i2+"";
+            Log.i("  Date picker", "" + i + "   " + i1 + "   " + i2);
+            time = i + i1 + i2 + "";
         }
     };
-    private void getDate() {
-        new Thread(new Runnable() {
-            MyApplaication applaication = (MyApplaication) MonthBill.this.getParentFragment().getActivity().getApplication();
-            String json;
-            String[] key = {"uId", "merchantId", "month"};
-            String requst;
-            String[] value =
 
-                    {
-                            applaication.getDate("operateName"), applaication.getDate("merchantId"), BaihuijiNet.getTime("yyyyMM")
-                    };
+    /**
+     * @return 月账单json
+     */
+    private String getDate() {
 
-            public void run() {
-                json = BaihuijiNet.getJson(key, value, "month");
-                this.requst = MonthBill.this.urlconection("http://baihuiji.weikebaba.com/aide/monthBill", this.json);
-                Log.i("BillMonth", this.requst + "  \n  " + this.json);
-                if (MonthBill.this.getSuccess(this.requst))
-                    MonthBill.this.getDate(this.requst);
-            }
-        }).start();
+        MyApplaication applaication = (MyApplaication) MonthBill.this.getParentFragment().getActivity().getApplication();
+        String json = null;
+        String[] key = {"merchantId", "month", "rule", "uId"};
+        String requst;
+        String[] value =
+
+                {
+                        applaication.getDate("merchantId"), BaihuijiNet.getTime("yyyyMM"), "ss", applaication.getDate("operateTel")
+                };
+
+
+        // json = BaihuijiNet.getJson(key, value, "month");
+        requst = Ip.monthBillString + BaihuijiNet.getRequst(key, value);
+        Log.i("MonthBillRequst",requst);
+        //this.requst = MonthBill.this.urlconection("http://baihuiji.weikebaba.com/aide/monthBill", this.json);
+        requst = connection(requst);
+        Log.i("BillMonth", requst + "  \n  " + json);
+        if (MonthBill.this.getSuccess(requst)) {
+            // MonthBill.this.getDate(requst);
+            return requst;
+        } else {
+            return null;
+        }
+
     }
 
     private ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
@@ -178,7 +193,9 @@ public class MonthBill extends Fragment {
             localJSONObject1 = new JSONObject(paramString);
 
         } catch (JSONException localJSONException2) {
+            return false;
         }
+
         try {
             if (localJSONObject1.getString("errcode").equals("0"))
                 return true;
@@ -274,6 +291,74 @@ public class MonthBill extends Fragment {
         }
         connection.disconnect();
         return stringBuffer.toString();
+    }
+
+    /**
+     * get方法获取数据
+     *
+     * @param url
+     * @return
+     */
+    private String connection(String url) {
+        StringBuffer stringBuffer = new StringBuffer();
+        URL urls = null;
+        HttpURLConnection connection;
+        try {
+            urls = new URL(url);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return "网络格式错误";
+        }
+        try {
+            connection = (HttpURLConnection) urls.openConnection();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "链接失败";
+        }
+        try {
+            connection.setRequestMethod("GET");
+            connection.setDoInput(true);
+            connection.setDoOutput(false);
+            connection.setRequestProperty("Content-Type", "text/plain;charset=UTF-8");
+            connection.setInstanceFollowRedirects(true);
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+            return "未知错误";
+        }
+        try {
+            InputStreamReader streamReader = new InputStreamReader(connection.getInputStream());
+            BufferedReader bufferedReader = new BufferedReader(streamReader);
+            String inputLine = null;
+            while ((inputLine = bufferedReader.readLine()) != null) {
+                stringBuffer.append(inputLine);
+            }
+            streamReader.close();
+            bufferedReader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "读取流文件失败";
+        }catch (NetworkOnMainThreadException e){
+            e.printStackTrace();
+            return "讀取流失敗";
+        }
+        connection.disconnect();
+        return stringBuffer.toString();
+    }
+
+    private class MyAsyn extends AsyncTask<String, String, String> {
+        @Override
+        protected String doInBackground(String... strings) {
+            return getDate();
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if (s != null) {
+                if (s.trim().length() > 0)
+                    getDate(s);
+            }
+        }
     }
 }
 

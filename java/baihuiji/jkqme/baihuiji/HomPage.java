@@ -129,6 +129,11 @@ public class HomPage extends FragmentActivity {
         }
     }
 
+    //绿图
+    private int drawb1[] = {R.drawable.home, R.drawable.bill1, R.drawable.statistic1, R.drawable.mine1};
+    //白图
+    private int drawb[] = {R.drawable.home1, R.drawable.paylist, R.drawable.count, R.drawable.mine};
+
     /**
      * 更新底部栏，
      *
@@ -138,12 +143,14 @@ public class HomPage extends FragmentActivity {
         Button button;
         for (int i = 0; i < 4; i++) {
             button = (Button) findViewById(btId[i]);
+            //如果不是选中的图片
             if (i != paramInt) {
                 button.setTextColor(getResources().getColor(R.color.black));
-
+                button.setCompoundDrawablesWithIntrinsicBounds(0,drawb[i], 0, 0);
             } else {
                 button.setTextColor(getResources().getColor(R.color.bluetext));
-              //  Log.i("upDateBottom", i + "  i   " + paramInt);
+                //  Log.i("upDateBottom", i + "  i   " + paramInt);
+                button.setCompoundDrawablesWithIntrinsicBounds(drawb1[i], 0, 0, 0);
             }
         }
     }

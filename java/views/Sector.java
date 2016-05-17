@@ -42,7 +42,7 @@ public class Sector extends View {
                     startdegree = currentDegree;
                     currentDegree += 5f;
 
-                    Log.i("hander", "draw");
+                 //   Log.i("hander", "draw");
                     invalidate();
                 }
             }
@@ -204,7 +204,7 @@ public class Sector extends View {
             }
 
         }
-        // super.onDraw(this.canvas);
+         super.onDraw(this.canvas);
     }
 
     @Override

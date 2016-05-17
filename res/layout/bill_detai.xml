@@ -230,10 +230,13 @@
                     android:layout_weight="1.0"
                     android:padding="13.0dip"
                     android:text="交易单号"
+
                     android:textColor="@color/black"
                     android:textSize="13.0sp" />
 
                 <TextView
+                    android:singleLine="true"
+                    android:ellipsize="end"
                     android:id="@+id/bill_detail_trade_tx"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -241,7 +244,7 @@
                     android:layout_weight="1.0"
                     android:gravity="right"
                     android:padding="13.0dip"
-                    android:text="464564"
+                    android:text="46456fdsafsadfdddddddddddddddddddddddd"
                     android:textColor="@color/black"
                     android:textSize="13.0sp" />
             </LinearLayout>

@@ -90,4 +90,16 @@ public class StatisticHome extends Fragment {
         }
 
     }
+
+    /**
+     * 切换加载数据
+     * @param hidden
+     */
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(statisticsFragment!=null){
+            statisticsFragment.onHiddenChanged(hidden);
+        }
+    }
 }

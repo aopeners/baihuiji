@@ -32,7 +32,11 @@ import views.Sector;
 import web.BaihuijiNet;
 import web.Ip;
 
+/**
+ * 统计类的主视图页面，没有listview 相关写法
+ */
 public class StatisticsFragment extends Fragment {
+    private LayoutInflater inflater;
     private LinearLayout layout;
     private Sector sector;
     private TextView textView;
@@ -47,6 +51,7 @@ public class StatisticsFragment extends Fragment {
 
     public View onCreateView(LayoutInflater paramLayoutInflater, @Nullable ViewGroup paramViewGroup, @Nullable Bundle paramBundle) {
         this.view = paramLayoutInflater.inflate(R.layout.trad_statistic_1, null, true);
+        this.inflater = paramLayoutInflater;
         // loadComponent(this.view);
         loadView(view);
         return this.view;
@@ -95,11 +100,20 @@ public class StatisticsFragment extends Fragment {
         }
     };
 
+    /**
+     * 切换为显示时的方法
+     */
+    private void onshow(){
+       MyApplaication application= (MyApplaication) getParentFragment().getActivity().getApplication();
+        //传入门店名
+        onSelectMerchant(application.getDate("merchantId"));
+    }
     public void onHiddenChanged(boolean paramBoolean) {
         super.onHiddenChanged(paramBoolean);
         if (!paramBoolean) {
 
-            this.sector.setWight(0.2F, 0.3F, 0.1F, 0.4F);
+            this.sector.setWidth(0.2F, 0.3F, 0.1F, 0.4F,0.1f,0.1f);
+            onshow();
         }
     }
 
@@ -124,7 +138,7 @@ public class StatisticsFragment extends Fragment {
         //"merName"
         ListView listView = null;
         if (dialog == null) {
-            LayoutInflater inflater = getParentFragment().getActivity().getLayoutInflater();
+
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentFragment().getActivity());
             View view = inflater.inflate(R.layout.dialog_select_shop, null, true);
             builder.setView(view);
@@ -145,9 +159,9 @@ public class StatisticsFragment extends Fragment {
     };
 
     /**
-     * 选择门店时
+     * 选择门店时,获取数据入口
      *
-     * @param merChantId 们点名字
+     * @param merChantId 门店名字
      */
     private void onSelectMerchant(String merChantId) {
         final String mer = merChantId;
@@ -155,12 +169,16 @@ public class StatisticsFragment extends Fragment {
             MyApplaication applaication = (MyApplaication) getParentFragment().getActivity().getApplication();
             String key[] = {"uId", "merchantId", "month"};
             String value[] = {applaication.getDate("operateName"), mer, BaihuijiNet.getTime("yyyyMM")};
-            String json = BaihuijiNet.getJson(key, value, "month");
+
+            //String json = BaihuijiNet.getJson(key, value, "month");
+            String json=Ip.static1+BaihuijiNet.getRequst(key,value);
             String requst;
 
             @Override
             public void run() {
-                requst = BaihuijiNet.urlconection(Ip.static1, json);
+               // requst = BaihuijiNet.urlconection(Ip.static1, json);
+                requst=BaihuijiNet.connection(json);
+                Log.i("OnSelectMerchant",requst);
                 if (getMerchantMonthbillSuccess(requst)) {
                     getDate(requst);
                     setDate(0, list1);
@@ -172,9 +190,9 @@ public class StatisticsFragment extends Fragment {
     }
 
     /**
-     * 获取金额统计数据
+     * 获取网络数据后调用，获取金额统计数据
      *
-     * @param requst
+     * @param requst,
      */
     private void getDate(String requst) {
         JSONObject jsonObject = null;
@@ -184,6 +202,7 @@ public class StatisticsFragment extends Fragment {
             jsonArray = jsonObject.getJSONArray("o2o");
         } catch (JSONException e) {
             e.printStackTrace();
+            return;
         }
         HashMap<String, String> map;
         for (int i = 0; i < jsonArray.length(); i++) {
@@ -240,7 +259,7 @@ public class StatisticsFragment extends Fragment {
      */
     private void setDate(int state, ArrayList<HashMap<String, String>> data) {
         LayoutInflater inflater = getParentFragment().getActivity().getLayoutInflater();
-        View view = getView();
+
         LinearLayout linearLayout;
 
         LinearLayout.LayoutParams params;
@@ -447,6 +466,7 @@ public class StatisticsFragment extends Fragment {
         }
 
     }
+
 }
 
 /* Location:           C:\Users\jkqme\Androids\Androids\classes_dex2jar.jar

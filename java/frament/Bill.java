@@ -109,6 +109,7 @@ public class Bill extends Fragment {
         if (paylist_Fragment != null) {
             paylist_Fragment.onHiddenChanged(hidden);
         }
+
     }
 }
 

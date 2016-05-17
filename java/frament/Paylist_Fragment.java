@@ -2,6 +2,7 @@ package frament;
 
 import adpter.BillAdpter;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -66,48 +67,50 @@ public class Paylist_Fragment extends Fragment {
     };
     private TextView textView;
 
-    private void getDate() {
-        new Thread(new Runnable() {
-            MyApplaication applaication = (MyApplaication) Paylist_Fragment.this.getParentFragment().getActivity().getApplication();
-            String json;
-            String[] key = {"merchantId","page", "pagesize","rule","uId"};
+    private String getDate() {
 
-            String requst;
-            String[] value =
-                    {applaication.getDate("merchantId"),"1","30","ss",applaication.getDate("operateTel")
-                    };
+        MyApplaication applaication = (MyApplaication) Paylist_Fragment.this.getParentFragment().getActivity().getApplication();
+        String json;
+        String[] key = {"merchantId", "page", "pagesize", "rule", "uId"};
+
+        String requst;
+        String[] value =
+                {applaication.getDate("merchantId"), "1", "30", "ss", applaication.getDate("operateTel")
+                };
 
 
-            public void run() {
-                requst="?"+"merchantId="+applaication.getDate("merchantId")+"&page=1"+"&pagesize=20"+"&rule=ss"+"&uId="+applaication.getDate("operateTel");
-                json=BaihuijiNet.getJson(key, value, "uId");
-                requst= Ip.thirtyDetail+BaihuijiNet.getRequst(key,value);
-                Log.i("getDate",requst);
-                this.requst = connection(requst);
-                Log.i("BillRequst", this.requst + "  \n  " + this.json);
-                if (Paylist_Fragment.this.getSuccess(this.requst))
-                    Paylist_Fragment.this.getDate(this.requst);
-            }
-        }).start();
+        requst = "?" + "merchantId=" + applaication.getDate("merchantId") + "&page=1" + "&pagesize=20" + "&rule=ss" + "&uId=" + applaication.getDate("operateTel");
+        json = BaihuijiNet.getJson(key, value, "uId");
+        requst = Ip.thirtyDetail + BaihuijiNet.getRequst(key, value);
+        Log.i("getDate", requst);
+        requst = connection(requst);
+        Log.i("BillRequst", requst + "  \n  ");
+        if (Paylist_Fragment.this.getSuccess(requst)) {
+            return requst;
+        } else {
+            return null;
+        }
+
     }
 
     /**
      * get方法获取数据
+     *
      * @param url
      * @return
      */
-    private String  connection(String url){
+    private String connection(String url) {
         StringBuffer stringBuffer = new StringBuffer();
         URL urls = null;
         HttpURLConnection connection;
         try {
-            urls=new URL(url);
+            urls = new URL(url);
         } catch (MalformedURLException e) {
             e.printStackTrace();
             return "网络格式错误";
         }
         try {
-            connection= (HttpURLConnection) urls.openConnection();
+            connection = (HttpURLConnection) urls.openConnection();
         } catch (IOException e) {
             e.printStackTrace();
             return "链接失败";
@@ -123,22 +126,23 @@ public class Paylist_Fragment extends Fragment {
             return "未知错误";
         }
         try {
-            InputStreamReader streamReader=new InputStreamReader(connection.getInputStream());
+            InputStreamReader streamReader = new InputStreamReader(connection.getInputStream());
             BufferedReader bufferedReader = new BufferedReader(streamReader);
             String inputLine = null;
             while ((inputLine = bufferedReader.readLine()) != null) {
                 stringBuffer.append(inputLine);
             }
-
+            streamReader.close();
             bufferedReader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
         connection.disconnect();
-       return stringBuffer.toString();
+        return stringBuffer.toString();
     }
-    private ArrayList<HashMap<String,String>>list=new ArrayList<HashMap<String, String>>();
-    // ERROR //
+
+    private ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
+
     private void getDate(String paramString) {
         JSONObject jsonObject = null;
         JSONArray jsonArray = null;
@@ -153,29 +157,31 @@ public class Paylist_Fragment extends Fragment {
         //listview 适配数据
         HashMap<String, String> map;
         for (int j = 0; j < jsonArray.length(); j++) {
-            map = new HashMap<String,String>();
+            map = new HashMap<String, String>();
             try {
                 jsonObject = jsonArray.getJSONObject(j);
-                map.put("payTime",jsonObject.getString("payTime"));
-                map.put("payType",jsonObject.getString("payType"));
-                map.put("singal",jsonObject.getString("singal"));
-                map.put("ordState",jsonObject.getString("ordState"));
-                map.put("ordPrice",jsonObject.getString("ordPrice"));
-                map.put("backTime",jsonObject.getString("backTime"));
+                map.put("payTime", jsonObject.getString("payTime"));
+                map.put("payType", jsonObject.getString("payType"));
+                map.put("singal", jsonObject.getString("singal"));
+                map.put("ordState", jsonObject.getString("ordState"));
+                map.put("ordPrice", jsonObject.getString("ordPrice"));
+                map.put("backTime", jsonObject.getString("backTime"));
                 list.add(map);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-        if(billAdpter==null){
-        billAdpter=new BillAdpter(list,getParentFragment().getActivity());
-        listView.setAdapter(billAdpter);}else {
+        if (billAdpter == null) {
+            billAdpter = new BillAdpter(list, getParentFragment().getActivity());
+            listView.setAdapter(billAdpter);
+        } else {
             billAdpter.setList(list);
         }
     }
 
     /**
      * 判断获取数据是否成功
+     *
      * @param paramString
      * @return
      */
@@ -184,18 +190,22 @@ public class Paylist_Fragment extends Fragment {
         try {
             localJSONObject1 = new JSONObject(paramString);
 
-        } catch (JSONException localJSONException2) { return false;}
-            try {
-               if(localJSONObject1.getString("errcode").equals("0")){return true;}
-            } catch (JSONException localJSONException1) {
+        } catch (JSONException localJSONException2) {
             return false;
+        }
+        try {
+            if (localJSONObject1.getString("errcode").equals("0")) {
+                return true;
             }
+        } catch (JSONException localJSONException1) {
+            return false;
+        }
 
         return false;
     }
 
     private void jumptoDecode() {
-       // ((HomPage) getParentFragment().getActivity()).jumptoDecode();
+        // ((HomPage) getParentFragment().getActivity()).jumptoDecode();
     }
 
     private void loadComponent(View paramView) {
@@ -206,23 +216,26 @@ public class Paylist_Fragment extends Fragment {
         localImageView2.setOnClickListener(this.listener);
         localImageView1.setOnClickListener(this.listener);
         localEditText.setOnEditorActionListener(this.eListener);
-        listView= (ListView) paramView.findViewById(R.id.bill_lv);
+        listView = (ListView) paramView.findViewById(R.id.bill_lv);
         listView.setOnItemClickListener(lvLisntener);
     }
-private AdapterView.OnItemClickListener lvLisntener=new AdapterView.OnItemClickListener() {
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        clickIten((HashMap<String, String>) listView.getAdapter().getItem(position));
-    }
-};
+
+    private AdapterView.OnItemClickListener lvLisntener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            clickIten((HashMap<String, String>) listView.getAdapter().getItem(position));
+        }
+    };
 
     /**
      * 当子项被点击时调用
+     *
      * @param map
      */
-    private void clickIten(HashMap<String,String>map){
-        ( (Bill)getParentFragment()).showBillDetail(map);
+    private void clickIten(HashMap<String, String> map) {
+        ((Bill) getParentFragment()).showBillDetail(map);
     }
+
     /**
      * 跳转fragment 0 paylist ,1 monthbill
      *
@@ -233,11 +246,11 @@ private AdapterView.OnItemClickListener lvLisntener=new AdapterView.OnItemClickL
     }
 
     private void onSerch() {
-        View view=getView();
-        EditText editText= (EditText) view.findViewById(R.id.bill_etx);
-            ArrayList<HashMap<String,String>>list1=new ArrayList<HashMap<String, String>>();
-        for(int i=0;i<list.size();i++){
-            if(list1.get(i).get("singal").startsWith(editText.getText().toString())){
+        View view = getView();
+        EditText editText = (EditText) view.findViewById(R.id.bill_etx);
+        ArrayList<HashMap<String, String>> list1 = new ArrayList<HashMap<String, String>>();
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).get("singal").startsWith(editText.getText().toString())) {
                 list1.add(list.get(i));
             }
         }
@@ -245,27 +258,46 @@ private AdapterView.OnItemClickListener lvLisntener=new AdapterView.OnItemClickL
     }
 
     public View onCreateView(LayoutInflater paramLayoutInflater, @Nullable ViewGroup paramViewGroup, @Nullable Bundle paramBundle) {
-        View localView = paramLayoutInflater.inflate(R.layout.bill, null,true);
+        View localView = paramLayoutInflater.inflate(R.layout.bill, null, true);
         loadComponent(localView);
         return localView;
     }
 
     /**
      * 同一级fragment切换时有用
+     *
      * @param paramBoolean
      */
     public void onHiddenChanged(boolean paramBoolean) {
         super.onHiddenChanged(paramBoolean);
         if ((!paramBoolean) && (this.billAdpter == null))
 
-            getDate();
-        Log.i("ONhiddenChange","paramBoolean");
+            new MyAsyn().execute("");
+        Log.i("ONhiddenChange", "paramBoolean");
     }
+
     /**
      * 退款时的动作
      */
-    public void setOnRefound(){
+    public void setOnRefound() {
         getDate();
-        list=new ArrayList<HashMap<String, String>>();
+        list = new ArrayList<HashMap<String, String>>();
+    }
+
+    private class MyAsyn extends AsyncTask<String, String, String> {
+        @Override
+        protected String doInBackground(String... strings) {
+           // return getDate();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if (s != null) {
+                if (s.trim().length() > 0)
+                    getDate(s);
+            }
+        }
     }
 }

@@ -29,6 +29,7 @@ import java.util.ArrayList;
 
 import baihuiji.jkqme.baihuiji.R;
 import web.BaihuijiNet;
+import web.Ip;
 
 public class Home_display_fragment extends Fragment {
     /**
@@ -45,7 +46,7 @@ public class Home_display_fragment extends Fragment {
         public void handleMessage(Message paramAnonymousMessage) {
             this.bundle = paramAnonymousMessage.getData();
             if (this.bundle.getIntArray("requst") != null) {
-                int[] arrayOfInt = this.bundle.getIntArray("requst");
+                String[] arrayOfInt = this.bundle.getStringArray("requst");
                 ((TextView) Home_display_fragment.this.tody.findViewById(R.id.home_page_totle_number_tx)).setText(arrayOfInt[0] + "元");
                 ((TextView) Home_display_fragment.this.month.findViewById(R.id.home_page_totle_number1_tx)).setText(arrayOfInt[1] + "元");
             }
@@ -124,19 +125,19 @@ public class Home_display_fragment extends Fragment {
      * @param paramString2 月   json
      * @return
      */
-    private int[] getDate(String paramString1, String paramString2) {
+    private String[] getDate(String paramString1, String paramString2) {
         JSONObject object;
 
-        int a[] = new int[2];
+       String a[] = new String[2];
         try {
             object = new JSONObject(paramString1);
-            a[0] = object.getInt("o2o");
+            a[0] = object.getString("o2o");
             object = new JSONObject(paramString2);
-            a[1] = object.getInt("o2o");
+            a[1] = object.getString("o2o");
         } catch (JSONException e) {
             e.printStackTrace();
-            a[0] = 0;
-            a[1] = 0;
+            a[0] = "0";
+            a[1] = "0";
         }
         return a;
     }
@@ -163,10 +164,13 @@ public class Home_display_fragment extends Fragment {
 
             public void run() {
                 Log.i("Home_setDate", this.json);
-                this.requstDay = BaihuijiNet.urlconection("http://baihuiji.weikebaba.com/aide/dayCount", this.json);
-                this.requstMonth = BaihuijiNet.urlconection("http://baihuiji.weikebaba.com/aide/monthCount", this.json);
+                requstDay= Ip.todyConmulative+BaihuijiNet.getRequst(key,value);
+                this.requstDay = BaihuijiNet.connection(requstDay);
+                requstMonth=Ip.mounthConmulative+BaihuijiNet.getRequst(mkey,mvalue);
+              //  this.requstMonth = BaihuijiNet.urlconection("http://baihuiji.weikebaba.com/aide/monthCount", this.json);
+                requstMonth=BaihuijiNet.connection(requstMonth);
                 Log.i("home_setDate", this.requstDay + this.requstMonth + 333);
-                this.bundle.putIntArray("requst", Home_display_fragment.this.getDate(this.requstDay, this.requstMonth));
+                this.bundle.putStringArray("requst", Home_display_fragment.this.getDate(this.requstDay, this.requstMonth));
                 this.message.setData(this.bundle);
                 Home_display_fragment.this.handler.sendMessage(this.message);
             }
