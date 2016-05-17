@@ -36,6 +36,7 @@ import baihuiji.jkqme.baihuiji.R;
 import web.BaihuijiNet;
 
 public class Login extends Fragment {
+    private boolean loginclick=false;//记录是否点击登录
     private CheckBox checkBox;
     private OnCheckedChangeListener clistener = new OnCheckedChangeListener() {
         public void onCheckedChanged(CompoundButton paramAnonymousCompoundButton, boolean paramAnonymousBoolean) {
@@ -48,7 +49,8 @@ public class Login extends Fragment {
             user = "18716398031";
             password = "123456";
             Log.i("Onclick", "" + user + password);
-            if ((Login.this.checkBox.isChecked()) && user.trim().length() > 0 && password.trim().length() > 0)
+            if ((Login.this.checkBox.isChecked()) && user.trim().length() > 0 && password.trim().length() > 0&&!loginclick)
+                loginclick=true;
                 Login.this.conect("18716398031", "123456");
         }
     };
@@ -84,6 +86,7 @@ public class Login extends Fragment {
                     showToast();
                     Log.i("Login", Login.this.requst + "登录失败");
                 }
+                loginclick=false;
             }
         }
                 .start();

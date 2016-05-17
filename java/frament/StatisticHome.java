@@ -18,13 +18,15 @@ import baihuiji.jkqme.baihuiji.R;
  */
 public class StatisticHome extends Fragment {
     private Fragment curentFragment;
-    private Trade_statistic trade_statistic;
+    private Trade_statistic trade_statistic;//交易统计，列表项
+    private StatisticsFragment statisticsFragment;//交易统计主显示
     private FragmentManager manager;
     private FragmentTransaction  transaction;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         trade_statistic=new Trade_statistic();
+        statisticsFragment=new StatisticsFragment();
     }
 
     @Nullable
@@ -38,7 +40,10 @@ public class StatisticHome extends Fragment {
         if(manager==null){
             manager=getChildFragmentManager();
             transaction=manager.beginTransaction();
-            transaction.add(R.id.home_page_fragment_linear,trade_statistic);
+            transaction.add(R.id.statistic_home_linear,statisticsFragment);
+            transaction.add(R.id.statistic_home_linear,trade_statistic).hide(trade_statistic);
+            transaction.show(statisticsFragment);
+            transaction.commit();
         }
     }
     /**
@@ -68,17 +73,17 @@ public class StatisticHome extends Fragment {
     }
     /**
      *
-     * @param paramInt 0 statisticfragment  ,1 monthbill , 2billDetail
+     * @param paramInt 0 statisticfragment  ,1 trad_statistic , 2billDetail
      */
     public void showFragment(int paramInt) {
         switch (paramInt) {
             default:
                 return;
             case 0:
-                showFragment(trade_statistic);
+                showFragment(statisticsFragment);
                 return;
             case 1:
-                //showFragment(this.monthBill);
+                showFragment(this.trade_statistic);
                 break;
             case 2://showFragment(this.bil_detail);
                 break;

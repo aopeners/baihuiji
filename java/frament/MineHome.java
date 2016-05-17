@@ -26,6 +26,7 @@ public class MineHome extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
        mineFragment=new MineFragment();
         modifi_password=new Modifi_password();
     }
@@ -33,14 +34,15 @@ public class MineHome extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
        View view=inflater.inflate(R.layout.statistic_home,null,true);
+        lodFragment();//
         return view;
     }
     private void lodFragment(){
         if(manager==null){
             manager=getChildFragmentManager();
             transaction=manager.beginTransaction();
-            transaction.add(R.id.home_page_fragment_linear,mineFragment);
-            transaction.add(R.id.home_page_fragment_linear,modifi_password).hide(modifi_password);
+            transaction.add(R.id.statistic_home_linear,mineFragment);
+            transaction.add(R.id.statistic_home_linear,modifi_password).hide(modifi_password);
             transaction.show(mineFragment);
             transaction.commit();
         }

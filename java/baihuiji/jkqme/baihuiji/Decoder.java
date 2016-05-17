@@ -13,6 +13,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,12 +48,14 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
+import frament.Home_display_fragment;
 import views.MyView;
 
 /**
  * 扫码activity,可以扫描
  */
 public class Decoder extends Activity {
+    private boolean hashswich;
     //获取订单号，扫别人
     private final String ordSource = "http://baihuiji.weikebaba.com/pospay/getPosOrderNo";
     //收款，扫比人
@@ -70,6 +73,7 @@ public class Decoder extends Activity {
     private int payType;
     private float money;
     private String orderNO;
+    private LinearLayout layout1, layout2;//全面局，和支付方式框
     // private String authCode;//授权码
     private boolean onOrder = false;//正在收款
     private OnClickListener listener = new OnClickListener() {
@@ -81,10 +85,55 @@ public class Decoder extends Activity {
                 case R.id.decod1_bt_tx:
                     swich();
                     break;
+                case R.id.decod1_slect_tx:
+                    selectState(1, "尚未开通微信支付");
+                    break;
+                case R.id.decod1_slect1_tx:
+                    selectState(2, "尚未开通QQ钱包");
+                    break;
+                case R.id.decod1_slect2_tx:
+                    selectState(3, "尚未开通支付宝");
+                    break;
+                case R.id.decod1_slect3_tx:
+                    selectState(4, "尚未开通百度钱包");
+
+                    break;
             }
 
         }
     };
+
+    private void selectState(int i, String msg) {
+        MyApplaication applaication = (MyApplaication) getApplication();
+        switch (i) {
+            case 1: if (applaication.getDate("payTypeStatus").charAt(1) == '1') {
+                payType = i;
+            } else {
+                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+            }
+                break;
+            case 2: if (applaication.getDate("payTypeStatus").charAt(1) == '2') {
+                payType = i;
+            } else {
+                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+            }
+                break;
+            case 3: if (applaication.getDate("payTypeStatus").charAt(1) == '3') {
+                payType = i;
+            } else {
+                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+            }
+                break;
+            case 4: if (applaication.getDate("payTypeStatus").charAt(1) == '4') {
+                payType = i;
+            } else {
+                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+            }
+                break;
+        }
+
+    }
+
     private MyView myView;
     private QRCodeReaderView.OnQRCodeReadListener onQRCodeReadListener = new QRCodeReaderView.OnQRCodeReadListener() {
         public void QRCodeNotFoundOnCamImage() {
@@ -126,6 +175,16 @@ public class Decoder extends Activity {
         layout = (RelativeLayout) findViewById(R.id.decode1_relative);
         this.backimg.setOnClickListener(this.listener);
         this.bTextView.setOnClickListener(this.listener);
+
+        layout1 = (LinearLayout) findViewById(R.id.decod1_linear);
+        layout2 = (LinearLayout) findViewById(R.id.decod1_select_linear);
+
+        int[] textId = {R.id.decod1_slect_tx, R.id.decod1_slect1_tx, R.id.decod1_slect2_tx, R.id.decod1_slect3_tx};
+        TextView textView;
+        for (int i = 0; i < textId.length; i++) {
+            textView = (TextView) findViewById(textId[i]);
+            textView.setOnClickListener(listener);
+        }
         getDate();
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -137,7 +196,15 @@ public class Decoder extends Activity {
      * 視圖切换
      */
     private void swich() {
+        if (readerView.getCameraManager().isOpen()) {
+            hashswich = false;
+        }
+        if (hashswich) {
+            return;
+        }
+        hashswich = true;
         if (layout.getVisibility() == View.VISIBLE) {
+            layout1.setBackgroundColor(getResources().getColor(R.color.loginback));
             onOrder = false;
             readerView.getCameraManager().stopPreview();
             layout.setVisibility(View.GONE);
@@ -145,7 +212,9 @@ public class Decoder extends Activity {
             pleaseSwap.setText("请顾客扫描二维码");
             bTextView.setText("切换到扫码收款");
             new MyAsy().execute("");
+            hashswich = false;
         } else {
+            layout1.setBackgroundColor(getResources().getColor(R.color.black));
             readerView.getCameraManager().startPreview();
             layout.setVisibility(View.VISIBLE);
             swichImg.setVisibility(View.GONE);
@@ -163,6 +232,11 @@ public class Decoder extends Activity {
         payType = bundle.getInt("payType");
         money = bundle.getFloat("money");
         boolean fukuanma = bundle.getBoolean("fukuan");
+        if (payType == 0) {
+            layout2.setVisibility(View.VISIBLE);
+        } else {
+            layout2.setVisibility(View.GONE);
+        }
         if (fukuanma) {
             swich();
         }

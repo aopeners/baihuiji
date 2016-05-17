@@ -7,12 +7,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class Trade_statistic extends Fragment
-{
-  public View onCreateView(LayoutInflater paramLayoutInflater, @Nullable ViewGroup paramViewGroup, @Nullable Bundle paramBundle)
-  {
-    return paramLayoutInflater.inflate(2130903070, null);
-  }
+import baihuiji.jkqme.baihuiji.R;
+
+/**
+ * 交易统计有列表的fragment
+ */
+public class Trade_statistic extends Fragment {
+    public View onCreateView(LayoutInflater paramLayoutInflater, @Nullable ViewGroup paramViewGroup, @Nullable Bundle paramBundle) {
+        View view=paramLayoutInflater.inflate(R.layout.trad_statistic_1, null, true);
+        return view;
+    }
 }
 
 /* Location:           C:\Users\jkqme\Androids\Androids\classes_dex2jar.jar

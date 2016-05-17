@@ -39,20 +39,19 @@ public class HomPage extends FragmentActivity {
     private OnClickListener listener = new OnClickListener() {
         public void onClick(View paramAnonymousView) {
             switch (paramAnonymousView.getId()) {
-                default:
-                    return;
                 case R.id.buttom_radioh_bt1:
                     HomPage.this.showFragment(HomPage.this.home_fragment);
                     //  Log.i("OnChekedRedio", "home");
-                    return;
+                   break;
                 case R.id.buttom_radioh_bt2:
                     HomPage.this.showFragment(HomPage.this.bill);
-                    return;
+                   break;
                 case R.id.buttom_radioh_bt3:
                     HomPage.this.showFragment(HomPage.this.statisticsFragment);
-                    return;
+                  break;
                 case R.id.buttom_radioh_bt4:
                     HomPage.this.showFragment(HomPage.this.mineHome);
+                    break;
             }
 
         }
@@ -66,8 +65,6 @@ public class HomPage extends FragmentActivity {
         public void onCheckedChanged(RadioGroup paramAnonymousRadioGroup, int paramAnonymousInt) {
             Log.i("OnChekedRedio", "home");
             switch (paramAnonymousInt) {
-                default:
-                    return;
                 case R.id.buttom_radioh_bt1:
                     HomPage.this.showFragment(HomPage.this.home_fragment);
                     Log.i("OnChekedRedio", "home");
@@ -79,8 +76,10 @@ public class HomPage extends FragmentActivity {
                     HomPage.this.showFragment(HomPage.this.statisticsFragment);
                     return;
                 case R.id.buttom_radioh_bt4:
+                    HomPage.this.showFragment(HomPage.this.mineHome);
+                    break;
             }
-            HomPage.this.showFragment(HomPage.this.mineHome);
+
         }
     };
     private StatisticHome statisticsFragment;
@@ -140,10 +139,10 @@ public class HomPage extends FragmentActivity {
     private void upDateBottomState(int paramInt) {
         for (int i = 0; i < 4; i++) {
             if (i != paramInt) {
-                this.button[paramInt].setTextColor(getResources().getColor(R.color.white));
+                this.button[paramInt].setTextColor(getResources().getColor(R.color.black));
                 continue;
             }
-            this.button[i].setTextColor(getResources().getColor(R.color.blue));
+            this.button[i].setTextColor(getResources().getColor(R.color.bluetext));
         }
     }
 
@@ -155,9 +154,17 @@ public class HomPage extends FragmentActivity {
         this.rGroup.setVisibility(View.GONE);
     }
 
+    /**
+     * 跳到扫码支付
+     *
+     * @param payType
+     * @param moneycont
+     * @param fukuanma
+     */
     public void jumptoDecode(int payType, float moneycont, boolean fukuanma) {
         Intent intent = new Intent(this, Decoder.class);
         Bundle bundle = new Bundle();
+
         bundle.putInt("payType", payType);
         bundle.putFloat("money", moneycont);
         bundle.putBoolean("fukuan", fukuanma);
