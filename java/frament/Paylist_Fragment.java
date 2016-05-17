@@ -287,8 +287,7 @@ public class Paylist_Fragment extends Fragment {
     private class MyAsyn extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... strings) {
-           // return getDate();
-            return null;
+            return getDate();
         }
 
         @Override

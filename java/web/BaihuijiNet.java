@@ -155,7 +155,7 @@ public class BaihuijiNet {
                 while ((inputLine = bufferedReader.readLine()) != null) {
                     stringBuffer.append(inputLine);
                 }
-                
+
                 reader.close();
                 bufferedReader.close();
             }
