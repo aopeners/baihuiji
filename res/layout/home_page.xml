@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/white"
     android:orientation="vertical">
-<!--主页的fragment-->
+    <!--主页的fragment-->
+
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="0.0dip"
@@ -22,6 +22,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:background="@color/black"
+                android:textColor="@color/white"
                 android:gravity="center_horizontal"
                 android:padding="13.0sp"
                 android:text="@string/home_page_title"

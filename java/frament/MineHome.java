@@ -45,6 +45,7 @@ public class MineHome extends Fragment {
             transaction.add(R.id.statistic_home_linear,modifi_password).hide(modifi_password);
             transaction.show(mineFragment);
             transaction.commit();
+            curentFragment=mineFragment;
         }
     }
     /**

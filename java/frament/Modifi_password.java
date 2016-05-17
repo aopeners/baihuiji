@@ -43,7 +43,7 @@ public class Modifi_password extends Fragment {
     };
     private void showMimeFragement(){
         MineHome mineHome= (MineHome) getParentFragment();
-        mineHome.showFragment(1);
+        mineHome.showFragment(0);
     }
 
     /**

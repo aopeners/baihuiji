@@ -48,7 +48,8 @@
             android:background="@android:color/white"
             android:orientation="vertical"
             android:paddingBottom="16.0sp"
-            android:paddingTop="16.0sp">
+            android:paddingTop="16.0sp"
+            android:id="@+id/moth_bill_select_time_linear">
 
             <TextView
                 android:id="@+id/month_bill_year_tx"

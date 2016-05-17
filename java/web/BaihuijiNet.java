@@ -23,12 +23,13 @@ import java.util.Date;
 public class BaihuijiNet {
     /**
      * 合成json
+     *
      * @param paramArrayOfString1
      * @param paramArrayOfString2
      * @param param
      * @return
      */
-    public synchronized static String getJson(String[] paramArrayOfString1, String[] paramArrayOfString2,String param) {
+    public synchronized static String getJson(String[] paramArrayOfString1, String[] paramArrayOfString2, String param) {
         StringBuffer localStringBuffer = new StringBuffer();
         localStringBuffer.append("{");
         int i = 0;
@@ -79,6 +80,7 @@ public class BaihuijiNet {
 
     /**
      * 网络状态
+     *
      * @param paramContext
      * @return
      */
@@ -165,4 +167,68 @@ public class BaihuijiNet {
         return stringBuffer.toString();
     }
 
+    /**
+     * 获取get参数
+     * @param key
+     * @param value
+     * @return
+     */
+    public synchronized static String getRequst(String key[], String value[]) {
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append("?");
+        for (int i = 0; i < key.length; i++) {
+            stringBuffer.append(key[i] + "=" + value[i]);
+            if (i < key.length - 1) {
+                stringBuffer.append("&");
+            }
+
+        }
+        return stringBuffer.toString();
+    }
+    /**
+     * get方法获取数据
+     * @param url
+     * @return
+     */
+    private synchronized static String  connection(String url){
+        StringBuffer stringBuffer = new StringBuffer();
+        URL urls = null;
+        HttpURLConnection connection;
+        try {
+            urls=new URL(url);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return "网络格式错误";
+        }
+        try {
+            connection= (HttpURLConnection) urls.openConnection();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "链接失败";
+        }
+        try {
+            connection.setRequestMethod("GET");
+            connection.setDoInput(true);
+            connection.setDoOutput(false);
+            connection.setRequestProperty("Content-Type", "text/plain;charset=UTF-8");
+            connection.setInstanceFollowRedirects(true);
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+            return "未知错误";
+        }
+        try {
+            InputStreamReader streamReader=new InputStreamReader(connection.getInputStream());
+            BufferedReader bufferedReader = new BufferedReader(streamReader);
+            String inputLine = null;
+            while ((inputLine = bufferedReader.readLine()) != null) {
+                stringBuffer.append(inputLine);
+            }
+
+            bufferedReader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        connection.disconnect();
+        return stringBuffer.toString();
+    }
 }

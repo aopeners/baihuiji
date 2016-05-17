@@ -5,7 +5,6 @@ import adpter.BillAdpter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -19,14 +18,20 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
-import adpter.MonthAdpter;
-import baihuiji.jkqme.baihuiji.HomPage;
 import baihuiji.jkqme.baihuiji.MyApplaication;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -65,22 +70,72 @@ public class Paylist_Fragment extends Fragment {
         new Thread(new Runnable() {
             MyApplaication applaication = (MyApplaication) Paylist_Fragment.this.getParentFragment().getActivity().getApplication();
             String json;
-            String[] key = {"uId", "merchantId", "day"};
+            String[] key = {"merchantId","page", "pagesize","rule","uId"};
+
             String requst;
             String[] value =
-                    {
-                            applaication.getDate("operateName"), applaication.getDate("merchantId"),BaihuijiNet.getTime("yyyyMMdd")
+                    {applaication.getDate("merchantId"),"1","30","ss",applaication.getDate("operateTel")
                     };
 
 
             public void run() {
-                json=BaihuijiNet.getJson(key, value, "day");
-                this.requst = BaihuijiNet.urlconection(Ip.monthBillString, this.json);
+                requst="?"+"merchantId="+applaication.getDate("merchantId")+"&page=1"+"&pagesize=20"+"&rule=ss"+"&uId="+applaication.getDate("operateTel");
+                json=BaihuijiNet.getJson(key, value, "uId");
+                requst= Ip.thirtyDetail+BaihuijiNet.getRequst(key,value);
+                Log.i("getDate",requst);
+                this.requst = connection(requst);
                 Log.i("BillRequst", this.requst + "  \n  " + this.json);
                 if (Paylist_Fragment.this.getSuccess(this.requst))
                     Paylist_Fragment.this.getDate(this.requst);
             }
         }).start();
+    }
+
+    /**
+     * get方法获取数据
+     * @param url
+     * @return
+     */
+    private String  connection(String url){
+        StringBuffer stringBuffer = new StringBuffer();
+        URL urls = null;
+        HttpURLConnection connection;
+        try {
+            urls=new URL(url);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return "网络格式错误";
+        }
+        try {
+            connection= (HttpURLConnection) urls.openConnection();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "链接失败";
+        }
+        try {
+            connection.setRequestMethod("GET");
+            connection.setDoInput(true);
+            connection.setDoOutput(false);
+            connection.setRequestProperty("Content-Type", "text/plain;charset=UTF-8");
+            connection.setInstanceFollowRedirects(true);
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+            return "未知错误";
+        }
+        try {
+            InputStreamReader streamReader=new InputStreamReader(connection.getInputStream());
+            BufferedReader bufferedReader = new BufferedReader(streamReader);
+            String inputLine = null;
+            while ((inputLine = bufferedReader.readLine()) != null) {
+                stringBuffer.append(inputLine);
+            }
+
+            bufferedReader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        connection.disconnect();
+       return stringBuffer.toString();
     }
     private ArrayList<HashMap<String,String>>list=new ArrayList<HashMap<String, String>>();
     // ERROR //
@@ -92,7 +147,9 @@ public class Paylist_Fragment extends Fragment {
             jsonArray = jsonObject.getJSONArray("o2o");
         } catch (JSONException e) {
             e.printStackTrace();
+            return;
         }
+
         //listview 适配数据
         HashMap<String, String> map;
         for (int j = 0; j < jsonArray.length(); j++) {
@@ -193,12 +250,17 @@ private AdapterView.OnItemClickListener lvLisntener=new AdapterView.OnItemClickL
         return localView;
     }
 
+    /**
+     * 同一级fragment切换时有用
+     * @param paramBoolean
+     */
     public void onHiddenChanged(boolean paramBoolean) {
         super.onHiddenChanged(paramBoolean);
         if ((!paramBoolean) && (this.billAdpter == null))
-            getDate();
-    }
 
+            getDate();
+        Log.i("ONhiddenChange","paramBoolean");
+    }
     /**
      * 退款时的动作
      */

@@ -1,7 +1,6 @@
 package baihuiji.jkqme.baihuiji;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -19,10 +18,8 @@ import java.util.ArrayList;
 
 import frament.Bill;
 import frament.Home_fragment;
-import frament.MineFragment;
 import frament.MineHome;
 import frament.StatisticHome;
-import frament.StatisticsFragment;
 import views.MyViewPager;
 
 /**
@@ -42,13 +39,13 @@ public class HomPage extends FragmentActivity {
                 case R.id.buttom_radioh_bt1:
                     HomPage.this.showFragment(HomPage.this.home_fragment);
                     //  Log.i("OnChekedRedio", "home");
-                   break;
+                    break;
                 case R.id.buttom_radioh_bt2:
                     HomPage.this.showFragment(HomPage.this.bill);
-                   break;
+                    break;
                 case R.id.buttom_radioh_bt3:
                     HomPage.this.showFragment(HomPage.this.statisticsFragment);
-                  break;
+                    break;
                 case R.id.buttom_radioh_bt4:
                     HomPage.this.showFragment(HomPage.this.mineHome);
                     break;
@@ -113,21 +110,22 @@ public class HomPage extends FragmentActivity {
             this.transaction.hide(this.home_fragment).hide(this.mineHome).hide(this.bill).hide(this.statisticsFragment);
             this.transaction.show(paramFragment);
             this.transaction.commit();
-            this.currentFragment = paramFragment;
+
             if (paramFragment.hashCode() == this.home_fragment.hashCode()) {
 
                 upDateBottomState(0);
-                return;
+
             } else if (paramFragment.hashCode() == this.bill.hashCode()) {
                 upDateBottomState(1);
-                return;
+
             } else if (paramFragment.hashCode() == this.statisticsFragment.hashCode()) {
                 upDateBottomState(2);
-                return;
+
             } else if (paramFragment.hashCode() == this.mineHome.hashCode()) {
                 upDateBottomState(3);
-                return;
+
             }
+            this.currentFragment = paramFragment;
         }
     }
 
@@ -137,12 +135,16 @@ public class HomPage extends FragmentActivity {
      * @param paramInt 被点击的按钮
      */
     private void upDateBottomState(int paramInt) {
+        Button button;
         for (int i = 0; i < 4; i++) {
+            button = (Button) findViewById(btId[i]);
             if (i != paramInt) {
-                this.button[paramInt].setTextColor(getResources().getColor(R.color.black));
-                continue;
+                button.setTextColor(getResources().getColor(R.color.black));
+
+            } else {
+                button.setTextColor(getResources().getColor(R.color.bluetext));
+              //  Log.i("upDateBottom", i + "  i   " + paramInt);
             }
-            this.button[i].setTextColor(getResources().getColor(R.color.bluetext));
         }
     }
 
@@ -180,9 +182,7 @@ public class HomPage extends FragmentActivity {
         this.rGroup = ((RadioGroup) findViewById(R.id.buttom_radioh));
         this.rGroup.setOnCheckedChangeListener(this.rlistener);
         getFragment();
-        for (int i = 0; ; i++) {
-            if (i >= 4)
-                return;
+        for (int i = 0; i < 4; i++) {
             this.button[i] = ((Button) findViewById(this.btId[i]));
             this.button[i].setOnClickListener(this.listener);
         }

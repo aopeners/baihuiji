@@ -24,13 +24,14 @@ public class Bill extends Fragment {
     private Paylist_Fragment paylist_Fragment;
     private FragmentTransaction transaction;
     private Bil_detail bil_detail;
+
     private void loadFragment() {
         if (this.manager == null) {
             this.manager = getChildFragmentManager();
             this.transaction = this.manager.beginTransaction();
             this.transaction.add(R.id.home_page_fragment_linear, this.paylist_Fragment);
             this.transaction.add(R.id.home_page_fragment_linear, this.monthBill).hide(this.monthBill);
-            transaction.add(R.id.home_page_fragment_linear,bil_detail).hide(bil_detail);
+            transaction.add(R.id.home_page_fragment_linear, bil_detail).hide(bil_detail);
             this.transaction.show(this.paylist_Fragment);
             this.transaction.commit();
             this.curentFragment = this.paylist_Fragment;
@@ -51,7 +52,7 @@ public class Bill extends Fragment {
         super.onCreate(paramBundle);
         this.paylist_Fragment = new Paylist_Fragment();
         this.monthBill = new MonthBill();
-        bil_detail=new Bil_detail();
+        bil_detail = new Bil_detail();
     }
 
     public View onCreateView(LayoutInflater paramLayoutInflater, @Nullable ViewGroup paramViewGroup, @Nullable Bundle paramBundle) {
@@ -78,7 +79,6 @@ public class Bill extends Fragment {
     }
 
     /**
-     *
      * @param paramInt 0 paylist  ,1 monthbill , 2billDetail
      */
     public void showFragment(int paramInt) {
@@ -91,14 +91,24 @@ public class Bill extends Fragment {
             case 1:
                 showFragment(this.monthBill);
                 break;
-            case 2:showFragment(this.bil_detail);
+            case 2:
+                showFragment(this.bil_detail);
                 break;
         }
 
     }
-    public void showBillDetail(HashMap<String,String>map){
+
+    public void showBillDetail(HashMap<String, String> map) {
         bil_detail.setDate(map);
         showFragment(2);
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (paylist_Fragment != null) {
+            paylist_Fragment.onHiddenChanged(hidden);
+        }
     }
 }
 

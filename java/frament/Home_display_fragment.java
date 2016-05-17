@@ -57,9 +57,6 @@ public class Home_display_fragment extends Fragment {
         public void onClick(View paramAnonymousView) {
             MyApplaication applaication = (MyApplaication) getParentFragment().getActivity().getApplication();
             switch (paramAnonymousView.getId()) {
-                case 2131230777:
-                default:
-                    return;
                 case R.id.home_page_pay_tx:
                     Home_display_fragment.this.showFragment(1, 0);
                     return;
@@ -71,17 +68,18 @@ public class Home_display_fragment extends Fragment {
                     }
                     return;
                 case R.id.home_page_radio_bt2:
-                    if (applaication.getDate("payTypeStatus").charAt(1) == '1') {
+                    if (applaication.getDate("payTypeStatus").charAt(2) == '1') {
                         Home_display_fragment.this.showFragment(1, 2);
                     }else {showTost("尚未开通qq钱包支付");}
                     return;
                 case R.id.home_page_radio_bt3:
-                    if (applaication.getDate("payTypeStatus").charAt(2) == '1') {
+                    if (applaication.getDate("payTypeStatus").charAt(4) == '1') {
+                        Log.i("onclick",applaication.getDate("payTypeStatus").charAt(2)+"   "+'1');
                         Home_display_fragment.this.showFragment(1, 3);
                     }else {showTost("尚未开通支付宝支付");}
                     return;
                 case R.id.home_page_radio_bt4:
-                    if (applaication.getDate("payTypeStatus").charAt(3) == '1') {
+                    if (applaication.getDate("payTypeStatus").charAt(6) == '1') {
                         Home_display_fragment.this.showFragment(1, 4);
                     }else {showTost("尚未开通百度钱包支付");}
             }

@@ -2,16 +2,20 @@ package frament;
 
 import adpter.MonthAdpter;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -39,6 +43,9 @@ import web.BaihuijiNet;
 
 public class MonthBill extends Fragment {
     private ListView listView;
+    private MonthAdpter monthAdpter;
+    private AlertDialog dialog;
+    private String time;
     private OnClickListener listener = new OnClickListener() {
         public void onClick(View paramAnonymousView) {
             switch (paramAnonymousView.getId()) {
@@ -46,14 +53,48 @@ public class MonthBill extends Fragment {
                 case R.id.moth_bill_back_img:
                     MonthBill.this.onClickBack();
                     break;
+                case R.id.moth_bill_select_time_linear:
+                    showDatePick();
+                    break;
                 default:
                     return;
             }
 
         }
     };
-    private MonthAdpter monthAdpter;
 
+    /**
+     * 显示date pick
+     */
+        private void showDatePick(){
+            if(dialog==null){
+                AlertDialog.Builder builder=new AlertDialog.Builder(getParentFragment().getActivity());
+                View view=getParentFragment().getActivity().getLayoutInflater().inflate(R.layout.dialog_data,null,true);
+                DatePicker picker= (DatePicker) view.findViewById(R.id.dialog_date);
+                picker.init(2016,05,4,dateChangedListener);
+                builder.setView(view);
+                dialog=builder.create();
+                dialog.setOnDismissListener(dismissListener);
+            }
+            dialog.show();
+        }
+
+    /**
+     * dialog消失时
+     */
+    private DialogInterface.OnDismissListener dismissListener=new DialogInterface.OnDismissListener() {
+        @Override
+        public void onDismiss(DialogInterface dialogInterface) {
+                Log.i("OnDismis",time);
+        }
+    };
+    private DatePicker.OnDateChangedListener dateChangedListener=new DatePicker.OnDateChangedListener() {
+        @Override
+        public void onDateChanged(DatePicker datePicker, int i, int i1, int i2) {
+            Log.i("  Date picker",""+i+"   "+i1+"   "+i2);
+            time=i+i1+i2+"";
+        }
+    };
     private void getDate() {
         new Thread(new Runnable() {
             MyApplaication applaication = (MyApplaication) MonthBill.this.getParentFragment().getActivity().getApplication();
@@ -63,7 +104,7 @@ public class MonthBill extends Fragment {
             String[] value =
 
                     {
-                            applaication.getDate("operateName"), applaication.getDate("merchantId"),BaihuijiNet.getTime("yyyyMM")
+                            applaication.getDate("operateName"), applaication.getDate("merchantId"), BaihuijiNet.getTime("yyyyMM")
                     };
 
             public void run() {
@@ -114,19 +155,19 @@ public class MonthBill extends Fragment {
             }
         }
         //listview 适配数据
-           HashMap<String, String> map;
-            for (int j = 0; j < jsonArray.length(); j++) {
-                map = new HashMap<String,String>();
-                try {
-                    jsonObject = jsonArray.getJSONObject(j);
-                    map.put("payTotal",jsonObject.getString("payTotal"));
-                    map.put("backTotal",jsonObject.getString("backTotal"));
-                    list.add(map);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+        HashMap<String, String> map;
+        for (int j = 0; j < jsonArray.length(); j++) {
+            map = new HashMap<String, String>();
+            try {
+                jsonObject = jsonArray.getJSONObject(j);
+                map.put("payTotal", jsonObject.getString("payTotal"));
+                map.put("backTotal", jsonObject.getString("backTotal"));
+                list.add(map);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        monthAdpter=new MonthAdpter(list,getParentFragment().getActivity());
+        }
+        monthAdpter = new MonthAdpter(list, getParentFragment().getActivity());
         listView.setAdapter(monthAdpter);
 
     }
@@ -148,6 +189,8 @@ public class MonthBill extends Fragment {
     }
 
     private void loadComponent(View paramView) {
+        LinearLayout linearLayout = (LinearLayout) paramView.findViewById(R.id.moth_bill_select_time_linear);
+        linearLayout.setOnClickListener(listener);
         this.listView = ((ListView) paramView.findViewById(R.id.month_bill_lv));
         ((ImageView) paramView.findViewById(R.id.moth_bill_back_img)).setOnClickListener(this.listener);
     }

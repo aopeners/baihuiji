@@ -62,6 +62,8 @@ public class Decoder extends Activity {
     private final String getMony = "http://baihuiji.weikebaba.com/pospay/posPayStart";
     //收款，给别人扫
     private final String getMonny_bySwap = "http://baihuiji.weikebaba.com/pospay/erWeiCodePay";
+    //检查收款是否成功
+    private final String tradQuerry = "http://baihuiji.weikebaba.com/pospay/queryPayState";
 
     private String bitmapurl;
     private TextView bTextView;
@@ -106,29 +108,33 @@ public class Decoder extends Activity {
     private void selectState(int i, String msg) {
         MyApplaication applaication = (MyApplaication) getApplication();
         switch (i) {
-            case 1: if (applaication.getDate("payTypeStatus").charAt(1) == '1') {
-                payType = i;
-            } else {
-                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-            }
+            case 1:
+                if (applaication.getDate("payTypeStatus").charAt(0) == '1') {
+                    payType = i;
+                } else {
+                    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+                }
                 break;
-            case 2: if (applaication.getDate("payTypeStatus").charAt(1) == '2') {
-                payType = i;
-            } else {
-                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-            }
+            case 2:
+                if (applaication.getDate("payTypeStatus").charAt(2) == '1') {
+                    payType = i;
+                } else {
+                    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+                }
                 break;
-            case 3: if (applaication.getDate("payTypeStatus").charAt(1) == '3') {
-                payType = i;
-            } else {
-                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-            }
+            case 3:
+                if (applaication.getDate("payTypeStatus").charAt(4) == '1') {
+                    payType = i;
+                } else {
+                    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+                }
                 break;
-            case 4: if (applaication.getDate("payTypeStatus").charAt(1) == '4') {
-                payType = i;
-            } else {
-                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-            }
+            case 4:
+                if (applaication.getDate("payTypeStatus").charAt(6) == '1') {
+                    payType = i;
+                } else {
+                    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
 
@@ -235,7 +241,7 @@ public class Decoder extends Activity {
         if (payType == 0) {
             layout2.setVisibility(View.VISIBLE);
         } else {
-            layout2.setVisibility(View.GONE);
+            layout2.setVisibility(View.INVISIBLE);
         }
         if (fukuanma) {
             swich();
@@ -281,7 +287,7 @@ public class Decoder extends Activity {
 
         Log.i("OrderBitmap", json + "   " + requst);
         if (getRequstSuccess(requst)) {
-            return onGetBitmapSucced("");
+            return onGetBitmapSucced(requst);
         } else {
             return null;
         }
@@ -303,6 +309,7 @@ public class Decoder extends Activity {
             orderNO = jsonObject.getString("orderNo");
         } catch (JSONException e) {
             e.printStackTrace();
+            return null;
         }
         //切换显示
         URL url = null;
@@ -312,6 +319,7 @@ public class Decoder extends Activity {
             url = new URL(bitUrl);
         } catch (MalformedURLException e) {
             e.printStackTrace();
+            return null;
         }
 
         try {
@@ -325,6 +333,7 @@ public class Decoder extends Activity {
             }
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
         return bitma;
     }
@@ -338,7 +347,7 @@ public class Decoder extends Activity {
     private boolean getRequstSuccess(String requst) {
         try {
             JSONObject jsonObject = new JSONObject(requst);
-            if (jsonObject.getString("msg").endsWith("成功")) {
+            if (jsonObject.getString("code").equals("100")) {
                 // orderNO=jsonObject.getString("orderNo");
                 // bitmapurl=jsonObject.getString("img");
                 return true;
@@ -348,6 +357,27 @@ public class Decoder extends Activity {
             return false;
         }
         return false;
+    }
+
+    /**
+     * 检验交易是否成功
+     *
+     * @return
+     */
+    private void tradeSuccess() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String key[] = {"orderNo", "MD5"};
+                String value[] = {orderNO, getMd5_32("orderNo&=*" + orderNO)};
+                String json = getJson(key, value, "MD5");
+                String requst = urlconection(tradQuerry, json);
+                if (getRequstSuccess(requst)) {
+
+                }
+            }
+        }).start();
+
     }
 
     /**
@@ -646,11 +676,10 @@ public class Decoder extends Activity {
         @Override
         protected void onPostExecute(Bitmap bitmap) {
             super.onPostExecute(bitmap);
-            swichImg.setImageBitmap(bitmap);
+            if (bitmap != null)
+                swichImg.setImageBitmap(bitmap);
         }
     }
-
-    ;
 }
 
 /* Location:           C:\Users\jkqme\Androids\Androids\classes_dex2jar.jar

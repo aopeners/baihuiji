@@ -2,22 +2,25 @@ package web;
 
 public abstract interface Ip
 {
+ //String ips= "http://baihuiji.weikebaba.com";
+
+    String ips = "http://testbhj.weikebaba.com/";
   //登出
-  public static final String logOutString = "http://baihuiji.weikebaba.com/pospay/posGoOut";
+  public static final String logOutString = ips+"pospay/posGoOut";
  //登录
-  public static final String logip = "http://baihuiji.weikebaba.com/pospay/queryShopMerchant";
+  public static final String logip = ips+"pospay/queryShopMerchant";
  //月账单
-  public static final String monthBillString = "http://baihuiji.weikebaba.com/aide/monthBill";
+  public static final String monthBillString = ips+"aide/monthBill";
 //月收入
-  public static final String mounthConmulative = "http://baihuiji.weikebaba.com/aide/monthCount";
+  public static final String mounthConmulative = ips+"aide/monthCount";
   //30天账单
-  public static final String thirtyDetail = "http://baihuiji.weikebaba.com/aide/bill";
+  public static final String thirtyDetail = ips+"aide/bill";
   //日收入
-  public static final String todyConmulative = "http://baihuiji.weikebaba.com/aide/dayCount";
+  public static final String todyConmulative = ips+"aide/dayCount";
   //退款
-  public static String refund="http://baihuiji.weikebaba.com/pospay/posPayBack";
+  public static String refund=ips+"pospay/posPayBack";
   //金额统计ip
-  public String static1="http://baihuiji.weikebaba.com/aide/masCount";
+  public String static1=ips+"aide/masCount";
 }
 
 /* Location:           C:\Users\jkqme\Androids\Androids\classes_dex2jar.jar

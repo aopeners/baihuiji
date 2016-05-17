@@ -34,6 +34,7 @@ import org.json.JSONObject;
 
 import baihuiji.jkqme.baihuiji.R;
 import web.BaihuijiNet;
+import web.Ip;
 
 public class Login extends Fragment {
     private boolean loginclick=false;//记录是否点击登录
@@ -73,7 +74,7 @@ public class Login extends Fragment {
         new Thread() {
             public void run() {
                 try {
-                    Login.this.requst = BaihuijiNet.urlconection("http://baihuiji.weikebaba.com/pospay/queryShopMerchant", json);
+                    Login.this.requst = BaihuijiNet.urlconection(Ip.logip, json);
                     Log.i("Login", Login.this.requst);
                     if (Login.this.loginSuccess(Login.this.requst)) {
                         Login.this.saveDate(Login.this.requst);

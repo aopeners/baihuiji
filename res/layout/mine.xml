@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:background="@android:color/black"
         android:orientation="horizontal">
-
+<!--
         <ImageView
             android:id="@+id/mine_back"
             android:layout_width="wrap_content"
@@ -20,7 +20,7 @@
             android:padding="7.0dip"
 
             android:rotation="180.0"
-            android:src="@drawable/right" />
+            android:src="@drawable/right" />-->
 
         <TextView
             android:layout_width="fill_parent"
@@ -57,8 +57,8 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/mine_head_img"
                     android:layout_toRightOf="@id/mine_head_img"
+                    android:layout_centerInParent="true"
                     android:orientation="vertical"
                     android:paddingTop="4.0dip">
 
@@ -104,7 +104,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:padding="13.0dip"
-                    android:src="@drawable/ic_launcher" />
+                    android:src="@drawable/merchant" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -148,7 +148,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:padding="13.0dip"
-                    android:src="@drawable/ic_launcher" />
+                    android:src="@drawable/merchant_name" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -193,7 +193,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:padding="13.0dip"
-                    android:src="@drawable/ic_launcher" />
+                    android:src="@drawable/modifipassword" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -236,7 +236,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:padding="13.0dip"
-                    android:src="@drawable/ic_launcher" />
+                    android:src="@drawable/mesage" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -274,7 +274,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:padding="13.0dip"
-                    android:src="@drawable/ic_launcher" />
+                    android:src="@drawable/service_phone" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -315,7 +315,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:padding="13.0dip"
-                    android:src="@drawable/ic_launcher" />
+                    android:src="@drawable/about" />
 
                 <TextView
                     android:layout_width="wrap_content"
