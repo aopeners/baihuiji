@@ -40,6 +40,9 @@ import baihuiji.jkqme.baihuiji.R;
 import web.BaihuijiNet;
 import web.Ip;
 
+/**
+ * 账单显示首页
+ */
 public class Paylist_Fragment extends Fragment {
     private BillAdpter billAdpter;
     private OnEditorActionListener eListener = new OnEditorActionListener() {

@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -239,9 +240,19 @@ public class MonthBill extends Fragment {
         LinearLayout linearLayout = (LinearLayout) paramView.findViewById(R.id.moth_bill_select_time_linear);
         linearLayout.setOnClickListener(listener);
         this.listView = ((ListView) paramView.findViewById(R.id.month_bill_lv));
+        listView.setOnItemClickListener(lvlistener);
         ((ImageView) paramView.findViewById(R.id.moth_bill_back_img)).setOnClickListener(this.listener);
     }
-
+    private AdapterView.OnItemClickListener lvlistener=new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+           onItemClic(((HashMap<String,String>)listView.getAdapter().getItem(i)).get("totalDate"));
+        }
+    };
+    private void onItemClic(String time){
+        Bill bill= (Bill) getParentFragment();
+        bill.setDayBill(time);
+    }
     /**
      * 点击后退时
      */

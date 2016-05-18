@@ -61,6 +61,7 @@ public class Bil_detail extends Fragment {
                     jumptoPaylist();
                     break;
                 case R.id.bill_detail_refund_bt_tx:
+                    showDialog();
                     break;
                 case R.id.dialog_refund_close:
                     dialog.cancel();

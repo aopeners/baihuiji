@@ -24,6 +24,7 @@ public class Bill extends Fragment {
     private Paylist_Fragment paylist_Fragment;
     private FragmentTransaction transaction;
     private Bil_detail bil_detail;
+    private DayBill dayBill;
 
     private void loadFragment() {
         if (this.manager == null) {
@@ -32,6 +33,7 @@ public class Bill extends Fragment {
             this.transaction.add(R.id.home_page_fragment_linear, this.paylist_Fragment);
             this.transaction.add(R.id.home_page_fragment_linear, this.monthBill).hide(this.monthBill);
             transaction.add(R.id.home_page_fragment_linear, bil_detail).hide(bil_detail);
+            transaction.add(R.id.home_page_fragment_linear,dayBill).hide(dayBill);
             this.transaction.show(this.paylist_Fragment);
             this.transaction.commit();
             this.curentFragment = this.paylist_Fragment;
@@ -53,6 +55,7 @@ public class Bill extends Fragment {
         this.paylist_Fragment = new Paylist_Fragment();
         this.monthBill = new MonthBill();
         bil_detail = new Bil_detail();
+        dayBill=new DayBill();
     }
 
     public View onCreateView(LayoutInflater paramLayoutInflater, @Nullable ViewGroup paramViewGroup, @Nullable Bundle paramBundle) {
@@ -79,7 +82,7 @@ public class Bill extends Fragment {
     }
 
     /**
-     * @param paramInt 0 paylist  ,1 monthbill , 2billDetail
+     * @param paramInt 0 paylist  ,1 monthbill , 2billDetail 3.dayBill
      */
     public void showFragment(int paramInt) {
         switch (paramInt) {
@@ -93,6 +96,9 @@ public class Bill extends Fragment {
                 break;
             case 2:
                 showFragment(this.bil_detail);
+                break;
+            case 3:
+                showFragment(dayBill);
                 break;
         }
 
@@ -110,6 +116,10 @@ public class Bill extends Fragment {
             paylist_Fragment.onHiddenChanged(hidden);
         }
 
+    }
+    public void setDayBill(String time){
+        showFragment(dayBill);
+        dayBill.setTime(time);
     }
 }
 
