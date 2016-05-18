@@ -48,6 +48,7 @@ public class StatisticHome extends Fragment {
 
             transaction.show(trade_statistic);
             transaction.commit();
+            curentFragment=trade_statistic;
         }
     }
     /**
@@ -80,7 +81,7 @@ public class StatisticHome extends Fragment {
     }
     /**
      *
-     * @param paramInt 0 statisticfragment  ,1 trad_statistic , 2billDetail
+     * @param paramInt 0 statisticfragment  ,1 trad_statistic , 2 monyStatistic
      */
     public void showFragment(int paramInt) {
         switch (paramInt) {
@@ -110,7 +111,7 @@ public class StatisticHome extends Fragment {
             trade_statistic.onHiddenChanged(hidden);
         }
     }
-    public void setMonyStatisticByType(String requant){
-        monyStatisticByType.setRequst(requant);
+    public void setMonyStatisticByType(String requant,int payType,String time,String payTotleNumber){
+        monyStatisticByType.setRequst(requant,payType,time,payTotleNumber);
     }
 }

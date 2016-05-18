@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.NetworkOnMainThreadException;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,19 +29,19 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import adpter.MonthAdpter;
-import baihuiji.jkqme.baihuiji.MyApplaication;
+import adpter.MonyStatisticByTypeAdpter;
 import baihuiji.jkqme.baihuiji.R;
-import web.BaihuijiNet;
-import web.Ip;
 
 /**
+ * 统计部分的金额统计被点击后的frgment
  * Created by Administrator on 2016/5/18.
  */
 public class MonyStatisticByType extends Fragment {
+    private int payType=0;
+
     private View view;
     private ListView listView;
-    private MonthAdpter monthAdpter;
+    private MonyStatisticByTypeAdpter monthAdpter;
     private String time;
     private ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
     private View.OnClickListener listener = new View.OnClickListener() {
@@ -77,30 +76,11 @@ public class MonyStatisticByType extends Fragment {
     /**
      * @return 月账单json
      */
-    private String getDates(String day) {
-        String day1;
-        if (day != null && day != "") {
-            day1 = day;
-        } else {
-            day1 = BaihuijiNet.getTime("yyyyMM");
-        }
-        MyApplaication applaication = (MyApplaication) getParentFragment().getActivity().getApplication();
-        String json = null;
-        String[] key = {"merchantId", "month", "rule", "uId"};
-        String requst;
-        String[] value =
-
-                {
-                        applaication.getDate("merchantId"), day1, "ss", applaication.getDate("operateTel")
-                };
-
-
-        // json = BaihuijiNet.getJson(key, value, "month");
-        requst = Ip.monthBillString + BaihuijiNet.getRequst(key, value);
-        Log.i("MonthBillRequst", requst);
-        //this.requst = MonthBill.this.urlconection("http://baihuiji.weikebaba.com/aide/monthBill", this.json);
+    private String getDates(String requst) {
+        Log.i("BillMonth0", "传人的地址    " + requst);
+        //String json;
         requst = connection(requst);
-        Log.i("BillMonth", requst + "  \n  " + json);
+        Log.i("BillMonth", requst);
         if (getSuccess(requst)) {
             // MonthBill.this.getDate(requst);
             return requst;
@@ -125,32 +105,15 @@ public class MonyStatisticByType extends Fragment {
         JSONArray jsonArray = null;
         try {
             jsonObject = new JSONObject(paramString);
-            jsonObject = jsonObject.getJSONObject("o2o");
-            jsonArray = jsonObject.getJSONArray("detail");
+            jsonArray = jsonObject.getJSONArray("o2o");
         } catch (JSONException e) {
             e.printStackTrace();
             showTost("没有当月数据");
             return;
         }
-
-        int tId[] = {R.id.month_bill_num1_tx, R.id.month_bill_get1_tx, R.id.month_bill_back1_tx};
-        //设置顶部数据
-        for (int i = 0; i < tId.length; i++) {
-            textView = (TextView) view.findViewById(tId[i]);
-
-            try {
-                if (i == 0) {
-                    textView.setText((jsonObject.getInt("payNum") + jsonObject.getInt("backNum")) + "");
-                } else if (i == 1) {
-                    textView.setText(jsonObject.getString("payTotal"));
-                } else {
-                    textView.setText(jsonObject.getString("backTotal"));
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-                textView.setText("0");
-            }
-        }
+        float payTotle = 0;//收款数
+        float backTotle = 0;//退款数
+        int totel;
         //listview 适配数据
         HashMap<String, String> map;
         for (int j = 0; j < jsonArray.length(); j++) {
@@ -160,18 +123,61 @@ public class MonyStatisticByType extends Fragment {
                 map.put("payTotal", jsonObject.getString("payTotal"));
                 map.put("backTotal", jsonObject.getString("backTotal"));
                 map.put("totalDate", jsonObject.getString("totalDate"));
+
+                payTotle = payTotle + getMone(jsonObject.getString("payTotal"));
+                backTotle = backTotle + getMone(jsonObject.getString("backTotal"));
                 list.add(map);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-        if (monthAdpter != null) {
-            monthAdpter.onDateChage(list);
-        } else {
-            monthAdpter = new MonthAdpter(list, getParentFragment().getActivity());
+        if (monthAdpter == null) {
+
+            monthAdpter = new MonyStatisticByTypeAdpter(payType, getParentFragment().getActivity(), list);
             listView.setAdapter(monthAdpter);
         }
+        int tId[] = {R.id.month_bill_num1_tx, R.id.month_bill_get1_tx, R.id.month_bill_back1_tx};
+        //设置顶部数据
+        for (int i = 0; i < tId.length; i++) {
+            textView = (TextView) view.findViewById(tId[i]);
 
+            try {
+                if (i == 0) {
+                    textView.setText((jsonObject.getInt("payNum") + jsonObject.getInt("backNum")) + "");
+                } else if (i == 1) {
+                    textView.setText(jsonObject.getString(payTotle + ""));
+                } else {
+                    textView.setText(jsonObject.getString(backTotle + ""));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                textView.setText("0");
+            }
+        }
+
+
+    }
+
+    /**
+     * 计算单种方式获得的金额
+     *
+     * @param pay
+     * @return
+     */
+    private float getMone(String pay) {
+        if (pay == null) {
+            return 0f;
+        } else {
+            return Float.parseFloat(pay);
+        }
+    }
+
+    private int getNum(String pay) {
+        if (pay == null) {
+            return 0;
+        } else {
+            return Integer.parseInt(pay);
+        }
     }
 
     /**
@@ -258,19 +264,19 @@ public class MonyStatisticByType extends Fragment {
     //请求地址，由外部传染
     private String requst;
 
-    public void setRequst(String requst) {
-        this.requst=requst;
+    public void setRequst(String requst,int payType,String time,String payTotleNumber) {
+        this.requst = requst;
+        Log.i("MONyStatistic_requst",requst);
+        this.payType=payType;
+        this.time=time;
+        new MyAsyn().execute(requst);
     }
 
     private class MyAsyn extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... strings) {
             String string = strings[0];
-            if (string == null || string == "") {
-                return getDates("");
-            } else {
-                return getDates(string);
-            }
+            return getDates(string);
         }
 
         @Override

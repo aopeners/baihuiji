@@ -144,28 +144,28 @@ public class Trade_statistic extends Fragment {
                     break;
 
                 case R.id.trad_statistic_linear1:
-                    onStatisticItemClic(1);
+                    onStatisticItemClic(1, "1");
                     break;
                 case R.id.trad_statistic_linear2:
-                    onStatisticItemClic(2);
+                    onStatisticItemClic(2, "2");
                     break;
                 case R.id.trad_statistic_linear3:
-                    onStatisticItemClic(3);
+                    onStatisticItemClic(3, "3");
                     break;
                 case R.id.trad_statistic_linear4:
-                    onStatisticItemClic(4);
+                    onStatisticItemClic(4, "4");
                     break;
                 case R.id.trad_statistic_linear5:
-                    onStatisticItemClic(5);
+                    onStatisticItemClic(5, "1");
                     break;
                 case R.id.trad_statistic_linear6:
-                    onStatisticItemClic(6);
+                    onStatisticItemClic(6, "2");
                     break;
                 case R.id.trad_statistic_linear7:
-                    onStatisticItemClic(7);
+                    onStatisticItemClic(7, "3");
                     break;
                 case R.id.trad_statistic_linear8:
-                    onStatisticItemClic(8);
+                    onStatisticItemClic(8, "4");
                     break;
 
             }
@@ -179,6 +179,7 @@ public class Trade_statistic extends Fragment {
         String string[] = timeText.getText().toString().split("-");
         int month = Integer.parseInt(string[1]);
         int year = Integer.parseInt(string[0]);
+        //改变时间
         if (right) {
             if (month == 12) {
                 month = 1;
@@ -187,46 +188,88 @@ public class Trade_statistic extends Fragment {
                 month++;
             }
         } else {
-           if(month==1){
-               month=12;
-               year--;
-           }else {
-               month--;
-           }
+            if (month == 1) {
+                month = 12;
+                year--;
+            } else {
+                month--;
+            }
         }
-
+        timeText.setText(year + "-" + month);
+        time = year + "" + month;
+        new MyAsy().execute(time);
     }
 
 
     /**
+     * 当子项被点击时，新成访问字符串
+     *
      * @param a 被点击的项
      */
-    private void onStatisticItemClic(int a) {
+    private void onStatisticItemClic(int a, String paytype) {
         StringBuffer buffer = new StringBuffer();
         MyApplaication applaication = (MyApplaication) getParentFragment().getActivity().getApplication();
+        int payType = 0;
+        int payTotle = 0;
 
-        buffer.append(Ip.monthstatistic + "?");
-        buffer.append("uId=");
-        buffer.append(applaication.getDate("operateTel") + "&");
-        buffer.append("merchantId");
-        buffer.append(applaication.getDate("merchantId") + "&");
         switch (a) {
             case 1:
+                buffer.append(Ip.monthstatistic + "?");//这一段是需要判断的
+                payType = 1;
+                payTotle=statisticNum[0][0];
                 break;
             case 2:
+                buffer.append(Ip.monthstatistic + "?");//这一段是需要判断的
+                payType = 2;
+                payTotle=statisticNum[0][1];
                 break;
             case 3:
+                buffer.append(Ip.monthstatistic + "?");//这一段是需要判断的
+                payType = 3;
+                payTotle=statisticNum[0][2];
                 break;
             case 4:
+                buffer.append(Ip.monthstatistic + "?");//这一段是需要判断的
+                payType = 4;
+                payTotle=statisticNum[0][3];
                 break;
             case 5:
+                buffer.append(Ip.saleDayCount + "?");
+                payType = 1;
+                payTotle=statisticNum[0][0];
                 break;
             case 6:
+                buffer.append(Ip.saleDayCount + "?");
+                payType = 2;
+                payTotle=statisticNum[0][1];
                 break;
             case 7:
+                buffer.append(Ip.saleDayCount + "?");
+                payType = 3;
+                payTotle=statisticNum[0][2];
                 break;
             case 8:
+                buffer.append(Ip.saleDayCount + "?");
+                payType = 4;
+                payTotle=statisticNum[0][3];
                 break;
+
+        }
+        buffer.append("uId=");
+        buffer.append(applaication.getDate("operateTel") + "&");
+        buffer.append("merchantId=");
+        buffer.append(applaication.getDate("merchantId") + "&");
+        buffer.append("month=");
+        buffer.append(time + "&");
+        buffer.append("payType=");
+        buffer.append(paytype + "&");
+        buffer.append("rule=ss");
+        StatisticHome statisticHome = (StatisticHome) getParentFragment();
+        if (a <= 4) {
+            //
+            statisticHome.showFragment(2);
+            statisticHome.setMonyStatisticByType(buffer.toString(), payType,time,payTotle+"");
+        } else {
 
         }
 
@@ -281,12 +324,16 @@ public class Trade_statistic extends Fragment {
      *
      * @param merChantId 门店名字
      */
-    private void onSelectMerchant(String merChantId) {
-
+    private void onSelectMerchant(String merChantId,String time) {
+        if(this.time==null){
+           this. time = BaihuijiNet.getTime("yyyyMM");
+        }
 
         MyApplaication applaication = (MyApplaication) getParentFragment().getActivity().getApplication();
         String key[] = {"uId", "merchantId", "month", "rule"};
-        String value[] = {applaication.getDate("operateName"), merChantId, BaihuijiNet.getTime("yyyyMM"), "ss"};
+        String value[] = {applaication.getDate("operateName"), merChantId,this.time, "ss"};
+        //时间设置
+
 
         //String json = BaihuijiNet.getJson(key, value, "month");
         String json = Ip.static1 + BaihuijiNet.getRequst(key, value);
@@ -299,7 +346,9 @@ public class Trade_statistic extends Fragment {
         if (getMerchantMonthbillSuccess(requst)) {
             getDate(requst);
         }
-
+        if (timeText.getVisibility() == View.VISIBLE) {
+            timeText.setText(BaihuijiNet.getTime("yyyy-MM"));
+        }
     }
 
     /**
@@ -441,10 +490,10 @@ public class Trade_statistic extends Fragment {
         }
     }
 
-    private void onshow() {
+    private void onshow(String s ) {
         MyApplaication application = (MyApplaication) getParentFragment().getActivity().getApplication();
         //传入门店名
-        onSelectMerchant(application.getDate("merchantId"));
+        onSelectMerchant(application.getDate("merchantId"),s);
     }
 
     @Override
@@ -511,7 +560,8 @@ public class Trade_statistic extends Fragment {
 
         @Override
         protected String doInBackground(String... strings) {
-            onshow();
+            String s=strings[0];
+            onshow(s);
             return null;
         }
 
