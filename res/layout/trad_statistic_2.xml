@@ -1,0 +1,1056 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/loginback"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/black">
+
+        <TextView
+            android:id="@+id/trad_statistic_title_tx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:padding="8.0dip"
+            android:text="威客巴巴百汇集"
+            android:textColor="@android:color/white"
+            android:textSize="13.0sp" />
+
+        <TextView
+            android:id="@+id/trad_statistic_select_tx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:padding="8.0dip"
+            android:text="选择门店"
+            android:textColor="@android:color/white"
+            android:textSize="13.0sp"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/trad_statistic_money_tx"
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="0.5dip"
+            android:layout_weight="1.0"
+            android:width="0.0dip"
+            android:background="@color/white"
+            android:gravity="center"
+            android:padding="13.0dip"
+            android:text="收入统计"
+            android:textColor="@color/black"
+            android:textSize="13.0sp" />
+
+        <TextView
+            android:id="@+id/trad_statistic_sales_tx"
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="0.5dip"
+            android:layout_weight="1.0"
+            android:width="0.0dip"
+            android:background="@color/white"
+            android:gravity="center"
+            android:padding="13.0dip"
+            android:text="交易笔数"
+            android:textColor="@color/black"
+            android:textSize="13.0sp" />
+
+        <TextView
+            android:id="@+id/trad_statistic_ticks_tx"
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="0.5dip"
+            android:layout_weight="1.0"
+            android:width="0.0dip"
+            android:background="@color/white"
+            android:gravity="center"
+            android:padding="13.0dip"
+            android:text="卡券核销量"
+            android:textColor="@color/black"
+            android:textSize="13.0sp"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="0.0dip"
+        android:layout_weight="1.0"
+        android:fillViewport="false"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="30.0dip"
+                android:paddingRight="30.0dip">
+
+                <ImageView
+                    android:id="@+id/trad_statistic_lef_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:src="@drawable/bright" />
+
+                <TextView
+                    android:id="@+id/trad_statics_time_tx"
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1.0"
+                    android:gravity="center"
+                    android:text="2015年12月1日--2015年12月31日"
+                    android:textSize="11.0sp" />
+
+                <ImageView
+                    android:id="@+id/trad_statistic_right_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:rotation="180"
+                    android:src="@drawable/bright" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/trad_statistic_linear"
+                android:layout_width="fill_parent"
+                android:layout_height="1.0dip"
+                android:orientation="vertical" />
+
+            <views.Sector
+
+                android:id="@+id/trad_static_sector"
+                android:layout_width="160.0dip"
+                android:layout_height="160.0dip"
+                android:layout_gravity="center_horizontal" />
+            <!--扇形表示区-->
+            <LinearLayout
+
+                android:id="@+id/trad_staticstic_linear1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="14.0dip"
+                android:layout_marginLeft="15.0dip"
+                android:layout_marginRight="15.0dip"
+                android:layout_marginTop="14.0dip"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="13.0dip"
+                    android:layout_height="match_parent"
+                    android:background="@color/green" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:paddingBottom="1.5dip"
+                    android:paddingLeft="7.0dip"
+                    android:paddingRight="7.0dip"
+                    android:paddingTop="1.5dip"
+                    android:text="微信收款"
+                    android:textSize="10.0sp" />
+
+                <View
+                    android:layout_width="0.0dip"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0" />
+
+                <View
+                    android:layout_width="13.0dip"
+                    android:layout_height="match_parent"
+                    android:background="@color/orange" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:paddingBottom="1.5dip"
+                    android:paddingLeft="7.0dip"
+                    android:paddingRight="7.0dip"
+                    android:paddingTop="1.5dip"
+                    android:text="QQ钱包"
+                    android:textSize="10.0sp" />
+
+                <View
+                    android:layout_width="0.0dip"
+                    android:layout_height="1.0dip"
+                    android:layout_weight="1.0" />
+
+                <View
+                    android:layout_width="13.0dip"
+                    android:layout_height="match_parent"
+                    android:background="@color/blue" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:paddingBottom="1.5dip"
+                    android:paddingLeft="7.0dip"
+                    android:paddingRight="7.0dip"
+                    android:paddingTop="1.5dip"
+                    android:text="支付宝付款"
+                    android:textSize="10.0sp" />
+
+                <View
+                    android:layout_width="0.0dip"
+                    android:layout_height="1.0dip"
+                    android:layout_weight="1.0" />
+
+                <View
+                    android:layout_width="13.0dip"
+                    android:layout_height="match_parent"
+                    android:background="@color/red" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:paddingBottom="1.5dip"
+                    android:paddingLeft="7.0dip"
+                    android:paddingRight="7.0dip"
+                    android:paddingTop="1.5dip"
+                    android:text="百度钱包"
+                    android:textSize="10.0sp" />
+
+                <View
+                    android:layout_width="0.0dip"
+                    android:layout_height="1.0dip"
+                    android:layout_weight="1.0" />
+            </LinearLayout>
+<!--收款统计-->
+            <LinearLayout
+                android:id="@+id/trad_statistic2_linear1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:id="@+id/trad_statistic_1_linear"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/white"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/total_get"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16.0dip"
+                        android:gravity="center_vertical"
+                        android:text="总收款:¥"
+                        android:textColor="@color/black"
+                        android:textSize="10.0sp" />
+
+                    <TextView
+                        android:id="@+id/trad_statistic_getMoney_tx"
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.0"
+                        android:paddingBottom="8.0dip"
+                        android:paddingTop="8.0dip"
+                        android:text="0"
+                        android:textColor="@color/black"
+                        android:textSize="13.0sp" />
+
+                    <TextView
+                        android:id="@+id/total_back"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16.0dip"
+                        android:gravity="center_vertical"
+                        android:text="总退款:¥"
+                        android:textColor="@color/black"
+                        android:textSize="10.0sp" />
+
+                    <TextView
+                        android:id="@+id/trad_statistic_backMoney_tx"
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.0"
+                        android:paddingBottom="8.0dip"
+                        android:paddingTop="8.0dip"
+                        android:text="0"
+                        android:textColor="@color/black"
+                        android:textSize="13.0sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:paddingLeft="4.0dip">
+
+                    <ImageView
+                        android:id="@+id/lv_statistic_trad_img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="17.0dip"
+                        android:src="@drawable/payweichar" />
+
+                    <LinearLayout
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="17.0dip"
+                        android:layout_weight="1.0"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/lv_statistic_trad_pay_tx"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="4.0dip"
+                            android:text="微信支付"
+                            android:textColor="@color/black"
+                            android:textSize="13.0sp" />
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="0.5dip"
+                            android:background="@color/white"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/totalget"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:text="总收款:¥"
+                                android:textColor="@color/black"
+                                android:textSize="10.0sp" />
+
+                            <TextView
+                                android:id="@+id/trad_statistic_getMoney11_tx"
+                                android:layout_width="0.0dip"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1.0"
+                                android:paddingBottom="8.0dip"
+                                android:paddingTop="8.0dip"
+                                android:text="0"
+                                android:textColor="@color/black"
+                                android:textSize="10.0sp" />
+
+                            <TextView
+                                android:id="@+id/totalback"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="16.0dip"
+                                android:gravity="center_vertical"
+                                android:text="总退款:¥"
+                                android:textColor="@color/black"
+                                android:textSize="10.0sp" />
+
+                            <TextView
+                                android:id="@+id/trad_statistic_backMoney1_tx"
+                                android:layout_width="0.0dip"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1.0"
+                                android:paddingBottom="8.0dip"
+                                android:paddingTop="8.0dip"
+                                android:text="0"
+                                android:textColor="@color/black"
+                                android:textSize="10.0sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/right" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:paddingLeft="4.0dip">
+
+                    <ImageView
+                        android:id="@+id/lv_statistic_trad1_img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="17.0dip"
+                        android:src="@drawable/qqperse" />
+
+                    <LinearLayout
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="17.0dip"
+                        android:layout_weight="1.0"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/lv_statistic_trad_pay1_tx"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="4.0dip"
+                            android:text="QQ钱包"
+                            android:textColor="@color/black"
+                            android:textSize="13.0sp" />
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="0.5dip"
+                            android:background="@color/white"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/totalget1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:text="总收款:¥"
+                                android:textColor="@color/black"
+                                android:textSize="10.0sp" />
+
+                            <TextView
+                                android:id="@+id/trad_statistic_getMoney1_tx"
+                                android:layout_width="0.0dip"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1.0"
+                                android:paddingBottom="8.0dip"
+                                android:paddingTop="8.0dip"
+                                android:text="0"
+                                android:textColor="@color/black"
+                                android:textSize="10.0sp" />
+
+                            <TextView
+                                android:id="@+id/totalback1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="16.0dip"
+                                android:gravity="center_vertical"
+                                android:text="总退款:¥"
+                                android:textColor="@color/black"
+                                android:textSize="10.0sp" />
+
+                            <TextView
+                                android:id="@+id/trad_statistic_backMoney12_tx"
+                                android:layout_width="0.0dip"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1.0"
+                                android:paddingBottom="8.0dip"
+                                android:paddingTop="8.0dip"
+                                android:text="0"
+                                android:textColor="@color/black"
+                                android:textSize="10.0sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/right" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:paddingLeft="4.0dip">
+
+                    <ImageView
+                        android:id="@+id/lv_statistic_trad2_img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="17.0dip"
+                        android:src="@drawable/ailipay" />
+
+                    <LinearLayout
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="17.0dip"
+                        android:layout_weight="1.0"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/lv_statistic_trad_pay2_tx"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="4.0dip"
+                            android:text="支付宝"
+                            android:textColor="@color/black"
+                            android:textSize="13.0sp" />
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="0.5dip"
+                            android:background="@color/white"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/totalget2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:text="总收款:¥"
+                                android:textColor="@color/black"
+                                android:textSize="10.0sp" />
+
+                            <TextView
+                                android:id="@+id/trad_statistic_getMoney2_tx"
+                                android:layout_width="0.0dip"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1.0"
+                                android:paddingBottom="8.0dip"
+                                android:paddingTop="8.0dip"
+                                android:text="0"
+                                android:textColor="@color/black"
+                                android:textSize="10.0sp" />
+
+                            <TextView
+                                android:id="@+id/totalback2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="16.0dip"
+                                android:gravity="center_vertical"
+                                android:text="总退款:¥"
+                                android:textColor="@color/black"
+                                android:textSize="10.0sp" />
+
+                            <TextView
+                                android:id="@+id/trad_statistic_backMoney13_tx"
+                                android:layout_width="0.0dip"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1.0"
+                                android:paddingBottom="8.0dip"
+                                android:paddingTop="8.0dip"
+                                android:text="0"
+                                android:textColor="@color/black"
+                                android:textSize="10.0sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/right" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:paddingLeft="4.0dip">
+
+                    <ImageView
+                        android:id="@+id/lv_statistic_trad3_img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="17.0dip"
+                        android:src="@drawable/baiduperse" />
+
+                    <LinearLayout
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="17.0dip"
+                        android:layout_weight="1.0"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/lv_statistic_trad_pay3_tx"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="4.0dip"
+                            android:text="百度钱包"
+                            android:textColor="@color/black"
+                            android:textSize="13.0sp" />
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="0.5dip"
+                            android:background="@color/white"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/totalget3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:text="总收款:¥"
+                                android:textColor="@color/black"
+                                android:textSize="10.0sp" />
+
+                            <TextView
+                                android:id="@+id/trad_statistic_getMoney3_tx"
+                                android:layout_width="0.0dip"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1.0"
+                                android:paddingBottom="8.0dip"
+                                android:paddingTop="8.0dip"
+                                android:text="0"
+                                android:textColor="@color/black"
+                                android:textSize="10.0sp" />
+
+                            <TextView
+                                android:id="@+id/totalback3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="16.0dip"
+                                android:gravity="center_vertical"
+                                android:text="总退款:¥"
+                                android:textColor="@color/black"
+                                android:textSize="10.0sp" />
+
+                            <TextView
+                                android:id="@+id/trad_statistic_backMoney14_tx"
+                                android:layout_width="0.0dip"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1.0"
+                                android:paddingBottom="8.0dip"
+                                android:paddingTop="8.0dip"
+                                android:text="0"
+                                android:textColor="@color/black"
+                                android:textSize="10.0sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/right" />
+                </LinearLayout>
+            </LinearLayout>
+            <!--交易笔数-->
+            <LinearLayout
+                android:id="@+id/trad_statistic2_linear2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:id="@+id/trad_statistic_1_linear1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/white"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/total_get2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16.0dip"
+                        android:gravity="center_vertical"
+                        android:text="收款:"
+                        android:textColor="@color/black"
+                        android:textSize="10.0sp" />
+
+                    <TextView
+                        android:id="@+id/trad_statistic_getMoney_tx2"
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.0"
+                        android:paddingBottom="8.0dip"
+                        android:paddingTop="8.0dip"
+                        android:text="0"
+                        android:textColor="@color/black"
+                        android:textSize="13.0sp" />
+
+                    <TextView
+                        android:id="@+id/total_back2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16.0dip"
+                        android:gravity="center_vertical"
+                        android:text="退款:"
+                        android:textColor="@color/black"
+                        android:textSize="10.0sp" />
+
+                    <TextView
+                        android:id="@+id/trad_statistic_backMoney2_tx"
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.0"
+                        android:paddingBottom="8.0dip"
+                        android:paddingTop="8.0dip"
+                        android:text="0"
+                        android:textColor="@color/black"
+                        android:textSize="13.0sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:paddingLeft="4.0dip">
+
+                    <ImageView
+                        android:id="@+id/lv_statistic_trad_img2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="17.0dip"
+                        android:src="@drawable/payweichar" />
+
+                    <LinearLayout
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="17.0dip"
+                        android:layout_weight="1.0"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/lv_statistic_trad_pay_tx2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="4.0dip"
+                            android:text="微信支付"
+                            android:textColor="@color/black"
+                            android:textSize="13.0sp" />
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="0.5dip"
+                            android:background="@color/white"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/totalget2_0"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:text="收款:"
+                                android:textColor="@color/black"
+                                android:textSize="10.0sp" />
+
+                            <TextView
+                                android:id="@+id/trad_statistic_getMoney11_tx2_0"
+                                android:layout_width="0.0dip"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1.0"
+                                android:paddingBottom="8.0dip"
+                                android:paddingTop="8.0dip"
+                                android:text="0"
+                                android:textColor="@color/black"
+                                android:textSize="10.0sp" />
+
+                            <TextView
+                                android:id="@+id/totalback2_0"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="16.0dip"
+                                android:gravity="center_vertical"
+                                android:text="退款:"
+                                android:textColor="@color/black"
+                                android:textSize="10.0sp" />
+
+                            <TextView
+                                android:id="@+id/trad_statistic_backMoney1_tx2_0"
+                                android:layout_width="0.0dip"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1.0"
+                                android:paddingBottom="8.0dip"
+                                android:paddingTop="8.0dip"
+                                android:text="0"
+                                android:textColor="@color/black"
+                                android:textSize="10.0sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/right" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:paddingLeft="4.0dip">
+
+                    <ImageView
+                        android:id="@+id/lv_statistic_trad1_img2_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="17.0dip"
+                        android:src="@drawable/qqperse" />
+
+                    <LinearLayout
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="17.0dip"
+                        android:layout_weight="1.0"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/lv_statistic_trad_pay1_tx2_1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="4.0dip"
+                            android:text="QQ钱包"
+                            android:textColor="@color/black"
+                            android:textSize="13.0sp" />
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="0.5dip"
+                            android:background="@color/white"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/totalget2_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:text="收款:"
+                                android:textColor="@color/black"
+                                android:textSize="10.0sp" />
+
+                            <TextView
+                                android:id="@+id/trad_statistic_getMoney1_tx2_1"
+                                android:layout_width="0.0dip"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1.0"
+                                android:paddingBottom="8.0dip"
+                                android:paddingTop="8.0dip"
+                                android:text="0"
+                                android:textColor="@color/black"
+                                android:textSize="10.0sp" />
+
+                            <TextView
+                                android:id="@+id/totalback2_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="16.0dip"
+                                android:gravity="center_vertical"
+                                android:text="退款:"
+                                android:textColor="@color/black"
+                                android:textSize="10.0sp" />
+
+                            <TextView
+                                android:id="@+id/trad_statistic_backMoney_tx2_1"
+                                android:layout_width="0.0dip"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1.0"
+                                android:paddingBottom="8.0dip"
+                                android:paddingTop="8.0dip"
+                                android:text="0"
+                                android:textColor="@color/black"
+                                android:textSize="10.0sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/right" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:paddingLeft="4.0dip">
+
+                    <ImageView
+                        android:id="@+id/lv_statistic_trad2_img2_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="17.0dip"
+                        android:src="@drawable/ailipay" />
+
+                    <LinearLayout
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="17.0dip"
+                        android:layout_weight="1.0"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/lv_statistic_trad_pay2_tx2_2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="4.0dip"
+                            android:text="支付宝"
+                            android:textColor="@color/black"
+                            android:textSize="13.0sp" />
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="0.5dip"
+                            android:background="@color/white"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/totalget2_2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:text="收款:"
+                                android:textColor="@color/black"
+                                android:textSize="10.0sp" />
+
+                            <TextView
+                                android:id="@+id/trad_statistic_getMoney2_tx2_2"
+                                android:layout_width="0.0dip"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1.0"
+                                android:paddingBottom="8.0dip"
+                                android:paddingTop="8.0dip"
+                                android:text="0"
+                                android:textColor="@color/black"
+                                android:textSize="10.0sp" />
+
+                            <TextView
+                                android:id="@+id/totalback2_2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="16.0dip"
+                                android:gravity="center_vertical"
+                                android:text="退款:"
+                                android:textColor="@color/black"
+                                android:textSize="10.0sp" />
+
+                            <TextView
+                                android:id="@+id/trad_statistic_backMoney13_tx2_2"
+                                android:layout_width="0.0dip"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1.0"
+                                android:paddingBottom="8.0dip"
+                                android:paddingTop="8.0dip"
+                                android:text="0"
+                                android:textColor="@color/black"
+                                android:textSize="10.0sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/right" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:paddingLeft="4.0dip">
+
+                    <ImageView
+                        android:id="@+id/lv_statistic_trad3_img2_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="17.0dip"
+                        android:src="@drawable/baiduperse" />
+
+                    <LinearLayout
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="17.0dip"
+                        android:layout_weight="1.0"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/lv_statistic_trad_pay3_tx2_2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="4.0dip"
+                            android:text="百度钱包"
+                            android:textColor="@color/black"
+                            android:textSize="13.0sp" />
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="0.5dip"
+                            android:background="@color/white"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/totalget32_2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:text="收款:"
+                                android:textColor="@color/black"
+                                android:textSize="10.0sp" />
+
+                            <TextView
+                                android:id="@+id/trad_statistic_getMoney3_tx2_2"
+                                android:layout_width="0.0dip"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1.0"
+                                android:paddingBottom="8.0dip"
+                                android:paddingTop="8.0dip"
+                                android:text="0"
+                                android:textColor="@color/black"
+                                android:textSize="10.0sp" />
+
+                            <TextView
+                                android:id="@+id/totalback32_3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="16.0dip"
+                                android:gravity="center_vertical"
+                                android:text="退款:"
+                                android:textColor="@color/black"
+                                android:textSize="10.0sp" />
+
+                            <TextView
+                                android:id="@+id/trad_statistic_backMoney14_tx2_3"
+                                android:layout_width="0.0dip"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1.0"
+                                android:paddingBottom="8.0dip"
+                                android:paddingTop="8.0dip"
+                                android:text="0"
+                                android:textColor="@color/black"
+                                android:textSize="10.0sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/right" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

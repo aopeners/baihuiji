@@ -33,7 +33,7 @@ import web.BaihuijiNet;
 import web.Ip;
 
 /**
- * 统计类的主视图页面，没有listview 相关写法
+ * 统计类的主视图页面，没有listview 相关写法，有显示三个栏的方法，商户版废弃此类
  */
 public class StatisticsFragment extends Fragment {
     private LayoutInflater inflater;
@@ -64,12 +64,16 @@ public class StatisticsFragment extends Fragment {
      * @param view
      */
     private void loadView(View view) {
+        //选择门店
         TextView textView = (TextView) view.findViewById(R.id.trad_statistic_select_tx);
         textView.setOnClickListener(listener);
+        //收入统计
         textView = (TextView) view.findViewById(R.id.trad_statistic_money_tx);
         textView.setOnClickListener(listener);
+        //交易笔数
         textView = (TextView) view.findViewById(R.id.trad_statistic_sales_tx);
         textView.setOnClickListener(listener);
+        //卡券核销量
         textView = (TextView) view.findViewById(R.id.trad_statistic_ticks_tx);
         textView.setOnClickListener(listener);
     }
@@ -252,24 +256,31 @@ public class StatisticsFragment extends Fragment {
     }
 
     /**
-     * 设置控件显示的数据
+     * 当只需要显示两栏时的数据适配
+     */
+    private void setDate1(int state, ArrayList<HashMap<String, String>> data){
+
+    }
+    /**
+     * 显示三栏时的数据适配，未检测！
+     * 设置控件显示的数据，有三个状态
      *
      * @param state 显示的状态 0金额统计，1 销量统计  2.卡券核销量
      * @param data  显示的内容
      */
     private void setDate(int state, ArrayList<HashMap<String, String>> data) {
-        LayoutInflater inflater = getParentFragment().getActivity().getLayoutInflater();
-
         LinearLayout linearLayout;
 
         LinearLayout.LayoutParams params;
         View chaild;
         if (state == 0) {
             //布局
+            //月销量
             linearLayout = (LinearLayout) view.findViewById(R.id.trad_statistic_1_linear2);
             linearLayout.setVisibility(View.GONE);
             linearLayout = (LinearLayout) view.findViewById(R.id.trad_statistic_1_linear);
             linearLayout.setVisibility(View.VISIBLE);
+            //布局点
             linearLayout = (LinearLayout) view.findViewById(R.id.trad_statistic1_linear);
 
             linearLayout.removeAllViews();
@@ -398,7 +409,7 @@ public class StatisticsFragment extends Fragment {
                 textView = (TextView) view.findViewById(textId[j]);
                 textView.setText(text[j]);
             }
-        } else if (state == 1) {
+        } else if (state == 2) {
             linearLayout = (LinearLayout) view.findViewById(R.id.trad_statistic_1_linear);
             linearLayout.setVisibility(View.GONE);
             linearLayout = (LinearLayout) view.findViewById(R.id.trad_statistic_1_linear2);

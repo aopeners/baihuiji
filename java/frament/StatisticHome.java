@@ -25,8 +25,8 @@ public class StatisticHome extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        trade_statistic=new Trade_statistic();
-        statisticsFragment=new StatisticsFragment();
+      trade_statistic=new Trade_statistic();
+       // statisticsFragment=new StatisticsFragment();
     }
 
     @Nullable
@@ -40,8 +40,8 @@ public class StatisticHome extends Fragment {
         if(manager==null){
             manager=getChildFragmentManager();
             transaction=manager.beginTransaction();
-            transaction.add(R.id.statistic_home_linear,statisticsFragment);
-            transaction.add(R.id.statistic_home_linear,trade_statistic).hide(trade_statistic);
+            //transaction.add(R.id.statistic_home_linear,statisticsFragment);
+             transaction.add(R.id.statistic_home_linear,trade_statistic);
             transaction.show(statisticsFragment);
             transaction.commit();
         }
@@ -63,6 +63,9 @@ public class StatisticHome extends Fragment {
         }
     }
     private void showFragment(Fragment paramFragment) {
+        if(paramFragment==null){
+            return;
+        }
         if (this.curentFragment.hashCode() != paramFragment.hashCode()) {
             this.transaction = this.manager.beginTransaction();
             this.transaction.hide(this.curentFragment);
@@ -98,8 +101,8 @@ public class StatisticHome extends Fragment {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if(statisticsFragment!=null){
-            statisticsFragment.onHiddenChanged(hidden);
+        if(trade_statistic!=null){
+            trade_statistic.onHiddenChanged(hidden);
         }
     }
 }

@@ -20,8 +20,8 @@ import baihuiji.jkqme.baihuiji.R;
  * @author jkqme
  */
 public class Sector extends View {
-    private float b, o, r, g;//金额统计参数
-    private float tb, r2;//天蓝，粉红
+    private float b = 0f, o = 0f, r = 0f, g = 0f;//金额统计参数
+    private float tb = 0f, r2 = 0f;//天蓝，粉红
     private int width, minWidth;
     private int height, minHeight;
     private Paint paint = new Paint();
@@ -42,7 +42,7 @@ public class Sector extends View {
                     startdegree = currentDegree;
                     currentDegree += 5f;
 
-                 //   Log.i("hander", "draw");
+                    //   Log.i("hander", "draw");
                     invalidate();
                 }
             }
@@ -65,21 +65,25 @@ public class Sector extends View {
      * @param g 绿
      */
     public void setWight(float b, float o, float r, float g) {
-        this.b = 360 * b;
-        this.o = 360 * o;
-        this.r = 360 * r;
-        this.g = 360 * g;
+        float a=b+0+r+g;
+        this.b = 360 * b/a;
+        this.o = 360 * o/a;
+        this.r = 360 * r/a;
+        this.g = 360 * g/a;
+        tb = 0f;
+        r2 = 0f;
         handler.sendEmptyMessageDelayed(1, 500);
 
     }
 
     public void setWidth(float b, float o, float r, float g, float tb, float r2) {
-        this.b = 360 * b;
-        this.o = 360 * o;
-        this.r = 360 * r;
-        this.g = 360 * g;
-        this.tb = 360 * tb;
-        this.r2 = 360 * r2;
+        float a=b+0+r+g+tb+r2;
+        this.b = 360 * b/a;
+        this.o = 360 * o/a;
+        this.r = 360 * r/a;
+        this.g = 360 * g/a;
+        this.tb = 360 * tb/a;
+        this.r2 = 360 * r2/a;
         handler.sendEmptyMessageDelayed(1, 500);
     }
 
@@ -204,7 +208,7 @@ public class Sector extends View {
             }
 
         }
-         super.onDraw(this.canvas);
+        super.onDraw(this.canvas);
     }
 
     @Override
