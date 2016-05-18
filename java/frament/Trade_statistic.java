@@ -270,7 +270,8 @@ public class Trade_statistic extends Fragment {
             statisticHome.showFragment(2);
             statisticHome.setMonyStatisticByType(buffer.toString(), payType,time,payTotle+"");
         } else {
-
+            statisticHome.showFragment(3);
+            statisticHome.setTradeStatisticSaleDayCount(buffer.toString(), payType,time,payTotle+"");
         }
 
     }
@@ -346,9 +347,9 @@ public class Trade_statistic extends Fragment {
         if (getMerchantMonthbillSuccess(requst)) {
             getDate(requst);
         }
-        if (timeText.getVisibility() == View.VISIBLE) {
+       /* if (timeText.getVisibility() == View.VISIBLE) {
             timeText.setText(BaihuijiNet.getTime("yyyy-MM"));
-        }
+        }*/
     }
 
     /**

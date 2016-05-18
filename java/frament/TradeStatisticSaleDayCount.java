@@ -29,19 +29,20 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import adpter.DayCoutAdpter;
 import adpter.MonyStatisticByTypeAdpter;
 import baihuiji.jkqme.baihuiji.R;
 
 /**
- * 统计部分的金额统计被点击后的frgment
+ * 交易笔数的，子项点击进入
  * Created by Administrator on 2016/5/18.
  */
-public class MonyStatisticByType extends Fragment {
-    private int payType=0;
+public class TradeStatisticSaleDayCount extends Fragment {
+    private int payType = 0;
 
     private View view;
     private ListView listView;
-    private MonyStatisticByTypeAdpter monthAdpter;
+    private DayCoutAdpter dayCoutAdpter;
     private String time;
     private ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
     private View.OnClickListener listener = new View.OnClickListener() {
@@ -132,10 +133,10 @@ public class MonyStatisticByType extends Fragment {
                 return;
             }
         }
-        if (monthAdpter == null) {
+        if (dayCoutAdpter == null) {
 
-            monthAdpter = new MonyStatisticByTypeAdpter(payType, getParentFragment().getActivity(), list);
-            listView.setAdapter(monthAdpter);
+            dayCoutAdpter = new DayCoutAdpter(payType, getParentFragment().getActivity(), list);
+            listView.setAdapter(dayCoutAdpter);
         }
         int tId[] = {R.id.month_bill_num1_tx, R.id.month_bill_get1_tx, R.id.month_bill_back1_tx};
         //设置顶部数据
@@ -265,19 +266,13 @@ public class MonyStatisticByType extends Fragment {
     //请求地址，由外部传染
     private String requst;
     private String payTotleNum;
-    /**
-     * 收入统计子项设置
-     * @param requst  请求地址
-     * @param payType  交易类型
-     * @param time   时间
-     * @param payTotleNumber  总共收款笔数
-     */
-    public void setRequst(String requst,int payType,String time,String payTotleNumber) {
+
+    public void setRequst(String requst, int payType, String time, String payTotleNumber) {
         this.requst = requst;
-        Log.i("MONyStatistic_requst",requst);
-        this.payType=payType;
-        this.time=time;
-        this.payTotleNum=payTotleNumber;
+        Log.i("MONyStatistic_requst", requst);
+        this.payType = payType;
+        this.time = time;
+        this.payTotleNum = payTotleNumber;
         new MyAsyn().execute(requst);
     }
 
@@ -300,4 +295,3 @@ public class MonyStatisticByType extends Fragment {
     }
 
 }
-

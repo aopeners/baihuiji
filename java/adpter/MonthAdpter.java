@@ -185,7 +185,7 @@ public class MonthAdpter extends BaseAdapter {
      * @return 0 月份没改变
      */
     private boolean monthChage(String data) {
-        int month1 = Integer.parseInt(data.substring(4,6));
+        int month1 = Integer.parseInt(data.substring(4, 5));
         if (month != 1) {
             //没有月份数据时 为true
             month = month1;

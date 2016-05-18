@@ -23,12 +23,14 @@ public class StatisticHome extends Fragment {
     private FragmentManager manager;
     private FragmentTransaction  transaction;
     private MonyStatisticByType monyStatisticByType;
+    private TradeStatisticSaleDayCount tradeStatisticSaleDayCount;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
       trade_statistic=new Trade_statistic();
        // statisticsFragment=new StatisticsFragment();
         monyStatisticByType=new MonyStatisticByType();
+        tradeStatisticSaleDayCount=new TradeStatisticSaleDayCount();
     }
 
     @Nullable
@@ -45,7 +47,7 @@ public class StatisticHome extends Fragment {
             //transaction.add(R.id.statistic_home_linear,statisticsFragment);
              transaction.add(R.id.statistic_home_linear,trade_statistic);
             transaction.add(R.id.statistic_home_linear,monyStatisticByType).hide(monyStatisticByType);
-
+            transaction.add(R.id.statistic_home_linear,tradeStatisticSaleDayCount).hide(tradeStatisticSaleDayCount);
             transaction.show(trade_statistic);
             transaction.commit();
             curentFragment=trade_statistic;
@@ -96,6 +98,8 @@ public class StatisticHome extends Fragment {
 
             case 2:showFragment(monyStatisticByType);
                 break;
+            case 3:showFragment(tradeStatisticSaleDayCount);
+                break;
         }
 
     }
@@ -111,7 +115,18 @@ public class StatisticHome extends Fragment {
             trade_statistic.onHiddenChanged(hidden);
         }
     }
+
+    /**
+     * 收入统计子项设置
+     * @param requant  请求地址
+     * @param payType  交易类型
+     * @param time   时间
+     * @param payTotleNumber  总共收款笔数
+     */
     public void setMonyStatisticByType(String requant,int payType,String time,String payTotleNumber){
         monyStatisticByType.setRequst(requant,payType,time,payTotleNumber);
+    }
+    public void setTradeStatisticSaleDayCount(String requant,int payType,String time,String payTotleNumber){
+        tradeStatisticSaleDayCount.setRequst(requant,payType,time,payTotleNumber);
     }
 }
