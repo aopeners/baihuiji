@@ -45,7 +45,7 @@ public class Home_display_fragment extends Fragment {
          */
         public void handleMessage(Message paramAnonymousMessage) {
             this.bundle = paramAnonymousMessage.getData();
-            if (this.bundle.getIntArray("requst") != null) {
+            if (this.bundle.getStringArray("requst") != null) {
                 String[] arrayOfInt = this.bundle.getStringArray("requst");
                 ((TextView) Home_display_fragment.this.tody.findViewById(R.id.home_page_totle_number_tx)).setText(arrayOfInt[0] + "元");
                 ((TextView) Home_display_fragment.this.month.findViewById(R.id.home_page_totle_number1_tx)).setText(arrayOfInt[1] + "元");

@@ -273,7 +273,7 @@ public class Paylist_Fragment extends Fragment {
         if ((!paramBoolean) && (this.billAdpter == null))
 
             new MyAsyn().execute("");
-        Log.i("ONhiddenChange", "paramBoolean");
+      //  Log.i("ONhiddenChange", "paramBoolean");
     }
 
     /**

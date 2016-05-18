@@ -146,11 +146,11 @@ public class HomPage extends FragmentActivity {
             //如果不是选中的图片
             if (i != paramInt) {
                 button.setTextColor(getResources().getColor(R.color.black));
-                button.setCompoundDrawablesWithIntrinsicBounds(0,drawb[i], 0, 0);
+                button.setCompoundDrawablesWithIntrinsicBounds(0, drawb[i], 0, 0);
             } else {
                 button.setTextColor(getResources().getColor(R.color.bluetext));
                 //  Log.i("upDateBottom", i + "  i   " + paramInt);
-                button.setCompoundDrawablesWithIntrinsicBounds(drawb1[i], 0, 0, 0);
+                button.setCompoundDrawablesWithIntrinsicBounds(0, drawb1[i], 0, 0);
             }
         }
     }

@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="5.0dip"
         android:padding="10.0dip"
+        android:text="aaa"
         android:textColor="@color/black"
         android:textSize="13.0sp" />
 </LinearLayout>

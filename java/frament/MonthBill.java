@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import baihuiji.jkqme.baihuiji.MyApplaication;
 
@@ -32,7 +33,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -78,6 +81,10 @@ public class MonthBill extends Fragment {
             builder.setView(view);
             dialog = builder.create();
             dialog.setOnDismissListener(dismissListener);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(new java.util.Date());
+            //设置最大时间
+            picker.setMaxDate(calendar.getTimeInMillis());
         }
         dialog.show();
     }
@@ -90,6 +97,7 @@ public class MonthBill extends Fragment {
         public void onDismiss(DialogInterface dialogInterface) {
             if (time != null) {
                 Log.i("OnDismis", time);
+                new MyAsyn().execute(time);
             }
         }
     };
@@ -97,15 +105,20 @@ public class MonthBill extends Fragment {
         @Override
         public void onDateChanged(DatePicker datePicker, int i, int i1, int i2) {
             Log.i("  Date picker", "" + i + "   " + i1 + "   " + i2);
-            time = i + i1 + i2 + "";
+            time = i + "" + i1 + "" + i2;
         }
     };
 
     /**
      * @return 月账单json
      */
-    private String getDate() {
-
+    private String getDates(String day) {
+        String day1;
+        if (day != null && day != "") {
+            day1 = day;
+        } else {
+            day1 = BaihuijiNet.getTime("yyyyMM");
+        }
         MyApplaication applaication = (MyApplaication) MonthBill.this.getParentFragment().getActivity().getApplication();
         String json = null;
         String[] key = {"merchantId", "month", "rule", "uId"};
@@ -113,13 +126,13 @@ public class MonthBill extends Fragment {
         String[] value =
 
                 {
-                        applaication.getDate("merchantId"), BaihuijiNet.getTime("yyyyMM"), "ss", applaication.getDate("operateTel")
+                        applaication.getDate("merchantId"), day1, "ss", applaication.getDate("operateTel")
                 };
 
 
         // json = BaihuijiNet.getJson(key, value, "month");
         requst = Ip.monthBillString + BaihuijiNet.getRequst(key, value);
-        Log.i("MonthBillRequst",requst);
+        Log.i("MonthBillRequst", requst);
         //this.requst = MonthBill.this.urlconection("http://baihuiji.weikebaba.com/aide/monthBill", this.json);
         requst = connection(requst);
         Log.i("BillMonth", requst + "  \n  " + json);
@@ -133,6 +146,9 @@ public class MonthBill extends Fragment {
     }
 
     private ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
+    private void showTost(String str){
+        Toast.makeText(getParentFragment().getActivity(),str,Toast.LENGTH_SHORT).show();
+    }
 
     /**
      * 处理返回的json数组
@@ -146,9 +162,12 @@ public class MonthBill extends Fragment {
         JSONArray jsonArray = null;
         try {
             jsonObject = new JSONObject(paramString);
+            jsonObject = jsonObject.getJSONObject("o2o");
             jsonArray = jsonObject.getJSONArray("detail");
         } catch (JSONException e) {
             e.printStackTrace();
+            showTost("没有当月数据");
+            return;
         }
 
         int tId[] = {R.id.month_bill_num1_tx, R.id.month_bill_get1_tx, R.id.month_bill_back1_tx};
@@ -177,16 +196,27 @@ public class MonthBill extends Fragment {
                 jsonObject = jsonArray.getJSONObject(j);
                 map.put("payTotal", jsonObject.getString("payTotal"));
                 map.put("backTotal", jsonObject.getString("backTotal"));
+                map.put("totalDate", jsonObject.getString("totalDate"));
                 list.add(map);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-        monthAdpter = new MonthAdpter(list, getParentFragment().getActivity());
-        listView.setAdapter(monthAdpter);
+        if (monthAdpter != null) {
+            monthAdpter.onDateChage(list);
+        } else {
+            monthAdpter = new MonthAdpter(list, getParentFragment().getActivity());
+            listView.setAdapter(monthAdpter);
+        }
 
     }
 
+    /**
+     * 判断访问成功
+     *
+     * @param paramString
+     * @return
+     */
     private boolean getSuccess(String paramString) {
         JSONObject localJSONObject1 = null;
         try {
@@ -227,8 +257,10 @@ public class MonthBill extends Fragment {
 
     public void onHiddenChanged(boolean paramBoolean) {
         super.onHiddenChanged(paramBoolean);
-        if ((!paramBoolean) && (this.monthAdpter == null))
-            getDate();
+        if ((!paramBoolean) && (this.monthAdpter == null)) {
+            Log.i("MOtnBill", "ONHIDENCHSNGED");
+            new MyAsyn().execute("");
+        }
     }
 
     public static String urlconection(String paramString1, String paramString2) {
@@ -332,12 +364,13 @@ public class MonthBill extends Fragment {
             while ((inputLine = bufferedReader.readLine()) != null) {
                 stringBuffer.append(inputLine);
             }
-            streamReader.close();
+
             bufferedReader.close();
+            streamReader.close();
         } catch (IOException e) {
             e.printStackTrace();
             return "读取流文件失败";
-        }catch (NetworkOnMainThreadException e){
+        } catch (NetworkOnMainThreadException e) {
             e.printStackTrace();
             return "讀取流失敗";
         }
@@ -348,12 +381,18 @@ public class MonthBill extends Fragment {
     private class MyAsyn extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... strings) {
-            return getDate();
+            String string = strings[0];
+            if (string == null || string == "") {
+                return getDates("");
+            } else {
+                return getDates(string);
+            }
         }
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            Log.i("MonthBillASy", s + "   onpost");
             if (s != null) {
                 if (s.trim().length() > 0)
                     getDate(s);
