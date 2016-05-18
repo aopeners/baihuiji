@@ -84,6 +84,29 @@
             android:visibility="gone" />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/trad_statistic_view"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+
+            android:layout_weight="1"
+            android:background="@color/blue" />
+
+        <TextView
+            android:id="@+id/trad_statistic_view1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/blue"
+            android:visibility="gone" />
+    </LinearLayout>
+
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="0.0dip"
@@ -107,20 +130,21 @@
                     android:id="@+id/trad_statistic_lef_img"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
+                    android:layout_weight="1"
                     android:src="@drawable/bright" />
 
                 <TextView
                     android:id="@+id/trad_statics_time_tx"
                     android:layout_width="0.0dip"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+                    android:layout_gravity="center_vertical|center_horizontal"
                     android:layout_weight="1.0"
                     android:gravity="center"
-                    android:text="2015年12月1日--2015年12月31日"
+                    android:text="2016-05"
                     android:textSize="11.0sp" />
 
                 <ImageView
+                    android:layout_weight="1"
                     android:id="@+id/trad_statistic_right_img"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -135,12 +159,20 @@
                 android:layout_height="1.0dip"
                 android:orientation="vertical" />
 
-            <views.Sector
+            <LinearLayout
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal">
 
-                android:id="@+id/trad_static_sector"
-                android:layout_width="160.0dip"
-                android:layout_height="160.0dip"
-                android:layout_gravity="center_horizontal" />
+                <views.Sector
+                    android:id="@+id/trad_static_sector_1"
+                    android:layout_width="160.0dip"
+                    android:layout_height="160.0dip"
+                    android:layout_gravity="center_horizontal" />
+            </LinearLayout>
+
             <!--扇形表示区-->
             <LinearLayout
 
@@ -237,7 +269,7 @@
                     android:layout_height="1.0dip"
                     android:layout_weight="1.0" />
             </LinearLayout>
-<!--收款统计-->
+            <!--收款统计-->
             <LinearLayout
                 android:id="@+id/trad_statistic2_linear1"
                 android:layout_width="match_parent"
@@ -296,7 +328,12 @@
                         android:textSize="13.0sp" />
                 </LinearLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp" />
+
                 <LinearLayout
+                    android:id="@+id/trad_statistic_linear1"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
@@ -307,7 +344,9 @@
                         android:id="@+id/lv_statistic_trad_img"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="17.0dip"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginLeft="17.0dip"
+                        android:layout_marginRight="14dp"
                         android:src="@drawable/payweichar" />
 
                     <LinearLayout
@@ -383,7 +422,12 @@
                         android:src="@drawable/right" />
                 </LinearLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp" />
+
                 <LinearLayout
+                    android:id="@+id/trad_statistic_linear2"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
@@ -394,7 +438,9 @@
                         android:id="@+id/lv_statistic_trad1_img"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="17.0dip"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginLeft="17.0dip"
+                        android:layout_marginRight="14dp"
                         android:src="@drawable/qqperse" />
 
                     <LinearLayout
@@ -470,7 +516,12 @@
                         android:src="@drawable/right" />
                 </LinearLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp" />
+
                 <LinearLayout
+                    android:id="@+id/trad_statistic_linear3"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
@@ -481,7 +532,9 @@
                         android:id="@+id/lv_statistic_trad2_img"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="17.0dip"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginLeft="17.0dip"
+                        android:layout_marginRight="14dp"
                         android:src="@drawable/ailipay" />
 
                     <LinearLayout
@@ -557,18 +610,25 @@
                         android:src="@drawable/right" />
                 </LinearLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp" />
+
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:orientation="horizontal"
-                    android:paddingLeft="4.0dip">
+                    android:paddingLeft="4.0dip"
+                    android:id="@+id/trad_statistic_linear4">
 
                     <ImageView
                         android:id="@+id/lv_statistic_trad3_img"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="17.0dip"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginLeft="17.0dip"
+                        android:layout_marginRight="14dp"
                         android:src="@drawable/baiduperse" />
 
                     <LinearLayout
@@ -644,6 +704,10 @@
                         android:src="@drawable/right" />
                 </LinearLayout>
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp" />
             <!--交易笔数-->
             <LinearLayout
                 android:id="@+id/trad_statistic2_linear2"
@@ -656,6 +720,7 @@
                     android:id="@+id/trad_statistic_1_linear1"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="1dp"
                     android:layout_marginTop="1dp"
                     android:background="@color/white"
                     android:orientation="horizontal">
@@ -706,15 +771,19 @@
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="1dp"
                     android:background="@color/white"
                     android:orientation="horizontal"
-                    android:paddingLeft="4.0dip">
+                    android:paddingLeft="4.0dip"
+                    android:id="@+id/trad_statistic_linear5">
 
                     <ImageView
                         android:id="@+id/lv_statistic_trad_img2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="17.0dip"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginLeft="17.0dip"
+                        android:layout_marginRight="14dp"
                         android:src="@drawable/payweichar" />
 
                     <LinearLayout
@@ -793,15 +862,19 @@
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="1dp"
                     android:background="@color/white"
                     android:orientation="horizontal"
-                    android:paddingLeft="4.0dip">
+                    android:paddingLeft="4.0dip"
+                    android:id="@+id/trad_statistic_linear6">
 
                     <ImageView
                         android:id="@+id/lv_statistic_trad1_img2_1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="17.0dip"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginLeft="17.0dip"
+                        android:layout_marginRight="14dp"
                         android:src="@drawable/qqperse" />
 
                     <LinearLayout
@@ -880,15 +953,19 @@
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="1dp"
                     android:background="@color/white"
                     android:orientation="horizontal"
-                    android:paddingLeft="4.0dip">
+                    android:paddingLeft="4.0dip"
+                    android:id="@+id/trad_statistic_linear7">
 
                     <ImageView
                         android:id="@+id/lv_statistic_trad2_img2_2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="17.0dip"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginLeft="17.0dip"
+                        android:layout_marginRight="14dp"
                         android:src="@drawable/ailipay" />
 
                     <LinearLayout
@@ -967,15 +1044,20 @@
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="1dp"
                     android:background="@color/white"
                     android:orientation="horizontal"
-                    android:paddingLeft="4.0dip">
+                    android:paddingLeft="4.0dip"
+                    android:id="@+id/trad_statistic_linear8">
 
                     <ImageView
                         android:id="@+id/lv_statistic_trad3_img2_2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="17.0dip"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginLeft="17.0dip"
+                        android:layout_marginRight="14dp"
+
                         android:src="@drawable/baiduperse" />
 
                     <LinearLayout

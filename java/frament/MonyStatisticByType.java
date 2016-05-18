@@ -1,66 +1,56 @@
 package frament;
 
-import adpter.MonthAdpter;
-
-import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.NetworkOnMainThreadException;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import baihuiji.jkqme.baihuiji.MyApplaication;
-
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.ConnectException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import adpter.MonthAdpter;
+import baihuiji.jkqme.baihuiji.MyApplaication;
 import baihuiji.jkqme.baihuiji.R;
 import web.BaihuijiNet;
 import web.Ip;
 
-public class MonthBill extends Fragment {
+/**
+ * Created by Administrator on 2016/5/18.
+ */
+public class MonyStatisticByType extends Fragment {
+    private View view;
     private ListView listView;
     private MonthAdpter monthAdpter;
-    private AlertDialog dialog;
     private String time;
-    private OnClickListener listener = new OnClickListener() {
+    private ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
+    private View.OnClickListener listener = new View.OnClickListener() {
         public void onClick(View paramAnonymousView) {
             switch (paramAnonymousView.getId()) {
 
                 case R.id.moth_bill_back_img:
-                    MonthBill.this.onClickBack();
-                    break;
-                case R.id.moth_bill_select_time_linear:
-                    showDatePick();
+                    onClickBack();
                     break;
                 default:
                     return;
@@ -69,45 +59,20 @@ public class MonthBill extends Fragment {
         }
     };
 
-    /**
-     * 显示date pick
-     */
-    private void showDatePick() {
-        if (dialog == null) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getParentFragment().getActivity());
-            View view = getParentFragment().getActivity().getLayoutInflater().inflate(R.layout.dialog_data, null, true);
-            DatePicker picker = (DatePicker) view.findViewById(R.id.dialog_date);
-            picker.init(2016, 05, 4, dateChangedListener);
-            builder.setView(view);
-            dialog = builder.create();
-            dialog.setOnDismissListener(dismissListener);
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(new java.util.Date());
-            //设置最大时间
-            picker.setMaxDate(calendar.getTimeInMillis());
-        }
-        dialog.show();
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.money_stastic_type, null, true);
+        loadComponent(view);
+        return view;
     }
 
-    /**
-     * dialog消失时
-     */
-    private DialogInterface.OnDismissListener dismissListener = new DialogInterface.OnDismissListener() {
-        @Override
-        public void onDismiss(DialogInterface dialogInterface) {
-            if (time != null) {
-                Log.i("OnDismis", time);
-                new MyAsyn().execute(time);
-            }
-        }
-    };
-    private DatePicker.OnDateChangedListener dateChangedListener = new DatePicker.OnDateChangedListener() {
-        @Override
-        public void onDateChanged(DatePicker datePicker, int i, int i1, int i2) {
-            Log.i("  Date picker", "" + i + "   " + i1 + "   " + i2);
-            time = i + "" + i1 + "" + i2;
-        }
-    };
+    private void loadComponent(View paramView) {
+        LinearLayout linearLayout = (LinearLayout) paramView.findViewById(R.id.moth_bill_select_time_linear);
+        linearLayout.setOnClickListener(listener);
+        this.listView = ((ListView) paramView.findViewById(R.id.month_bill_lv));
+        ((ImageView) paramView.findViewById(R.id.moth_bill_back_img)).setOnClickListener(this.listener);
+    }
 
     /**
      * @return 月账单json
@@ -119,7 +84,7 @@ public class MonthBill extends Fragment {
         } else {
             day1 = BaihuijiNet.getTime("yyyyMM");
         }
-        MyApplaication applaication = (MyApplaication) MonthBill.this.getParentFragment().getActivity().getApplication();
+        MyApplaication applaication = (MyApplaication) getParentFragment().getActivity().getApplication();
         String json = null;
         String[] key = {"merchantId", "month", "rule", "uId"};
         String requst;
@@ -136,18 +101,16 @@ public class MonthBill extends Fragment {
         //this.requst = MonthBill.this.urlconection("http://baihuiji.weikebaba.com/aide/monthBill", this.json);
         requst = connection(requst);
         Log.i("BillMonth", requst + "  \n  " + json);
-        if (MonthBill.this.getSuccess(requst)) {
+        if (getSuccess(requst)) {
             // MonthBill.this.getDate(requst);
             return requst;
         } else {
             return null;
         }
-
     }
 
-    private ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
-    private void showTost(String str){
-        Toast.makeText(getParentFragment().getActivity(),str,Toast.LENGTH_SHORT).show();
+    private void showTost(String str) {
+        Toast.makeText(getParentFragment().getActivity(), str, Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -235,94 +198,8 @@ public class MonthBill extends Fragment {
         return false;
     }
 
-    private void loadComponent(View paramView) {
-        LinearLayout linearLayout = (LinearLayout) paramView.findViewById(R.id.moth_bill_select_time_linear);
-        linearLayout.setOnClickListener(listener);
-        this.listView = ((ListView) paramView.findViewById(R.id.month_bill_lv));
-        ((ImageView) paramView.findViewById(R.id.moth_bill_back_img)).setOnClickListener(this.listener);
-    }
-
-    /**
-     * 点击后退时
-     */
     private void onClickBack() {
-        ((Bill) getParentFragment()).showFragment(0);
-    }
-
-    public View onCreateView(LayoutInflater paramLayoutInflater, @Nullable ViewGroup paramViewGroup, @Nullable Bundle paramBundle) {
-        View localView = paramLayoutInflater.inflate(R.layout.month_bill, null, true);
-        loadComponent(localView);
-        return localView;
-    }
-
-    public void onHiddenChanged(boolean paramBoolean) {
-        super.onHiddenChanged(paramBoolean);
-        if ((!paramBoolean) && (this.monthAdpter == null)) {
-            Log.i("MOtnBill", "ONHIDENCHSNGED");
-            new MyAsyn().execute("");
-        }
-    }
-
-    private String urlconection(String paramString1, String paramString2) {
-        StringBuffer stringBuffer = new StringBuffer();
-        URL urL = null;
-        HttpURLConnection connection = null;
-        DataOutputStream dataOutputStream = null;
-        try {
-            urL = new URL(paramString1);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-            return "Ip格式错误";
-        }
-
-        try {
-            connection = (HttpURLConnection) urL.openConnection();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "网络访问失败";
-        }
-        try {
-            connection.setRequestMethod("POST");
-            connection.setDoInput(true);
-            connection.setDoOutput(true);
-            connection.setRequestProperty("Content-Type", "text/plain;charset=UTF-8");
-            connection.setInstanceFollowRedirects(true);//设置自动重定向
-            connection.setUseCaches(false);
-        } catch (ProtocolException e) {
-            e.printStackTrace();
-        }
-        try {
-            dataOutputStream = new DataOutputStream(connection.getOutputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "上传失败";
-        }
-        try {
-            dataOutputStream.writeBytes(paramString2);
-            dataOutputStream.flush();
-            dataOutputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "上传失败";
-        }
-        try {
-            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                InputStreamReader reader = new InputStreamReader(connection.getInputStream());
-                BufferedReader bufferedReader = new BufferedReader(reader);
-                String inputLine = null;
-                while ((inputLine = bufferedReader.readLine()) != null) {
-                    stringBuffer.append(inputLine);
-                }
-                reader.close();
-                bufferedReader.close();
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "获取数据返回失败";
-        }
-        connection.disconnect();
-        return stringBuffer.toString();
+        ((StatisticHome) getParentFragment()).showFragment(1);
     }
 
     /**
@@ -378,6 +255,13 @@ public class MonthBill extends Fragment {
         return stringBuffer.toString();
     }
 
+    //请求地址，由外部传染
+    private String requst;
+
+    public void setRequst(String requst) {
+        this.requst=requst;
+    }
+
     private class MyAsyn extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... strings) {
@@ -399,9 +283,6 @@ public class MonthBill extends Fragment {
             }
         }
     }
+
 }
 
-/* Location:           C:\Users\jkqme\Androids\Androids\classes_dex2jar.jar
- * Qualified Name:     frament.MonthBill
- * JD-Core Version:    0.6.2
- */

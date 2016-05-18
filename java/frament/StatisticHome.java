@@ -22,11 +22,13 @@ public class StatisticHome extends Fragment {
     private StatisticsFragment statisticsFragment;//交易统计主显示
     private FragmentManager manager;
     private FragmentTransaction  transaction;
+    private MonyStatisticByType monyStatisticByType;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
       trade_statistic=new Trade_statistic();
        // statisticsFragment=new StatisticsFragment();
+        monyStatisticByType=new MonyStatisticByType();
     }
 
     @Nullable
@@ -42,7 +44,9 @@ public class StatisticHome extends Fragment {
             transaction=manager.beginTransaction();
             //transaction.add(R.id.statistic_home_linear,statisticsFragment);
              transaction.add(R.id.statistic_home_linear,trade_statistic);
-            transaction.show(statisticsFragment);
+            transaction.add(R.id.statistic_home_linear,monyStatisticByType).hide(monyStatisticByType);
+
+            transaction.show(trade_statistic);
             transaction.commit();
         }
     }
@@ -83,12 +87,13 @@ public class StatisticHome extends Fragment {
             default:
                 return;
             case 0:
-                showFragment(statisticsFragment);
+               // showFragment(statisticsFragment);
                 return;
             case 1:
                 showFragment(this.trade_statistic);
                 break;
-            case 2://showFragment(this.bil_detail);
+
+            case 2:showFragment(monyStatisticByType);
                 break;
         }
 
@@ -104,5 +109,8 @@ public class StatisticHome extends Fragment {
         if(trade_statistic!=null){
             trade_statistic.onHiddenChanged(hidden);
         }
+    }
+    public void setMonyStatisticByType(String requant){
+        monyStatisticByType.setRequst(requant);
     }
 }

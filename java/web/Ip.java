@@ -21,6 +21,8 @@ public abstract interface Ip {
     public static String refund = ips + "pospay/posPayBack";
     //金额统计ip
     public String static1 = ips + "aide/masCount";
+  //点击统计的金额不部分
+  public String monthstatistic=ips+"aide/moneyDayCount";
 }
 
 /* Location:           C:\Users\jkqme\Androids\Androids\classes_dex2jar.jar

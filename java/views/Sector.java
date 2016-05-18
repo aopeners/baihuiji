@@ -65,25 +65,29 @@ public class Sector extends View {
      * @param g 绿
      */
     public void setWight(float b, float o, float r, float g) {
-        float a=b+0+r+g;
-        this.b = 360 * b/a;
-        this.o = 360 * o/a;
-        this.r = 360 * r/a;
-        this.g = 360 * g/a;
+        float a = b + 0 + r + g;
+        this.b = 360f * b / a;
+        this.o = 360f * o / a;
+        this.r = 360f * r / a;
+        this.g = 360f * g / a;
         tb = 0f;
         r2 = 0f;
+        //  candraw=true;
+        currentDegree = 0;
         handler.sendEmptyMessageDelayed(1, 500);
 
     }
 
     public void setWidth(float b, float o, float r, float g, float tb, float r2) {
-        float a=b+0+r+g+tb+r2;
-        this.b = 360 * b/a;
-        this.o = 360 * o/a;
-        this.r = 360 * r/a;
-        this.g = 360 * g/a;
-        this.tb = 360 * tb/a;
-        this.r2 = 360 * r2/a;
+        float a = b + 0 + r + g + tb + r2;
+        this.b = 360f * b / a;
+        this.o = 360f * o / a;
+        this.r = 360f * r / a;
+        this.g = 360f * g / a;
+        this.tb = 360f * tb / a;
+        this.r2 = 360f * r2 / a;
+        // candraw=true;
+        currentDegree = 0;
         handler.sendEmptyMessageDelayed(1, 500);
     }
 
@@ -124,24 +128,23 @@ public class Sector extends View {
             RectF rectF = new RectF(0f, 0f, width, height);
 
             candraw = false;
-
             if (currentDegree <= b) {
 
                 // 画绿
                 paint.setColor(getResources().getColor(R.color.blue));
                 if (startdegree + 5f > 360) {
-                    canvas.drawArc(rectF, b + o + r + g, 360f - b - o - r - g, true, paint);
-                }
-                canvas.drawArc(rectF, 0f, startdegree + 5f, true, paint);
+                    canvas.drawArc(rectF, startdegree, 360f - startdegree, true, paint);
+                } else
+                    canvas.drawArc(rectF, 0f, startdegree + 5f, true, paint);
 
             } else if (b < currentDegree && currentDegree <= b + o) {
                 paint.setColor(getResources().getColor(R.color.blue));
                 canvas.drawArc(rectF, 0f, b, true, paint);
                 paint.setColor(getResources().getColor(R.color.orange));
                 if (startdegree + 5f > 360) {
-                    canvas.drawArc(rectF, b + o + r + g, 360f - b - o - r - g, true, paint);
-                }
-                canvas.drawArc(rectF, b, startdegree - b + 5f, true, paint);
+                    canvas.drawArc(rectF, startdegree, 360f - startdegree, true, paint);
+                } else
+                    canvas.drawArc(rectF, b, startdegree - b + 5f, true, paint);
             } else if (b + o < currentDegree && currentDegree <= b + o + r) {
                 paint.setColor(getResources().getColor(R.color.blue));
                 canvas.drawArc(rectF, 0f, b, true, paint);
@@ -149,10 +152,10 @@ public class Sector extends View {
                 canvas.drawArc(rectF, b, o, true, paint);
                 paint.setColor(getResources().getColor(R.color.red));
                 if (startdegree + 5f > 360) {
-                    canvas.drawArc(rectF, b + o + r + g, 360f - b - o - r - g, true, paint);
-                }
-                canvas.drawArc(rectF, b + o, startdegree + 5f - b - o, true,
-                        paint);
+                    canvas.drawArc(rectF, startdegree, 360f - startdegree, true, paint);
+                } else
+                    canvas.drawArc(rectF, b + o, startdegree + 5f - b - o, true,
+                            paint);
             } else if (b + o + r < currentDegree && currentDegree <= b + o + r + g) {//画绿
                 paint.setColor(getResources().getColor(R.color.blue));
                 canvas.drawArc(rectF, 0f, b, true, paint);
@@ -162,7 +165,7 @@ public class Sector extends View {
                 canvas.drawArc(rectF, b + o, r, true, paint);
                 paint.setColor(getResources().getColor(R.color.green));
                 if (startdegree + 5f > 360) {
-                    canvas.drawArc(rectF, b + o + r + g, 360f - b - o - r - g, true, paint);
+                    canvas.drawArc(rectF, startdegree, 360f - startdegree, true, paint);
                 }
                 canvas.drawArc(rectF, b + o + r, startdegree + 5f - b - o - r,
                         true, paint);
@@ -181,9 +184,9 @@ public class Sector extends View {
                 canvas.drawArc(rectF, b + o + r, g, true, paint);
                 paint.setColor(getResources().getColor(R.color.tbluee));
                 if (startdegree + 5f > 360) {
-                    canvas.drawArc(rectF, b + o + r + g, 360f - b - o - r - g, true, paint);
-                }
-                canvas.drawArc(rectF, b + o + r + g, startdegree + 5f - b - o - r - g, true, paint);
+                    canvas.drawArc(rectF, startdegree, 360f - startdegree, true, paint);
+                } else
+                    canvas.drawArc(rectF, b + o + r + g, startdegree + 5f - b - o - r - g, true, paint);
             } else if (b + o + r + g + tb < currentDegree && currentDegree <= b + o + r + g + tb + r2) {
 
                 paint.setColor(getResources().getColor(R.color.blue));
@@ -198,9 +201,9 @@ public class Sector extends View {
                 canvas.drawArc(rectF, b + o + r + g, tb, true, paint);
                 paint.setColor(getResources().getColor(R.color.red1));
                 if (startdegree + 5f > 360) {
-                    canvas.drawArc(rectF, b + o + r + g, 360f - b - o - r - g - tb, true, paint);
-                }
-                canvas.drawArc(rectF, b + o + r + g + tb, startdegree + 5f - b - o - r - g - tb, true, paint);
+                    canvas.drawArc(rectF, startdegree, 360f - startdegree, true, paint);
+                } else
+                    canvas.drawArc(rectF, b + o + r + g + tb, startdegree + 5f - b - o - r - g - tb, true, paint);
             }
             if (currentDegree <= 360) {
                 candraw = true;
