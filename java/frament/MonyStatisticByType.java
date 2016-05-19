@@ -22,6 +22,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -37,8 +38,9 @@ import baihuiji.jkqme.baihuiji.R;
  * Created by Administrator on 2016/5/18.
  */
 public class MonyStatisticByType extends Fragment {
-    private int payType=0;
-
+    private int payType = 0;
+    private TextView year;
+    private TextView month;
     private View view;
     private ListView listView;
     private MonyStatisticByTypeAdpter monthAdpter;
@@ -67,6 +69,9 @@ public class MonyStatisticByType extends Fragment {
     }
 
     private void loadComponent(View paramView) {
+        year = (TextView) paramView.findViewById(R.id.month_bill_year_tx);
+        month = (TextView) paramView.findViewById(R.id.month_bill_moth_tx);
+
         LinearLayout linearLayout = (LinearLayout) paramView.findViewById(R.id.moth_bill_select_time_linear);
         linearLayout.setOnClickListener(listener);
         this.listView = ((ListView) paramView.findViewById(R.id.month_bill_lv));
@@ -99,7 +104,7 @@ public class MonyStatisticByType extends Fragment {
      * @param paramString
      */
     private void getDate(String paramString) {
-        View view = getView();
+
         TextView textView;//显示空间
         JSONObject jsonObject = null;
         JSONArray jsonArray = null;
@@ -111,8 +116,9 @@ public class MonyStatisticByType extends Fragment {
             showTost("没有当月数据");
             return;
         }
-        float payTotle = 0;//收款数
-        float backTotle = 0;//退款数
+
+        BigDecimal payTotle = new BigDecimal("0");//收款数
+        BigDecimal backTotle = new BigDecimal("0");//退款数
         int totel;
         //listview 适配数据
         HashMap<String, String> map;
@@ -124,8 +130,9 @@ public class MonyStatisticByType extends Fragment {
                 map.put("backTotal", jsonObject.getString("backTotal"));
                 map.put("totalDate", jsonObject.getString("totalDate"));
 
-                payTotle = payTotle + getMone(jsonObject.getString("payTotal"));
-                backTotle = backTotle + getMone(jsonObject.getString("backTotal"));
+
+                payTotle = payTotle.add(getMone(jsonObject.getString("payTotal")));
+                backTotle = backTotle.add(getMone(jsonObject.getString("backTotal")));
                 list.add(map);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -133,27 +140,26 @@ public class MonyStatisticByType extends Fragment {
             }
         }
         if (monthAdpter == null) {
-
+            Log.i("MonyStattistic_type", payType + "");
             monthAdpter = new MonyStatisticByTypeAdpter(payType, getParentFragment().getActivity(), list);
             listView.setAdapter(monthAdpter);
         }
+        year.setText(time.substring(0, 4) + "年");
+        month.setText(time.substring(4, 6) + "月");
         int tId[] = {R.id.month_bill_num1_tx, R.id.month_bill_get1_tx, R.id.month_bill_back1_tx};
         //设置顶部数据
         for (int i = 0; i < tId.length; i++) {
             textView = (TextView) view.findViewById(tId[i]);
 
-            try {
-                if (i == 0) {
-                    textView.setText(payTotleNum);
-                } else if (i == 1) {
-                    textView.setText(jsonObject.getString(payTotle + ""));
-                } else {
-                    textView.setText(jsonObject.getString(backTotle + ""));
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-                textView.setText("0");
+
+            if (i == 0) {
+                textView.setText(payTotleNum);
+            } else if (i == 1) {
+                textView.setText(payTotle.toString());
+            } else {
+                textView.setText(backTotle.toString());
             }
+
         }
 
 
@@ -165,11 +171,11 @@ public class MonyStatisticByType extends Fragment {
      * @param pay
      * @return
      */
-    private float getMone(String pay) {
+    private BigDecimal getMone(String pay) {
         if (pay == null) {
-            return 0f;
+            return new BigDecimal("0");
         } else {
-            return Float.parseFloat(pay);
+            return new BigDecimal(pay);
         }
     }
 
@@ -265,19 +271,21 @@ public class MonyStatisticByType extends Fragment {
     //请求地址，由外部传染
     private String requst;
     private String payTotleNum;
+
     /**
      * 收入统计子项设置
-     * @param requst  请求地址
-     * @param payType  交易类型
-     * @param time   时间
-     * @param payTotleNumber  总共收款笔数
+     *
+     * @param requst         请求地址
+     * @param payType        交易类型
+     * @param time           时间
+     * @param payTotleNumber 总共收款笔数
      */
-    public void setRequst(String requst,int payType,String time,String payTotleNumber) {
+    public void setRequst(String requst, int payType, String time, String payTotleNumber) {
         this.requst = requst;
-        Log.i("MONyStatistic_requst",requst);
-        this.payType=payType;
-        this.time=time;
-        this.payTotleNum=payTotleNumber;
+        Log.i("MONyStatistic_requst", requst);
+        this.payType = payType;
+        this.time = time;
+        this.payTotleNum = payTotleNumber;
         new MyAsyn().execute(requst);
     }
 

@@ -2,6 +2,8 @@ package frament;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
@@ -41,6 +43,13 @@ public class Bil_detail extends Fragment {
     private boolean state;
     private LayoutInflater inflater;
     private  EditText editText;
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            setState(state,map);
+        }
+    };
     public View onCreateView(LayoutInflater paramLayoutInflater, @Nullable ViewGroup paramViewGroup, @Nullable Bundle paramBundle) {
         View view = paramLayoutInflater.inflate(R.layout.bill_detai, null);
         this.inflater = paramLayoutInflater;
@@ -283,10 +292,17 @@ public class Bil_detail extends Fragment {
     private void onRefund(final String password) {
         new Thread(new Runnable() {
             MyApplaication applaication = (MyApplaication) getParentFragment().getActivity().getApplication();
-            String key[] = {"merchantId", "orderNo", "ordSource", "operateId", "backPsw", "ver", "MD5"};
-            String valu[] = {applaication.getDate("merchantId"), map.get("orderNo"), map.get("ordSource"),
-                    applaication.getDate("operateId"), password, "2.6", getMd5_32("merchantId&orderNo&ordSource&operateId&backPsw&ver&=*"
-                    + applaication.getDate("merchantId") + "*" + map.get("orderNo") + "*" + map.get("ordSource") + "*" + applaication.getDate("operateId") + "*" + password + "*" + "2.6")
+            String key[] = {"merchantId", "orderNo",
+                    "ordSource", "operateId", "backPsw",
+                    "ver", "MD5"};
+            String valu[] = {applaication.getDate("merchantId")
+                    , map.get("singal"),"pc"
+                    ,
+                    applaication.getDate("operateId"),
+                    password,
+                    "2.6",
+                    getMd5_32("merchantId&orderNo&ordSource&operateId&backPsw&ver&=*"
+                    + applaication.getDate("merchantId") + "*" + map.get("singal") + "*" + "pc"+ "*" + applaication.getDate("operateId") + "*" + password + "*" + "2.6")
             };
             String json = getJson(key, valu, "MD5");
             String requst;
@@ -297,7 +313,7 @@ public class Bil_detail extends Fragment {
                 if (refundSuccess(requst)) {
                     map.put("backTime", getJsonValu(requst, "time"));
                     state = false;
-                    setState(false, map);
+                    handler.sendEmptyMessage(1);
                 }
             }
         }).start();

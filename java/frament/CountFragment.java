@@ -92,17 +92,29 @@ public class CountFragment extends Fragment {
                 case R.id.countx_tx:
                     string = disView2.getText().toString().trim();
                     string0 = disView.getText().toString().trim();
+                    if (string0.startsWith("*") || string0.startsWith("+")) {
+                        disView.setText("");
+                        disView2.setText("");
+                        break;
+                    }
+                    if(string.contains("*")||string.contains("+")){
+                        disView.setText("");
+                        disView2.setText("");
+                        break;
+                    }
+                    //2有输入，1没内容
                     if (string.length() > 0 && string0.length() == 0) {
                         disView.setText(string);
                         disView2.setText("");
                         disView.append("*");
+                        //都有输入
                     } else if (string.length() > 0 && string0.length() > 0) {
                         disView.setText(count(string0, string));
                         disView2.setText("");
                         disView.append("*");
                     } else if (string.length() == 0 && string0.length() > 0) {
-                        if (!string0.endsWith("*")) {
-                            string0 = string0.substring(0, string0.length() - 2);
+                        if (string0.endsWith("+")) {
+                            string0 = string0.substring(0, string0.length() - 1);
                             disView.setText(string0);
                             disView.append("*");
                         }
@@ -112,6 +124,18 @@ public class CountFragment extends Fragment {
                 case R.id.count_add_tx:
                     string = disView2.getText().toString().trim();
                     string0 = disView.getText().toString().trim();
+                    //异常情况清除
+                    if (string0.startsWith("*") || string0.startsWith("+")) {
+                        disView.setText("");
+                        disView2.setText("");
+                        break;
+                    }
+                    if(string.contains("*")||string.contains("+")){
+                        disView.setText("");
+                        disView2.setText("");
+                        break;
+                    }
+
                     if (string.length() > 0 && string0.length() == 0) {
                         disView.setText(string);
                         disView2.setText("");
@@ -122,8 +146,8 @@ public class CountFragment extends Fragment {
                         disView2.setText("");
                         disView.append("+");
                     } else if (string.length() == 0 && string0.length() > 0) {
-                        if (!string0.endsWith("*")) {
-                            string0 = string0.substring(0, string0.length() - 2);
+                        if (string0.endsWith("*")) {
+                            string0 = string0.substring(0, string0.length() - 1);
                             disView.setText(string0);
                             disView.append("+");
                         }
@@ -165,15 +189,23 @@ public class CountFragment extends Fragment {
     private String count(String paramString1, String paramString2) {
         BigDecimal f1;
         BigDecimal f2;
+        if (paramString1.startsWith("*") || paramString1.startsWith("+")) {
+            disView.setText("");
+            return "";
+        }
+        if(paramString2.contains("*")||paramString2.contains("+")){
+            disView.setText("");
+            return "";
+        }
         if (paramString1.endsWith("+")) {
             try {
-                f1=new BigDecimal(paramString1.substring(0, paramString1.length() - 2));
+                f1 = new BigDecimal(paramString1.substring(0, paramString1.length() - 1));
             } catch (NumberFormatException e) {
-               return "";
+                return "";
             }
 
             if ((paramString2.length() > 0)) {
-                f2 =new BigDecimal(paramString2);
+                f2 = new BigDecimal(paramString2);
                 Log.i("countf2", "f2=0");
 
                 return f1.add(f2).toString();
@@ -181,7 +213,7 @@ public class CountFragment extends Fragment {
         }
         if (paramString1.endsWith("*")) {
             try {
-                f1 = new BigDecimal(paramString1.substring(0, paramString1.length() - 2));
+                f1 = new BigDecimal(paramString1.substring(0, paramString1.length() - 1));
             } catch (NumberFormatException e) {
                 return "";
             }
@@ -207,19 +239,20 @@ public class CountFragment extends Fragment {
 
     /**
      * 跳到扫码
+     *
      * @param type
      * @param money
      * @param fukuanma
      */
-    private void jumptoDecoder(int type, String money,boolean fukuanma) {
-        if(money.contains(".")){
-            int i=money.indexOf(".");
-            if(money.length()>i+3){
+    private void jumptoDecoder(int type, String money, boolean fukuanma) {
+        if (money.contains(".")) {
+            int i = money.indexOf(".");
+            if (money.length() > i + 3) {
                 //sbstring 第二为第一位 加截取数
-                money=money.substring(0,i+3);
+                money = money.substring(0, i + 3);
             }
         }
-        ((HomPage) getParentFragment().getActivity()).jumptoDecode(type, money,fukuanma);
+        ((HomPage) getParentFragment().getActivity()).jumptoDecode(type, money, fukuanma);
     }
 
     private void loadComponent(View paramView) {
@@ -261,15 +294,17 @@ public class CountFragment extends Fragment {
                 disView.setText("");
                 //当disview2为空时
             } else if (string.length() == 0 && string0.length() > 0) {
-                disView2.setText(string0.substring(0, string0.length() - 2));
+                disView2.setText(string0.substring(0, string0.length()-1));
                 disView.setText("");
             }
 
             setState(1);
         } else if (paramString.equals("扫一扫") && moneyCount.length() > 0) {
-            jumptoDecoder(payTaype, moneyCount,false);
-        }else if(paramString.equals("付款码")&&moneyCount.length()>0){
-            jumptoDecoder(payTaype,moneyCount,true);
+            disView2.setText("");
+            jumptoDecoder(payTaype, moneyCount, false);
+        } else if (paramString.equals("付款码") && moneyCount.length() > 0) {
+            disView2.setText("");
+            jumptoDecoder(payTaype, moneyCount, true);
         }
     }
 

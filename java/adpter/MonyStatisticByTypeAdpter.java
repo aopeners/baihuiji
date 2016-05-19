@@ -36,17 +36,17 @@ public class MonyStatisticByTypeAdpter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 0;
+        return list.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return null;
+        return list.get(i);
     }
 
     @Override
     public long getItemId(int i) {
-        return 0;
+        return i;
     }
 
     @Override
@@ -108,43 +108,21 @@ public class MonyStatisticByTypeAdpter extends BaseAdapter {
     private void setDate(String date, TextView textView, TextView textView1) {
 
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat format1=new SimpleDateFormat("E");
         Date date1 = null;
-        int day = 0;//显示星期
+        String day = "0";//显示星期
         String day1;//显示一个月中的天
         try {
             date1 = format.parse(date);
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(date1);
-            day = calendar.DAY_OF_WEEK;
+            day=format1.format(date1);
+            textView.setText(day);
         } catch (ParseException e) {
             e.printStackTrace();
         }
         format = new SimpleDateFormat("MM-dd");
         day1 = format.format(date1);
         textView1.setText(day1);
-        switch (day) {
-            case Calendar.SATURDAY:
-                textView.setText("周六");
-                break;
-            case Calendar.MONDAY:
-                textView.setText("周一");
-                break;
-            case Calendar.TUESDAY:
-                textView.setText("周二");
-                break;
-            case Calendar.WEDNESDAY:
-                textView.setText("周三");
-                break;
-            case Calendar.THURSDAY:
-                textView.setText("周四");
-                break;
-            case Calendar.FRIDAY:
-                textView.setText("周五");
-                break;
-            case Calendar.SUNDAY:
-                textView.setText("星期天");
-                break;
-        }
+
     }
 
     private String getText(String str) {

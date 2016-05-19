@@ -139,8 +139,16 @@ public class SurfView extends View {
 	 * @param a
 	 *            波形高度
 	 */
-	public void setWaveAmplitude(int a) {
+	private void setWaveAmplitude(int a) {
 		this.waveAmplitude = a;
 		handler.sendEmptyMessage(1);
+	}
+
+	@Override
+	protected void onVisibilityChanged(View changedView, int visibility) {
+		super.onVisibilityChanged(changedView, visibility);
+		if(visibility==VISIBLE){
+			setWaveAmplitude(15);
+		}
 	}
 }

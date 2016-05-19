@@ -56,7 +56,7 @@ public class MonthAdpter extends BaseAdapter {
         if (paramView == null) {
             paramView = inflater.inflate(R.layout.lv_month_bill, null, true);
             holder = new Holder();
-            holder.lv_month_bill_tx=(TextView) paramView.findViewById(R.id.lv_month_bill_tx);
+            holder.lv_month_bill_tx = (TextView) paramView.findViewById(R.id.lv_month_bill_tx);
 
             holder.lv_message_time_tx = (TextView) paramView.findViewById(R.id.lv_message_time_tx);
             holder.lv_message_time1_tx = (TextView) paramView.findViewById(R.id.lv_message_time1_tx);
@@ -71,8 +71,8 @@ public class MonthAdpter extends BaseAdapter {
             holder = (Holder) paramView.getTag();
         }
         //设置月显示栏
-        if(monthChage(list.get(paramInt).get("totalDate"))){
-            holder.lv_month_bill_tx.setText(month+"月");
+        if (monthChage(list.get(paramInt).get("totalDate"))) {
+            holder.lv_month_bill_tx.setText(month + "月");
             holder.lv_month_bill_tx.setVisibility(View.VISIBLE);
         }
         // holder.lv_message_time_tx.setText(list.get(paramInt).get("totalDate"));
@@ -140,44 +140,23 @@ public class MonthAdpter extends BaseAdapter {
     private void setDate(String date, TextView textView, TextView textView1) {
 
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat format1 = new SimpleDateFormat("E");//判断星期的formate
         Date date1 = null;
-        int day = 0;//显示星期
+        String day = "";//显示星期
         String day1;//显示一个月中的天
         try {
             date1 = format.parse(date);
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(date1);
-            day = calendar.DAY_OF_WEEK;
-            Log.i("MonthAdpter",date+"");
+            day = format1.format(date1);
+            Log.i("MonthAdpter", date + "");
         } catch (ParseException e) {
             e.printStackTrace();
         }
         format = new SimpleDateFormat("MM-dd");
         day1 = format.format(date1);
         textView1.setText(day1);
-        switch (day) {
-            case Calendar.SATURDAY:
-                textView.setText("周日");
-                break;
-            case Calendar.MONDAY:
-                textView.setText("周一");
-                break;
-            case Calendar.TUESDAY:
-                textView.setText("周二");
-                break;
-            case Calendar.WEDNESDAY:
-                textView.setText("周三");
-                break;
-            case Calendar.THURSDAY:
-                textView.setText("周四");
-                break;
-            case Calendar.FRIDAY:
-                textView.setText("周五");
-                break;
-            case Calendar.SUNDAY:
-                textView.setText("周六");
-                break;
-        }
+
+        textView.setText(day);
+
     }
 
     /**
@@ -187,7 +166,7 @@ public class MonthAdpter extends BaseAdapter {
      * @return 0 月份没改变
      */
     private boolean monthChage(String data) {
-        int month1 = Integer.parseInt(data.substring(4, 5));
+        int month1 = Integer.parseInt(data.substring(4, 6));
         if (month != 1) {
             //没有月份数据时 为true
             month = month1;

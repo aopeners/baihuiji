@@ -64,7 +64,7 @@ public class TradeStatisticSaleDayCount extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.money_stastic_type, null, true);
+        view = inflater.inflate(R.layout.num_statistic_type, null, true);
         loadComponent(view);
         return view;
     }
@@ -74,8 +74,8 @@ public class TradeStatisticSaleDayCount extends Fragment {
         linearLayout.setOnClickListener(listener);
         this.listView = ((ListView) paramView.findViewById(R.id.month_bill_lv));
         ((ImageView) paramView.findViewById(R.id.moth_bill_back_img)).setOnClickListener(this.listener);
-        year= (TextView) paramView.findViewById(R.id.month_bill_year_tx);
-        month= (TextView) paramView.findViewById(R.id.month_bill_moth_tx);
+        year = (TextView) paramView.findViewById(R.id.month_bill_year_tx);
+        month = (TextView) paramView.findViewById(R.id.month_bill_moth_tx);
     }
 
     /**
@@ -104,7 +104,8 @@ public class TradeStatisticSaleDayCount extends Fragment {
      * @param paramString
      */
     private void getDate(String paramString) {
-        View view = getView();
+
+
         TextView textView;//显示空间
         JSONObject jsonObject = null;
         JSONArray jsonArray = null;
@@ -116,8 +117,8 @@ public class TradeStatisticSaleDayCount extends Fragment {
             showTost("没有当月数据");
             return;
         }
-        float payTotle = 0;//收款数
-        float backTotle = 0;//退款数
+        int payTotle = 0;//收款数
+        int backTotle = 0;//退款数
         int totel;
 
         //listview 适配数据
@@ -126,12 +127,12 @@ public class TradeStatisticSaleDayCount extends Fragment {
             map = new HashMap<String, String>();
             try {
                 jsonObject = jsonArray.getJSONObject(j);
-                map.put("payTotal", jsonObject.getString("payTotal"));
-                map.put("backTotal", jsonObject.getString("backTotal"));
+                map.put("payTotal", jsonObject.getString("payNum"));
+                map.put("backTotal", jsonObject.getString("backNum"));
                 map.put("totalDate", jsonObject.getString("totalDate"));
 
-                payTotle = payTotle + getMone(jsonObject.getString("payTotal"));
-                backTotle = backTotle + getMone(jsonObject.getString("backTotal"));
+                payTotle = payTotle + getNum(jsonObject.getString("payNum"));
+                backTotle = backTotle + getNum(jsonObject.getString("backNum"));
                 list.add(map);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -145,23 +146,21 @@ public class TradeStatisticSaleDayCount extends Fragment {
         }
         int tId[] = {R.id.month_bill_num1_tx, R.id.month_bill_get1_tx, R.id.month_bill_back1_tx};
         //设置顶部数据
-        year.setText(time.substring(0,3));
-        month.setText(time.substring(4,5));
+        if (time != null) {
+            year.setText(time.substring(0,4)+"年");
+            month.setText(time.substring(4,6)+"月");
+        }
         for (int i = 0; i < tId.length; i++) {
             textView = (TextView) view.findViewById(tId[i]);
 
-            try {
-                if (i == 0) {
-                    textView.setText(payTotleNum);
-                } else if (i == 1) {
-                    textView.setText(jsonObject.getString(payTotle + ""));
-                } else {
-                    textView.setText(jsonObject.getString(backTotle + ""));
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-                textView.setText("0");
+            if (i == 0) {
+                textView.setText(payTotleNum);
+            } else if (i == 1) {
+                textView.setText(payTotle + "");
+            } else {
+                textView.setText(backTotle + "");
             }
+
         }
 
 
@@ -276,7 +275,7 @@ public class TradeStatisticSaleDayCount extends Fragment {
 
     public void setRequst(String requst, int payType, String time, String payTotleNumber) {
         this.requst = requst;
-        Log.i("MONyStatistic_requst", requst);
+        Log.i("NumStatistic_requst", requst);
         this.payType = payType;
         this.time = time;
         this.payTotleNum = payTotleNumber;
