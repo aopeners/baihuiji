@@ -38,54 +38,110 @@
         android:id="@+id/decod1_select_linear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/decod1_slect_tx"
-            android:layout_width="wrap_content"
+        <LinearLayout
+
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:padding="13dp"
-            android:text="微信"
-            android:textColor="@color/black"
-            android:textSize="13sp" />
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/decod1_slect1_tx"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:padding="13dp"
-            android:text="QQ钱包"
-            android:textColor="@color/black"
-            android:textSize="13sp" />
+            <TextView
+                android:id="@+id/decod1_slect_tx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="13dp"
+                android:text="微信"
+                android:textColor="@color/black"
+                android:textSize="13sp" />
 
-        <TextView
-            android:id="@+id/decod1_slect2_tx"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:padding="13dp"
-            android:text="支付宝"
-            android:textColor="@color/black"
-            android:textSize="13sp" />
+            <TextView
+                android:id="@+id/decod1_slect1_tx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="13dp"
+                android:text="QQ钱包"
+                android:textColor="@color/black"
+                android:textSize="13sp" />
 
-        <TextView
-            android:id="@+id/decod1_slect3_tx"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:padding="13dp"
-            android:text="百度钱包"
-            android:textColor="@color/black"
-            android:textSize="13sp" />
+            <TextView
+                android:id="@+id/decod1_slect2_tx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="13dp"
+                android:text="支付宝"
+                android:textColor="@color/black"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/decod1_slect3_tx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="13dp"
+                android:text="百度钱包"
+                android:textColor="@color/black"
+                android:textSize="13sp" />
 
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:orientation="horizontal">
+
+            <View
+                android:id="@+id/decod1_v1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:visibility="invisible"
+                android:background="@color/green" />
+
+            <View
+                android:id="@+id/decod1_v2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/green"
+                android:visibility="invisible" />
+
+            <View
+                android:id="@+id/decod1_v3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:visibility="invisible" />
+        </LinearLayout>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/decod1_mercant_tx"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="黄俊辉测点"
+        android:textColor="@color/black"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/decod1_mercan_money_tx"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="¥555.44"
+        android:textColor="@color/black"
+        android:textSize="13sp" />
 
     <RelativeLayout
         android:id="@+id/decode1_relative"

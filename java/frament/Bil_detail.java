@@ -39,9 +39,10 @@ import web.Ip;
  */
 public class Bil_detail extends Fragment {
     private boolean state;
-
+    private LayoutInflater inflater;
     public View onCreateView(LayoutInflater paramLayoutInflater, @Nullable ViewGroup paramViewGroup, @Nullable Bundle paramBundle) {
         View view = paramLayoutInflater.inflate(R.layout.bill_detai, null);
+        this.inflater=paramLayoutInflater;
         loadComponet(view);
         return view;
     }
@@ -82,7 +83,7 @@ public class Bil_detail extends Fragment {
     private void showDialog() {
         if (dialog == null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentFragment().getContext());
-            View view = getParentFragment().getActivity().getLayoutInflater().inflate(R.layout.dialog_refund, null, true);
+            View view = inflater.inflate(R.layout.dialog_refund, null, true);
             ImageView imageView = (ImageView) view.findViewById(R.id.dialog_refund_close);
             imageView.setOnClickListener(listener);
             EditText editText = (EditText) view.findViewById(R.id.dialog_refund_etx);

@@ -97,6 +97,7 @@ public class HomPage extends FragmentActivity {
         this.transaction.show(this.home_fragment);
         this.transaction.commit();
         this.currentFragment = this.home_fragment;
+
     }
 
     /**

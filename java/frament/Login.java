@@ -37,7 +37,7 @@ import web.BaihuijiNet;
 import web.Ip;
 
 public class Login extends Fragment {
-    private boolean loginclick=false;//记录是否点击登录
+    private boolean loginclick = false;//记录是否点击登录
     private CheckBox checkBox;
     private OnCheckedChangeListener clistener = new OnCheckedChangeListener() {
         public void onCheckedChanged(CompoundButton paramAnonymousCompoundButton, boolean paramAnonymousBoolean) {
@@ -50,9 +50,13 @@ public class Login extends Fragment {
             user = "18716398031";
             password = "123456";
             Log.i("Onclick", "" + user + password);
-            if ((Login.this.checkBox.isChecked()) && user.trim().length() > 0 && password.trim().length() > 0&&!loginclick)
-                loginclick=true;
+            if ((Login.this.checkBox.isChecked()) && user.trim().length() > 0 && password.trim().length() > 0 && !loginclick) {
+                loginclick = true;
                 Login.this.conect("18716398031", "123456");
+            } else if (user.trim().length() > 0 && password.trim().length() > 0 && !loginclick) {
+                loginclick = true;
+                Login.this.conect("18716398031", "123456");
+            }
         }
     };
     private TextView loginTv;
@@ -69,8 +73,8 @@ public class Login extends Fragment {
         arrayOfString2[3] = paramString2;
         arrayOfString2[4] = getMd5_32("merchantId&ordSource&operateId&operatePass&=*0*app*" + paramString1 + "*" + paramString2);
         Log.i("Md5", "merchantId&ordSource&operateId&operatePass&=*0*app*" + paramString1 + "*" + paramString2);
-        final String json=getJson(arrayOfString1,arrayOfString2);
-        Log.i("Conect",json);
+        final String json = getJson(arrayOfString1, arrayOfString2);
+        Log.i("Conect", json);
         new Thread() {
             public void run() {
                 try {
@@ -87,7 +91,7 @@ public class Login extends Fragment {
                     showToast();
                     Log.i("Login", Login.this.requst + "登录失败");
                 }
-                loginclick=false;
+                loginclick = false;
             }
         }
                 .start();

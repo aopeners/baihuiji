@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:gravity="center"
-                android:text="2015年"
+                android:text="0年"
                 android:textColor="@color/black"
                 android:textSize="12.0sp" />
 
@@ -68,7 +68,7 @@
                 android:layout_gravity="center_horizontal"
                 android:drawableRight="@drawable/down"
                 android:gravity="center"
-                android:text="11月"
+                android:text="0月"
                 android:textColor="@color/black"
                 android:textSize="13.0sp" />
         </LinearLayout>

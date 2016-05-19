@@ -32,6 +32,7 @@ public class Home_fragment extends Fragment {
             this.transaction.show(this.hDisplay_fragment);
             this.transaction.commit();
             this.curentFragment = this.hDisplay_fragment;
+
         }
     }
 

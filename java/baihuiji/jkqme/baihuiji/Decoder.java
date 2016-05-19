@@ -64,10 +64,13 @@ public class Decoder extends Activity {
     private final String getMonny_bySwap = "http://baihuiji.weikebaba.com/pospay/erWeiCodePay";
     //检查收款是否成功
     private final String tradQuerry = "http://baihuiji.weikebaba.com/pospay/queryPayState";
-
+    private View view1, view2;//切换视图时
     private String bitmapurl;
     private TextView bTextView;
     private TextView pleaseSwap;//请求烧苗的
+    //显示账目的
+    private TextView merchantId;
+    private TextView merchatMoney;
 
     private ImageView backimg;
     private ImageView swichImg;//给出二维码的视图
@@ -88,9 +91,14 @@ public class Decoder extends Activity {
                     swich();
                     break;
                 case R.id.decod1_slect_tx:
+
+                    view1.setVisibility(View.VISIBLE);
+                    view2.setVisibility(View.INVISIBLE);
                     selectState(1, "尚未开通微信支付");
                     break;
                 case R.id.decod1_slect1_tx:
+                    view2.setVisibility(View.VISIBLE);
+                    view1.setVisibility(View.INVISIBLE);
                     selectState(2, "尚未开通QQ钱包");
                     break;
                 case R.id.decod1_slect2_tx:
@@ -182,9 +190,14 @@ public class Decoder extends Activity {
         this.backimg.setOnClickListener(this.listener);
         this.bTextView.setOnClickListener(this.listener);
 
+        view1 = findViewById(R.id.decod1_v1);
+        view2 = findViewById(R.id.decod1_v2);
+
         layout1 = (LinearLayout) findViewById(R.id.decod1_linear);
         layout2 = (LinearLayout) findViewById(R.id.decod1_select_linear);
 
+        merchantId = (TextView) findViewById(R.id.decod1_mercant_tx);
+        merchatMoney = (TextView) findViewById(R.id.decod1_mercan_money_tx);
         int[] textId = {R.id.decod1_slect_tx, R.id.decod1_slect1_tx, R.id.decod1_slect2_tx, R.id.decod1_slect3_tx};
         TextView textView;
         for (int i = 0; i < textId.length; i++) {
@@ -202,9 +215,11 @@ public class Decoder extends Activity {
      * 視圖切换
      */
     private void swich() {
+        //判断相机是否开启，如果是
         if (readerView.getCameraManager().isOpen()) {
             hashswich = false;
         }
+        //如果相机开启，返回
         if (hashswich) {
             return;
         }
@@ -216,7 +231,11 @@ public class Decoder extends Activity {
             layout.setVisibility(View.GONE);
             swichImg.setVisibility(View.VISIBLE);
             pleaseSwap.setText("请顾客扫描二维码");
+            pleaseSwap.setTextColor(getResources().getColor(R.color.black));
+
             bTextView.setText("切换到扫码收款");
+            merchantId.setVisibility(View.VISIBLE);
+            merchatMoney.setVisibility(View.VISIBLE);
             new MyAsy().execute("");
             hashswich = false;
         } else {
@@ -224,7 +243,12 @@ public class Decoder extends Activity {
             readerView.getCameraManager().startPreview();
             layout.setVisibility(View.VISIBLE);
             swichImg.setVisibility(View.GONE);
+
+            merchatMoney.setVisibility(View.INVISIBLE);
+            merchantId.setVisibility(View.INVISIBLE);
+
             pleaseSwap.setText("将二维码放入框内即可自行扫码");
+            pleaseSwap.setTextColor(getResources().getColor(R.color.white));
             bTextView.setText("切换成二维码收款");
         }
     }
@@ -233,13 +257,18 @@ public class Decoder extends Activity {
      * 设置收款方式，和收款金额
      */
     private void getDate() {
+        MyApplaication applaication = (MyApplaication) getApplication();
+
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("count");
         payType = bundle.getInt("payType");
         money = bundle.getFloat("money");
         boolean fukuanma = bundle.getBoolean("fukuan");
+        merchantId.setText(applaication.getDate("merName"));
+        merchatMoney.setText("¥" + money);
         if (payType == 0) {
             layout2.setVisibility(View.VISIBLE);
+
         } else {
             layout2.setVisibility(View.INVISIBLE);
         }

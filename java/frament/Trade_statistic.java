@@ -36,6 +36,8 @@ import web.Ip;
  * 统计主类
  */
 public class Trade_statistic extends Fragment {
+    private int month;//本月份
+    private int year;//本年份
     private TextView timeText;//时间的Textview
     private String time;//时间
     private LayoutInflater inflater;
@@ -86,6 +88,8 @@ public class Trade_statistic extends Fragment {
     }
 
     private void loadView(View view) {
+        month=Integer.parseInt(BaihuijiNet.getTime("MM"));
+        year=Integer.parseInt(BaihuijiNet.getTime("yyyy"));
         //选择门店
         TextView textView = (TextView) view.findViewById(R.id.trad_statistic_select_tx);
         textView.setOnClickListener(listener);
@@ -112,11 +116,22 @@ public class Trade_statistic extends Fragment {
             linearLayout = (LinearLayout) view.findViewById(linerId[i]);
             linearLayout.setOnClickListener(listener);
         }
+        //时间选择
         ImageView img = (ImageView) view.findViewById(R.id.trad_statistic_lef_img);
         img.setOnClickListener(listener);
         img = (ImageView) view.findViewById(R.id.trad_statistic_right_img);
         img.setOnClickListener(listener);
         timeText = (TextView) view.findViewById(R.id.trad_statics_time_tx);
+        for(int a=0;a<totalNum.length;a++){
+
+                totalNum[a]=0;
+                totalMoney[a]=0f;
+                for(int b=0;b<statisticNum[0].length;b++){
+                    statisticNum[a][b]=0;
+                    statisticMoney[a][b]=0f;
+                }
+        }
+
     }
 
     private View.OnClickListener listener = new View.OnClickListener() {
@@ -128,12 +143,12 @@ public class Trade_statistic extends Fragment {
                     break;
                 case R.id.trad_statistic_money_tx:
                     if (list1.size() > 0) {
-                        swich();
+                        swich(true);
                     }
                     break;
                 case R.id.trad_statistic_sales_tx:
                     if (list1.size() > 0) {
-                        swich();
+                        swich(false);
                     }
                     break;
                 case R.id.trad_statistic_right_img:
@@ -195,6 +210,11 @@ public class Trade_statistic extends Fragment {
                 month--;
             }
         }
+        //时间纠错,年份为本年，月份大于本月
+        if(month>this.month&&year==this.year){
+            month=this.month;
+        }
+
         timeText.setText(year + "-" + month);
         time = year + "" + month;
         new MyAsy().execute(time);
@@ -279,18 +299,18 @@ public class Trade_statistic extends Fragment {
     /**
      * 状态切换时,sector传值  b o r g
      */
-    private void swich() {
-        if (layoutm.getVisibility() == View.VISIBLE) {
+    private void swich(boolean money) {
+        if (!money) {
             layoutm.setVisibility(View.GONE);
             layout2n.setVisibility(View.VISIBLE);
-            view1.setBackgroundColor(getResources().getColor(R.color.white));
-            view2.setBackgroundColor(getResources().getColor(R.color.blue));
+            view1.setVisibility(View.INVISIBLE);
+            view2.setVisibility(View.VISIBLE);
             sector.setWight(statisticMoney[0][2], statisticMoney[0][1], statisticMoney[0][3], statisticMoney[0][0]);
-        } else if (layoutm.getVisibility() == View.GONE) {
+        } else {
             layoutm.setVisibility(View.VISIBLE);
             layout2n.setVisibility(View.GONE);
-            view2.setBackgroundColor(getResources().getColor(R.color.white));
-            view1.setBackgroundColor(getResources().getColor(R.color.blue));
+            view2.setVisibility(View.INVISIBLE);
+            view1.setVisibility(View.VISIBLE);
             sector.setWight(statisticNum[0][2], statisticNum[0][1], statisticNum[0][3], statisticNum[0][0]);
         }
     }
@@ -357,6 +377,16 @@ public class Trade_statistic extends Fragment {
      * 设置控件显示的数据，有三个状态
      */
     private void setDate() {
+        //数据清空
+        for(int a=0;a<totalNum.length;a++){
+
+            totalNum[a]=0;
+            totalMoney[a]=0f;
+            for(int b=0;b<statisticNum[0].length;b++){
+                statisticNum[a][b]=0;
+                statisticMoney[a][b]=0f;
+            }
+        }
         //显示总额的id,前两位为 金额，后两位为数量
         TextView textView;
         int totalId[] = {R.id.trad_statistic_getMoney_tx, R.id.trad_statistic_backMoney_tx, R.id.trad_statistic_getMoney_tx2, R.id.trad_statistic_backMoney2_tx};
@@ -364,7 +394,7 @@ public class Trade_statistic extends Fragment {
         for (int i = 0; i < totalId.length; i++) {
             textView = (TextView) view.findViewById(totalId[i]);
             if (i < 2) {
-                textView.setText(totalMoney[i] + "");
+                textView.setText((float)(Math.round(totalMoney[i]*100)/100) + "");
                 continue;
             } else {
                 textView.setText(totalNum[i - 2] + "笔");
@@ -376,10 +406,11 @@ public class Trade_statistic extends Fragment {
         for (int a = 0; a < tradMoneyId.length; a++) {
             textView = (TextView) view.findViewById(tradMoneyId[a]);
             if (a < 4) {
-                textView.setText(statisticMoney[0][a] + "");
+                textView.setText((float)(Math.round(statisticMoney[0][a]*100)/100) + "");
+
 
             } else {
-                textView.setText(statisticMoney[0][a - 4] + "");
+                textView.setText((float)(Math.round(statisticMoney[1][a - 4]*100)/100) + "");
             }
         }
         /**
@@ -387,11 +418,11 @@ public class Trade_statistic extends Fragment {
          */
         for (int a = 0; a < tradMoneyId.length; a++) {
             textView = (TextView) view.findViewById(tradNumId[a]);
-            if (a < 4) {
+            if (a < 4) {//收款
                 textView.setText(statisticNum[0][a] + "");
 
-            } else {
-                textView.setText(statisticNum[0][a - 4] + "");
+            } else {//退款
+                textView.setText(statisticNum[1][a - 4] + "");
             }
         }
         sector.setWight(statisticMoney[0][0], statisticMoney[0][1], statisticMoney[0][2], statisticMoney[0][3]);
@@ -479,7 +510,7 @@ public class Trade_statistic extends Fragment {
         if (pay == null) {
             return 0f;
         } else {
-            return Float.parseFloat(pay);
+            return  Float.parseFloat(pay);
         }
     }
 

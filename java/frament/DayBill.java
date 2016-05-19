@@ -40,7 +40,7 @@ import web.Ip;
 public class DayBill extends Fragment {
     private ListView listView;
     private TextView textView;
-    private ArrayList<HashMap<String, String>> list;
+    private ArrayList<HashMap<String, String>> list=new ArrayList<HashMap<String, String>>();
     private BillAdpter billAdpter;
     private String time;
 
