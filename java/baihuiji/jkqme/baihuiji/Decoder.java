@@ -8,6 +8,7 @@ import android.graphics.PointF;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -47,6 +48,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 import frament.Home_display_fragment;
 import views.MyView;
@@ -55,7 +58,8 @@ import views.MyView;
  * 扫码activity,可以扫描
  */
 public class Decoder extends Activity {
-    private boolean hashswich;
+    private boolean tradSucess=false;//交易成功判断
+    private boolean hashswich;//是否切换方式判断
     //获取订单号，扫别人
     private final String ordSource = "http://baihuiji.weikebaba.com/pospay/getPosOrderNo";
     //收款，扫比人
@@ -76,11 +80,21 @@ public class Decoder extends Activity {
     private ImageView swichImg;//给出二维码的视图
     private RelativeLayout layout;//二位码扫描框的视图
     private int payType;
-    private float money;
+    private String money;
     private String orderNO;
     private LinearLayout layout1, layout2;//全面局，和支付方式框
     // private String authCode;//授权码
     private boolean onOrder = false;//正在收款
+
+    private android.os.Handler handler=new android.os.Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            if(!tradSucess){
+                tradeSuccess();
+            }
+            super.handleMessage(msg);
+        }
+    };
     private OnClickListener listener = new OnClickListener() {
         public void onClick(View paramAnonymousView) {
             switch (paramAnonymousView.getId()) {
@@ -262,7 +276,7 @@ public class Decoder extends Activity {
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("count");
         payType = bundle.getInt("payType");
-        money = bundle.getFloat("money");
+        money = bundle.getString("money");
         boolean fukuanma = bundle.getBoolean("fukuan");
         merchantId.setText(applaication.getDate("merName"));
         merchatMoney.setText("¥" + money);
@@ -309,8 +323,8 @@ public class Decoder extends Activity {
         String date = "operateTel";
 
         String key[] = {"merchantId", "ordSource", "payType", "totalFee", "operateId", "MD5"};
-        String value[] = {applaication.getDate(key[0]), "pc", payType + "", (int) (money * 100) + "", applaication.getDate(date), getMd5_32("merchantId&ordSource&payType&totalFee&operateId&=*"
-                + applaication.getDate(key[0]) + "*" + "pc" + "*" + payType + "*" + (int) (money * 100) + "*" + applaication.getDate(date))};
+        String value[] = {applaication.getDate(key[0]), "pc", payType + "", money.replace(".","") + "", applaication.getDate(date), getMd5_32("merchantId&ordSource&payType&totalFee&operateId&=*"
+                + applaication.getDate(key[0]) + "*" + "pc" + "*" + payType + "*" + money.replace(".","") + "*" + applaication.getDate(date))};
         String json = getJson(key, value, "MD5");
         String requst = urlconection(getMonny_bySwap, json);
 
@@ -402,7 +416,10 @@ public class Decoder extends Activity {
                 String json = getJson(key, value, "MD5");
                 String requst = urlconection(tradQuerry, json);
                 if (getRequstSuccess(requst)) {
-
+                    ShowTost("交易成功");
+                    tradSucess=true;
+                }else {
+                    handler.sendEmptyMessageDelayed(1,8000);
                 }
             }
         }).start();
@@ -428,14 +445,14 @@ public class Decoder extends Activity {
                     orderNO = getOrderNo(orRequst);
                     //收款部分
                     String key1[] = {"authCode", "merchantId", "orderNo", "ordSource", "payType", "totalFee", "operateId", "MD5"};
-                    String value1[] = {authcods, applaication.getDate(key1[1]), orderNO, "pc", payType + "", (int) (money * 100) + "", applaication.getDate(key1[6]),
+                    String value1[] = {authcods, applaication.getDate(key1[1]), orderNO, "pc", payType + "",money.replace(".","") + "", applaication.getDate(key1[6]),
                             getMd5_32("authCode&merchantId&orderNo&ordSource&payType&totalFee&operateId&=*"
-                                    + authcods + "*" + applaication.getDate(key1[1]) + "*" + orderNO + "*" + "pc" + "*" + payType + "*" + (int) (money * 100) + "*" + applaication.getDate(key1[6]))};
+                                    + authcods + "*" + applaication.getDate(key1[1]) + "*" + orderNO + "*" + "pc" + "*" + payType + "*" +money.replace(".","") + "*" + applaication.getDate(key1[6]))};
                     String json1 = getJson(key1, value1, "MD5");
                     String requst1 = urlconection(getMony, json1);
                     Log.i("Decoder_getOrder", requst1);
                     if (collectionSucced(requst1)) {
-                        ShowTost("支付成功");
+                        ShowTost("交易成功");
                         //没有返回或者没有支付成功的情况
                     } else {
 
@@ -705,8 +722,10 @@ public class Decoder extends Activity {
         @Override
         protected void onPostExecute(Bitmap bitmap) {
             super.onPostExecute(bitmap);
-            if (bitmap != null)
+            if (bitmap != null){
                 swichImg.setImageBitmap(bitmap);
+                handler.sendEmptyMessageAtTime(1,8000);
+            }
         }
     }
 }

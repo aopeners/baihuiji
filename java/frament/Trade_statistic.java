@@ -19,6 +19,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -49,11 +50,11 @@ public class Trade_statistic extends Fragment {
     //总笔数显示数组  0收款，1退款
     private int totalNum[] = new int[2];
     //总金额显示数组
-    private float totalMoney[] = new float[2];
+    private String totalMoney[] = new String[2];
     //销量数组,分4种, 第一维收款，第二维 退款
     private int statisticNum[][] = new int[2][4];
     //销售额数组
-    private float statisticMoney[][] = new float[2][4];
+    private String statisticMoney[][] = new String[2][4];
     //金额统计数据
     private ArrayList<HashMap<String, String>> list1 = new ArrayList<HashMap<String, String>>();
     /**
@@ -88,8 +89,8 @@ public class Trade_statistic extends Fragment {
     }
 
     private void loadView(View view) {
-        month=Integer.parseInt(BaihuijiNet.getTime("MM"));
-        year=Integer.parseInt(BaihuijiNet.getTime("yyyy"));
+        month = Integer.parseInt(BaihuijiNet.getTime("MM"));
+        year = Integer.parseInt(BaihuijiNet.getTime("yyyy"));
         //选择门店
         TextView textView = (TextView) view.findViewById(R.id.trad_statistic_select_tx);
         textView.setOnClickListener(listener);
@@ -122,14 +123,14 @@ public class Trade_statistic extends Fragment {
         img = (ImageView) view.findViewById(R.id.trad_statistic_right_img);
         img.setOnClickListener(listener);
         timeText = (TextView) view.findViewById(R.id.trad_statics_time_tx);
-        for(int a=0;a<totalNum.length;a++){
+        for (int a = 0; a < totalNum.length; a++) {
 
-                totalNum[a]=0;
-                totalMoney[a]=0f;
-                for(int b=0;b<statisticNum[0].length;b++){
-                    statisticNum[a][b]=0;
-                    statisticMoney[a][b]=0f;
-                }
+            totalNum[a] = 0;
+            totalMoney[a] = "0";
+            for (int b = 0; b < statisticNum[0].length; b++) {
+                statisticNum[a][b] = 0;
+                statisticMoney[a][b] = "0";
+            }
         }
 
     }
@@ -211,12 +212,16 @@ public class Trade_statistic extends Fragment {
             }
         }
         //时间纠错,年份为本年，月份大于本月
-        if(month>this.month&&year==this.year){
-            month=this.month;
+        if (month > this.month && year == this.year) {
+            month = this.month;
         }
 
         timeText.setText(year + "-" + month);
-        time = year + "" + month;
+        if (month < 10) {
+            time = year + "0" + month;
+        } else {
+            time = year + "" + month;
+        }
         new MyAsy().execute(time);
     }
 
@@ -236,42 +241,42 @@ public class Trade_statistic extends Fragment {
             case 1:
                 buffer.append(Ip.monthstatistic + "?");//这一段是需要判断的
                 payType = 1;
-                payTotle=statisticNum[0][0];
+                payTotle = statisticNum[0][0];
                 break;
             case 2:
                 buffer.append(Ip.monthstatistic + "?");//这一段是需要判断的
                 payType = 2;
-                payTotle=statisticNum[0][1];
+                payTotle = statisticNum[0][1];
                 break;
             case 3:
                 buffer.append(Ip.monthstatistic + "?");//这一段是需要判断的
                 payType = 3;
-                payTotle=statisticNum[0][2];
+                payTotle = statisticNum[0][2];
                 break;
             case 4:
                 buffer.append(Ip.monthstatistic + "?");//这一段是需要判断的
                 payType = 4;
-                payTotle=statisticNum[0][3];
+                payTotle = statisticNum[0][3];
                 break;
             case 5:
                 buffer.append(Ip.saleDayCount + "?");
                 payType = 1;
-                payTotle=statisticNum[0][0];
+                payTotle = statisticNum[0][0];
                 break;
             case 6:
                 buffer.append(Ip.saleDayCount + "?");
                 payType = 2;
-                payTotle=statisticNum[0][1];
+                payTotle = statisticNum[0][1];
                 break;
             case 7:
                 buffer.append(Ip.saleDayCount + "?");
                 payType = 3;
-                payTotle=statisticNum[0][2];
+                payTotle = statisticNum[0][2];
                 break;
             case 8:
                 buffer.append(Ip.saleDayCount + "?");
                 payType = 4;
-                payTotle=statisticNum[0][3];
+                payTotle = statisticNum[0][3];
                 break;
 
         }
@@ -288,10 +293,10 @@ public class Trade_statistic extends Fragment {
         if (a <= 4) {
             //
             statisticHome.showFragment(2);
-            statisticHome.setMonyStatisticByType(buffer.toString(), payType,time,payTotle+"");
+            statisticHome.setMonyStatisticByType(buffer.toString(), payType, time, payTotle + "");
         } else {
             statisticHome.showFragment(3);
-            statisticHome.setTradeStatisticSaleDayCount(buffer.toString(), payType,time,payTotle+"");
+            statisticHome.setTradeStatisticSaleDayCount(buffer.toString(), payType, time, payTotle + "");
         }
 
     }
@@ -305,7 +310,7 @@ public class Trade_statistic extends Fragment {
             layout2n.setVisibility(View.VISIBLE);
             view1.setVisibility(View.INVISIBLE);
             view2.setVisibility(View.VISIBLE);
-            sector.setWight(statisticMoney[0][2], statisticMoney[0][1], statisticMoney[0][3], statisticMoney[0][0]);
+            sector.setWight(Float.parseFloat(statisticMoney[0][2]), Float.parseFloat(statisticMoney[0][1]), Float.parseFloat(statisticMoney[0][3]), Float.parseFloat(statisticMoney[0][0]));
         } else {
             layoutm.setVisibility(View.VISIBLE);
             layout2n.setVisibility(View.GONE);
@@ -345,14 +350,14 @@ public class Trade_statistic extends Fragment {
      *
      * @param merChantId 门店名字
      */
-    private void onSelectMerchant(String merChantId,String time) {
-        if(this.time==null){
-           this. time = BaihuijiNet.getTime("yyyyMM");
+    private void onSelectMerchant(String merChantId, String time) {
+        if (this.time == null) {
+            this.time = BaihuijiNet.getTime("yyyyMM");
         }
 
         MyApplaication applaication = (MyApplaication) getParentFragment().getActivity().getApplication();
         String key[] = {"uId", "merchantId", "month", "rule"};
-        String value[] = {applaication.getDate("operateName"), merChantId,this.time, "ss"};
+        String value[] = {applaication.getDate("operateName"), merChantId, this.time, "ss"};
         //时间设置
 
 
@@ -377,16 +382,7 @@ public class Trade_statistic extends Fragment {
      * 设置控件显示的数据，有三个状态
      */
     private void setDate() {
-        //数据清空
-        for(int a=0;a<totalNum.length;a++){
 
-            totalNum[a]=0;
-            totalMoney[a]=0f;
-            for(int b=0;b<statisticNum[0].length;b++){
-                statisticNum[a][b]=0;
-                statisticMoney[a][b]=0f;
-            }
-        }
         //显示总额的id,前两位为 金额，后两位为数量
         TextView textView;
         int totalId[] = {R.id.trad_statistic_getMoney_tx, R.id.trad_statistic_backMoney_tx, R.id.trad_statistic_getMoney_tx2, R.id.trad_statistic_backMoney2_tx};
@@ -394,7 +390,7 @@ public class Trade_statistic extends Fragment {
         for (int i = 0; i < totalId.length; i++) {
             textView = (TextView) view.findViewById(totalId[i]);
             if (i < 2) {
-                textView.setText((float)(Math.round(totalMoney[i]*100)/100) + "");
+                textView.setText(totalMoney[i]);
                 continue;
             } else {
                 textView.setText(totalNum[i - 2] + "笔");
@@ -406,11 +402,10 @@ public class Trade_statistic extends Fragment {
         for (int a = 0; a < tradMoneyId.length; a++) {
             textView = (TextView) view.findViewById(tradMoneyId[a]);
             if (a < 4) {
-                textView.setText((float)(Math.round(statisticMoney[0][a]*100)/100) + "");
-
-
+                //收款
+                textView.setText(statisticMoney[0][a] + "");
             } else {
-                textView.setText((float)(Math.round(statisticMoney[1][a - 4]*100)/100) + "");
+                textView.setText(statisticMoney[1][a - 4] + "");
             }
         }
         /**
@@ -425,7 +420,7 @@ public class Trade_statistic extends Fragment {
                 textView.setText(statisticNum[1][a - 4] + "");
             }
         }
-        sector.setWight(statisticMoney[0][0], statisticMoney[0][1], statisticMoney[0][2], statisticMoney[0][3]);
+        sector.setWight(Float.parseFloat(statisticMoney[0][0]), Float.parseFloat(statisticMoney[0][1]), Float.parseFloat(statisticMoney[0][2]), Float.parseFloat(statisticMoney[0][3]));
     }
 
     /**
@@ -434,6 +429,16 @@ public class Trade_statistic extends Fragment {
      * @param requst,
      */
     private void getDate(String requst) {
+        //数据清空
+        for (int a = 0; a < totalNum.length; a++) {
+
+            totalNum[a] = 0;
+            totalMoney[a] = "0";
+            for (int b = 0; b < statisticNum[0].length; b++) {
+                statisticNum[a][b] = 0;
+                statisticMoney[a][b] = "0";
+            }
+        }
         JSONObject jsonObject = null;
         JSONArray jsonArray = null;
         try {
@@ -462,34 +467,34 @@ public class Trade_statistic extends Fragment {
 
                 if (jsonObject.getString("payType").equals("1")) {
                     //金额获取
-                    statisticMoney[0][0] = statisticMoney[0][0] + getMone(jsonObject.getString("payTotal"));
-                    statisticMoney[1][0] = statisticMoney[1][0] + getMone(jsonObject.getString("backTotal"));
+                    statisticMoney[0][0] = getMone(statisticMoney[0][0],jsonObject.getString("payTotal"));
+                    statisticMoney[1][0] = getMone(statisticMoney[1][0],jsonObject.getString("backTotal"));
                     //数量统计
                     statisticNum[0][0] = statisticNum[0][0] + getNum(jsonObject.getString("payNum"));
                     statisticNum[1][0] = statisticNum[1][0] + getNum(jsonObject.getString("backNum"));
 
                 } else if (jsonObject.getString("payType").equals("2")) {
-                    statisticMoney[0][1] = statisticMoney[0][1] + getMone(jsonObject.getString("payTotal"));
-                    statisticMoney[1][1] = statisticMoney[1][1] + getMone(jsonObject.getString("backTotal"));
+                    statisticMoney[0][1] =  getMone(statisticMoney[0][1],jsonObject.getString("payTotal"));
+                    statisticMoney[1][1] = getMone(statisticMoney[1][1] ,jsonObject.getString("backTotal"));
 
                     statisticNum[0][1] = statisticNum[0][1] + getNum(jsonObject.getString("payNum"));
                     statisticNum[1][1] = statisticNum[1][1] + getNum(jsonObject.getString("backNum"));
                 } else if (jsonObject.getString("payType").equals("3")) {
-                    statisticMoney[0][2] = statisticMoney[0][2] + getMone(jsonObject.getString("payTotal"));
-                    statisticMoney[1][2] = statisticMoney[1][2] + getMone(jsonObject.getString("backTotal"));
+                    statisticMoney[0][2] = getMone(statisticMoney[0][2],jsonObject.getString("payTotal"));
+                    statisticMoney[1][2] = getMone(statisticMoney[1][2],jsonObject.getString("backTotal"));
 
                     statisticNum[0][2] = statisticNum[0][2] + getNum(jsonObject.getString("payNum"));
                     statisticNum[1][2] = statisticNum[1][2] + getNum(jsonObject.getString("backNum"));
                 } else if (jsonObject.getString("payType").equals("4")) {
-                    statisticMoney[0][3] = statisticMoney[0][3] + getMone(jsonObject.getString("payTotal"));
-                    statisticMoney[1][3] = statisticMoney[1][3] + getMone(jsonObject.getString("backTotal"));
+                    statisticMoney[0][3] = getMone(statisticMoney[0][3],jsonObject.getString("payTotal"));
+                    statisticMoney[1][3] = getMone(statisticMoney[1][3],jsonObject.getString("backTotal"));
 
                     statisticNum[0][3] = statisticNum[0][3] + getNum(jsonObject.getString("payNum"));
                     statisticNum[1][3] = statisticNum[1][3] + getNum(jsonObject.getString("backNum"));
                 }
                 //总金额
-                totalMoney[0] = totalMoney[0] + getMone(jsonObject.getString("payTotal"));
-                totalMoney[1] = totalMoney[1] + getMone(jsonObject.getString("backTotal"));
+                totalMoney[0] =getMone( totalMoney[0],jsonObject.getString("payTotal"));
+                totalMoney[1] = getMone(totalMoney[1],jsonObject.getString("backTotal"));
 
                 totalNum[0] = totalNum[0] + getNum(jsonObject.getString("payNum"));
                 totalNum[1] = totalNum[1] + getNum(jsonObject.getString("backNum"));
@@ -503,14 +508,18 @@ public class Trade_statistic extends Fragment {
     /**
      * 计算单种方式获得的金额
      *
-     * @param pay
+     * @param pay  新的收入值
+     * @param origin  传入的原值
      * @return
      */
-    private float getMone(String pay) {
+    private String getMone(String origin,String pay) {
+        BigDecimal b1=new BigDecimal(origin);
+        BigDecimal b2;
         if (pay == null) {
-            return 0f;
+            return origin;
         } else {
-            return  Float.parseFloat(pay);
+            b2=new BigDecimal(pay);
+            return b1.add(b2).toString();
         }
     }
 
@@ -522,10 +531,10 @@ public class Trade_statistic extends Fragment {
         }
     }
 
-    private void onshow(String s ) {
+    private void onshow(String s) {
         MyApplaication application = (MyApplaication) getParentFragment().getActivity().getApplication();
         //传入门店名
-        onSelectMerchant(application.getDate("merchantId"),s);
+        onSelectMerchant(application.getDate("merchantId"), s);
     }
 
     @Override
@@ -592,7 +601,7 @@ public class Trade_statistic extends Fragment {
 
         @Override
         protected String doInBackground(String... strings) {
-            String s=strings[0];
+            String s = strings[0];
             onshow(s);
             return null;
         }

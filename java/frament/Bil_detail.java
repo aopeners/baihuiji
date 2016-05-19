@@ -40,9 +40,10 @@ import web.Ip;
 public class Bil_detail extends Fragment {
     private boolean state;
     private LayoutInflater inflater;
+    private  EditText editText;
     public View onCreateView(LayoutInflater paramLayoutInflater, @Nullable ViewGroup paramViewGroup, @Nullable Bundle paramBundle) {
         View view = paramLayoutInflater.inflate(R.layout.bill_detai, null);
-        this.inflater=paramLayoutInflater;
+        this.inflater = paramLayoutInflater;
         loadComponet(view);
         return view;
     }
@@ -67,6 +68,9 @@ public class Bil_detail extends Fragment {
                 case R.id.dialog_refund_close:
                     dialog.cancel();
                     break;
+                case R.id.dialog_refund_tx1:
+                    onRefund(editText.getText().toString());
+                    break;
             }
         }
     };
@@ -81,19 +85,25 @@ public class Bil_detail extends Fragment {
     private AlertDialog dialog;
 
     private void showDialog() {
+        View view = inflater.inflate(R.layout.dialog_refund, null, true);
+        TextView textView;
         if (dialog == null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentFragment().getContext());
-            View view = inflater.inflate(R.layout.dialog_refund, null, true);
+
             ImageView imageView = (ImageView) view.findViewById(R.id.dialog_refund_close);
             imageView.setOnClickListener(listener);
-            EditText editText = (EditText) view.findViewById(R.id.dialog_refund_etx);
+             editText = (EditText) view.findViewById(R.id.dialog_refund_etx);
             editText.setOnEditorActionListener(elstener);
 
-            TextView textView = (TextView) view.findViewById(R.id.dialog_refund_tx);
-            textView.setText(map.get("ordPrice"));
+
+            builder.setView(view);
+            textView = (TextView) view.findViewById(R.id.dialog_refund_tx1);
+            textView.setOnClickListener(listener);
             dialog = builder.create();
             dialog.setCanceledOnTouchOutside(false);
         }
+        textView = (TextView) view.findViewById(R.id.dialog_refund_tx);
+        textView.setText(map.get("ordPrice"));
         dialog.show();
 
 
@@ -105,8 +115,8 @@ public class Bil_detail extends Fragment {
     private TextView.OnEditorActionListener elstener = new TextView.OnEditorActionListener() {
         @Override
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-            if(actionId == KeyEvent.ACTION_DOWN || actionId == EditorInfo.IME_ACTION_DONE){
-                onRefund(v.getText().toString());
+            if (actionId == KeyEvent.ACTION_DOWN || actionId == EditorInfo.IME_ACTION_DONE) {
+                // onRefund(v.getText().toString());
             }
             return false;
         }

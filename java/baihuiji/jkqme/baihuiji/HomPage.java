@@ -11,6 +11,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
@@ -57,7 +58,7 @@ public class HomPage extends FragmentActivity {
     private FragmentManager manager = getSupportFragmentManager();
     private MineHome mineHome;
     private pagerAdpters padpter;
-    private RadioGroup rGroup;
+    private LinearLayout rGroup;
     private OnCheckedChangeListener rlistener = new OnCheckedChangeListener() {
         public void onCheckedChanged(RadioGroup paramAnonymousRadioGroup, int paramAnonymousInt) {
             Log.i("OnChekedRedio", "home");
@@ -171,12 +172,12 @@ public class HomPage extends FragmentActivity {
      * @param moneycont
      * @param fukuanma
      */
-    public void jumptoDecode(int payType, float moneycont, boolean fukuanma) {
+    public void jumptoDecode(int payType, String moneycont, boolean fukuanma) {
         Intent intent = new Intent(this, Decoder.class);
         Bundle bundle = new Bundle();
 
         bundle.putInt("payType", payType);
-        bundle.putFloat("money", moneycont);
+        bundle.putString("money", moneycont);
         bundle.putBoolean("fukuan", fukuanma);
         intent.putExtra("count", bundle);
 
@@ -187,8 +188,8 @@ public class HomPage extends FragmentActivity {
         super.onCreate(paramBundle);
         requestWindowFeature(1);
         setContentView(R.layout.home_page_activity);
-        this.rGroup = ((RadioGroup) findViewById(R.id.buttom_radioh));
-        this.rGroup.setOnCheckedChangeListener(this.rlistener);
+        this.rGroup = ((LinearLayout) findViewById(R.id.buttom_radioh));
+        //   this.rGroup.setOnCheckedChangeListener(this.rlistener);
         getFragment();
         for (int i = 0; i < 4; i++) {
             this.button[i] = ((Button) findViewById(this.btId[i]));
@@ -197,8 +198,12 @@ public class HomPage extends FragmentActivity {
     }
 
     public boolean onKeyDown(int paramInt, KeyEvent paramKeyEvent) {
-        if (paramInt == 4)
-            return true;
+        if (paramInt == 4) {
+            if (!onBack()) {
+                return super.onKeyDown(paramInt, paramKeyEvent);
+            }
+            return onBack();
+        }
         return super.onKeyDown(paramInt, paramKeyEvent);
     }
 
@@ -207,6 +212,25 @@ public class HomPage extends FragmentActivity {
 
     public void showButtom() {
         this.rGroup.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * 按返回时的办法
+     *
+     * @return
+     */
+    private boolean onBack() {
+        if (currentFragment.hashCode() == home_fragment.hashCode()) {
+
+            return home_fragment.onBack();
+        } else if (currentFragment.hashCode() == bill.hashCode()) {
+            return bill.onBack();
+        } else if (currentFragment.hashCode() == statisticsFragment.hashCode()) {
+            return statisticsFragment.onBack();
+        } else if (currentFragment.hashCode() == mineHome.hashCode()) {
+            return mineHome.onBack();
+        }
+        return false;
     }
 }
 

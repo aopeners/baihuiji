@@ -44,6 +44,8 @@ public class TradeStatisticSaleDayCount extends Fragment {
     private ListView listView;
     private DayCoutAdpter dayCoutAdpter;
     private String time;
+    private TextView year;
+    private TextView month;
     private ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
     private View.OnClickListener listener = new View.OnClickListener() {
         public void onClick(View paramAnonymousView) {
@@ -72,6 +74,8 @@ public class TradeStatisticSaleDayCount extends Fragment {
         linearLayout.setOnClickListener(listener);
         this.listView = ((ListView) paramView.findViewById(R.id.month_bill_lv));
         ((ImageView) paramView.findViewById(R.id.moth_bill_back_img)).setOnClickListener(this.listener);
+        year= (TextView) paramView.findViewById(R.id.month_bill_year_tx);
+        month= (TextView) paramView.findViewById(R.id.month_bill_moth_tx);
     }
 
     /**
@@ -115,6 +119,7 @@ public class TradeStatisticSaleDayCount extends Fragment {
         float payTotle = 0;//收款数
         float backTotle = 0;//退款数
         int totel;
+
         //listview 适配数据
         HashMap<String, String> map;
         for (int j = 0; j < jsonArray.length(); j++) {
@@ -140,6 +145,8 @@ public class TradeStatisticSaleDayCount extends Fragment {
         }
         int tId[] = {R.id.month_bill_num1_tx, R.id.month_bill_get1_tx, R.id.month_bill_back1_tx};
         //设置顶部数据
+        year.setText(time.substring(0,3));
+        month.setText(time.substring(4,5));
         for (int i = 0; i < tId.length; i++) {
             textView = (TextView) view.findViewById(tId[i]);
 

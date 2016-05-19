@@ -103,4 +103,19 @@ public class Home_fragment extends Fragment {
     public void setType(int type) {
         countFragment.setPayType(type);
     }
+
+    /**
+     * 按返回时的监听
+     * @return
+     */
+    public boolean onBack(){
+        if(curentFragment.hashCode()==hDisplay_fragment.hashCode()){
+            //key退出
+            return false;
+        }else {
+            showFragment(hDisplay_fragment);
+            ((HomPage)getActivity()).showButtom();
+            return true;
+        }
+    }
 }

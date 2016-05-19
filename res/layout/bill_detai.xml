@@ -62,7 +62,7 @@
                     android:padding="8.0dip"
                     android:text="付款金额"
                     android:textColor="@color/black"
-                    android:textSize="8.0sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/bill_money_tx"
@@ -75,7 +75,7 @@
                     android:padding="8.0dip"
                     android:text="¥1532.00"
                     android:textColor="@color/black"
-                    android:textSize="15.0sp" />
+                    android:textSize="22sp" />
             </LinearLayout>
 
             <LinearLayout

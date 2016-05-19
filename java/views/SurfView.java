@@ -22,7 +22,7 @@ import baihuiji.jkqme.baihuiji.R;
  */
 public class SurfView extends View {
 	private int orange=getResources().getColor(R.color.orange);
-	private int orange2=getResources().getColor(R.color.red1);
+	private int orange2=getResources().getColor(R.color.orange1);
 	NextFrameAction nextFrameAction;
 	RectF rectF;
 	Paint paint;
@@ -69,9 +69,9 @@ public class SurfView extends View {
 		paint2 = new Paint();
 		paint3 = new Paint();
 		paint.setAntiAlias(true);
-		paint.setColor(orange);
+		paint.setColor(orange2);
 		paint3.setAntiAlias(true);
-		paint3.setColor(orange2);
+		paint3.setColor(orange);
 
 		paint2.setAntiAlias(true);
 		paint2.setStyle(Paint.Style.STROKE);

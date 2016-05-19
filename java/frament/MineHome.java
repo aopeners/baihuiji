@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import java.lang.reflect.Field;
 
+import baihuiji.jkqme.baihuiji.HomPage;
 import baihuiji.jkqme.baihuiji.R;
 
 /**
@@ -91,5 +92,19 @@ public class MineHome extends Fragment {
                 break;
         }
 
+    }
+    /**
+     * 按返回时的监听
+     * @return
+     */
+    public boolean onBack(){
+        if(curentFragment.hashCode()==mineFragment.hashCode()){
+            //key退出
+            return false;
+        }else {
+            showFragment(mineFragment);
+            ((HomPage)getActivity()).showButtom();
+            return true;
+        }
     }
 }

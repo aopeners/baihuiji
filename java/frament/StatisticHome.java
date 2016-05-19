@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import java.lang.reflect.Field;
 
+import baihuiji.jkqme.baihuiji.HomPage;
 import baihuiji.jkqme.baihuiji.R;
 
 /**
@@ -128,5 +129,19 @@ public class StatisticHome extends Fragment {
     }
     public void setTradeStatisticSaleDayCount(String requant,int payType,String time,String payTotleNumber){
         tradeStatisticSaleDayCount.setRequst(requant,payType,time,payTotleNumber);
+    }
+    /**
+     * 按返回时的监听
+     * @return
+     */
+    public boolean onBack(){
+        if(curentFragment.hashCode()==trade_statistic.hashCode()){
+            //key退出
+            return false;
+        }else {
+            showFragment(trade_statistic);
+            ((HomPage)getActivity()).showButtom();
+            return true;
+        }
     }
 }

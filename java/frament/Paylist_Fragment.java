@@ -80,14 +80,12 @@ public class Paylist_Fragment extends Fragment {
         String[] value =
                 {applaication.getDate("merchantId"), "1", "30", "ss", applaication.getDate("operateTel")
                 };
-
-
         requst = "?" + "merchantId=" + applaication.getDate("merchantId") + "&page=1" + "&pagesize=20" + "&rule=ss" + "&uId=" + applaication.getDate("operateTel");
         json = BaihuijiNet.getJson(key, value, "uId");
         requst = Ip.thirtyDetail + BaihuijiNet.getRequst(key, value);
         Log.i("getDate", requst);
         requst = connection(requst);
-        Log.i("BillRequst", requst + "  \n  ");
+        Log.i("BillRefoundRequst", requst + "  \n  ");
         if (Paylist_Fragment.this.getSuccess(requst)) {
             return requst;
         } else {

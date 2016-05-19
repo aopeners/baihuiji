@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 
+import baihuiji.jkqme.baihuiji.HomPage;
 import baihuiji.jkqme.baihuiji.R;
 
 /**
@@ -120,6 +121,20 @@ public class Bill extends Fragment {
     public void setDayBill(String time){
         showFragment(dayBill);
         dayBill.setTime(time);
+    }
+    /**
+     * 按返回时的监听
+     * @return
+     */
+    public boolean onBack(){
+        if(curentFragment.hashCode()==paylist_Fragment.hashCode()){
+            //key退出
+            return false;
+        }else {
+            showFragment(paylist_Fragment);
+            ((HomPage)getActivity()).showButtom();
+            return true;
+        }
     }
 }
 

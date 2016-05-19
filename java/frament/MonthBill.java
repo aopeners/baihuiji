@@ -53,6 +53,9 @@ public class MonthBill extends Fragment {
     private MonthAdpter monthAdpter;
     private AlertDialog dialog;
     private String time;
+    private TextView year;
+    private TextView month;
+    private LayoutInflater inflater;
     private OnClickListener listener = new OnClickListener() {
         public void onClick(View paramAnonymousView) {
             switch (paramAnonymousView.getId()) {
@@ -76,7 +79,7 @@ public class MonthBill extends Fragment {
     private void showDatePick() {
         if (dialog == null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentFragment().getActivity());
-            View view = getParentFragment().getActivity().getLayoutInflater().inflate(R.layout.dialog_data, null, true);
+            View view = inflater.inflate(R.layout.dialog_data, null, true);
             DatePicker picker = (DatePicker) view.findViewById(R.id.dialog_date);
             picker.init(2016, 05, 4, dateChangedListener);
             builder.setView(view);
@@ -106,7 +109,14 @@ public class MonthBill extends Fragment {
         @Override
         public void onDateChanged(DatePicker datePicker, int i, int i1, int i2) {
             Log.i("  Date picker", "" + i + "   " + i1 + "   " + i2);
-            time = i + "" + i1 + "" + i2;
+            if (i1 == 12) {
+                i1 = 1;
+            }
+            if (i1 < 10) {
+                time = i + "0" + (i1 + 1);
+            } else {
+                time = i + "" + i1;
+            }
         }
     };
 
@@ -119,6 +129,7 @@ public class MonthBill extends Fragment {
             day1 = day;
         } else {
             day1 = BaihuijiNet.getTime("yyyyMM");
+            time = day1;
         }
         MyApplaication applaication = (MyApplaication) MonthBill.this.getParentFragment().getActivity().getApplication();
         String json = null;
@@ -147,8 +158,9 @@ public class MonthBill extends Fragment {
     }
 
     private ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
-    private void showTost(String str){
-        Toast.makeText(getParentFragment().getActivity(),str,Toast.LENGTH_SHORT).show();
+
+    private void showTost(String str) {
+        Toast.makeText(getParentFragment().getActivity(), str, Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -157,6 +169,9 @@ public class MonthBill extends Fragment {
      * @param paramString
      */
     private void getDate(String paramString) {
+        if (list.size() > 0) {
+            list.removeAll(list);
+        }
         View view = getView();
         TextView textView;//显示空间
         JSONObject jsonObject = null;
@@ -173,6 +188,10 @@ public class MonthBill extends Fragment {
 
         int tId[] = {R.id.month_bill_num1_tx, R.id.month_bill_get1_tx, R.id.month_bill_back1_tx};
         //设置顶部数据
+        if (time != null) {
+            year.setText(time.substring(0, 4));
+            month.setText(time.substring(4, 6));
+        }
         for (int i = 0; i < tId.length; i++) {
             textView = (TextView) view.findViewById(tId[i]);
 
@@ -242,17 +261,22 @@ public class MonthBill extends Fragment {
         this.listView = ((ListView) paramView.findViewById(R.id.month_bill_lv));
         listView.setOnItemClickListener(lvlistener);
         ((ImageView) paramView.findViewById(R.id.moth_bill_back_img)).setOnClickListener(this.listener);
+        year = (TextView) paramView.findViewById(R.id.month_bill_year_tx);
+        month = (TextView) paramView.findViewById(R.id.month_bill_moth_tx);
     }
-    private AdapterView.OnItemClickListener lvlistener=new AdapterView.OnItemClickListener() {
+
+    private AdapterView.OnItemClickListener lvlistener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-           onItemClic(((HashMap<String,String>)listView.getAdapter().getItem(i)).get("totalDate"));
+            onItemClic(((HashMap<String, String>) listView.getAdapter().getItem(i)).get("totalDate"));
         }
     };
-    private void onItemClic(String time){
-        Bill bill= (Bill) getParentFragment();
+
+    private void onItemClic(String time) {
+        Bill bill = (Bill) getParentFragment();
         bill.setDayBill(time);
     }
+
     /**
      * 点击后退时
      */
@@ -262,6 +286,7 @@ public class MonthBill extends Fragment {
 
     public View onCreateView(LayoutInflater paramLayoutInflater, @Nullable ViewGroup paramViewGroup, @Nullable Bundle paramBundle) {
         View localView = paramLayoutInflater.inflate(R.layout.month_bill, null, true);
+        this.inflater = paramLayoutInflater;
         loadComponent(localView);
         return localView;
     }

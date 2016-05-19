@@ -5,18 +5,19 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <!--主页框架-->
+
     <LinearLayout
         android:id="@+id/home_page_activit_linear"
         android:layout_width="match_parent"
-        android:layout_height="0.0dip"
-        android:layout_weight="1.0"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:orientation="vertical" />
 
-    <RadioGroup
+    <LinearLayout
         android:id="@+id/buttom_radioh"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+
         android:orientation="horizontal">
 
         <Button
@@ -62,5 +63,8 @@
             android:text="我的"
             android:textColor="@color/black"
             android:textSize="10.0sp" />
-    </RadioGroup>
+    </LinearLayout>
+    <!--主页框架-->
+
+
 </LinearLayout>

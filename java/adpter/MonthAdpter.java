@@ -1,6 +1,7 @@
 package adpter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,7 +80,7 @@ public class MonthAdpter extends BaseAdapter {
         setDate(list.get(paramInt).get("totalDate"), holder.lv_message_time_tx, holder.lv_message_time1_tx);
 
         //  holder.lv_message_pay_tx.setText(isGain(list.get(paramInt).get("payNum"),list.get(paramInt).get("backNum")));
-        isGain(list.get(paramInt).get("payNum"), list.get(paramInt).get("backNum"), holder.lv_message_pay_tx, holder.lv_message_pay_num_tx);
+        isGain(list.get(paramInt).get("payTotal"), list.get(paramInt).get("backNum"), holder.lv_message_pay_tx, holder.lv_message_pay_num_tx);
         return paramView;
     }
 
@@ -147,6 +148,7 @@ public class MonthAdpter extends BaseAdapter {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(date1);
             day = calendar.DAY_OF_WEEK;
+            Log.i("MonthAdpter",date+"");
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -155,7 +157,7 @@ public class MonthAdpter extends BaseAdapter {
         textView1.setText(day1);
         switch (day) {
             case Calendar.SATURDAY:
-                textView.setText("周六");
+                textView.setText("周日");
                 break;
             case Calendar.MONDAY:
                 textView.setText("周一");
@@ -173,7 +175,7 @@ public class MonthAdpter extends BaseAdapter {
                 textView.setText("周五");
                 break;
             case Calendar.SUNDAY:
-                textView.setText("星期天");
+                textView.setText("周六");
                 break;
         }
     }

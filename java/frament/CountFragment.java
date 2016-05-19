@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
+
 import baihuiji.jkqme.baihuiji.HomPage;
 import baihuiji.jkqme.baihuiji.R;
 
@@ -161,32 +163,33 @@ public class CountFragment extends Fragment {
      * @return
      */
     private String count(String paramString1, String paramString2) {
-        float f1;
-        float f2;
+        BigDecimal f1;
+        BigDecimal f2;
         if (paramString1.endsWith("+")) {
             try {
-                f1 = Float.parseFloat(paramString1.substring(0, paramString1.length() - 2));
+                f1=new BigDecimal(paramString1.substring(0, paramString1.length() - 2));
             } catch (NumberFormatException e) {
                return "";
             }
 
             if ((paramString2.length() > 0)) {
-                f2 = Float.parseFloat(paramString2);
+                f2 =new BigDecimal(paramString2);
                 Log.i("countf2", "f2=0");
 
-                return f1 + f2 + "";
+                return f1.add(f2).toString();
             }
         }
         if (paramString1.endsWith("*")) {
             try {
-                f1 = Float.parseFloat(paramString1.substring(0, paramString1.length() - 2));
+                f1 = new BigDecimal(paramString1.substring(0, paramString1.length() - 2));
             } catch (NumberFormatException e) {
                 return "";
             }
+
             if ((paramString2.length() > 0)) {
-                f2 = Float.valueOf(paramString2);
+                f2 = new BigDecimal(paramString2);
                 Log.i("countf2", "f2=0");
-                return paramString2 = f1 * f2 + "";
+                return f1.multiply(f2).toString();
             }
         }
         return paramString1;
@@ -202,7 +205,20 @@ public class CountFragment extends Fragment {
         ((HomPage) getParentFragment().getActivity()).hideButtom();
     }
 
-    private void jumptoDecoder(int type, float money,boolean fukuanma) {
+    /**
+     * 跳到扫码
+     * @param type
+     * @param money
+     * @param fukuanma
+     */
+    private void jumptoDecoder(int type, String money,boolean fukuanma) {
+        if(money.contains(".")){
+            int i=money.indexOf(".");
+            if(money.length()>i+3){
+                //sbstring 第二为第一位 加截取数
+                money=money.substring(0,i+3);
+            }
+        }
         ((HomPage) getParentFragment().getActivity()).jumptoDecode(type, money,fukuanma);
     }
 
@@ -251,9 +267,9 @@ public class CountFragment extends Fragment {
 
             setState(1);
         } else if (paramString.equals("扫一扫") && moneyCount.length() > 0) {
-            jumptoDecoder(payTaype, Float.parseFloat(moneyCount),false);
+            jumptoDecoder(payTaype, moneyCount,false);
         }else if(paramString.equals("付款码")&&moneyCount.length()>0){
-            jumptoDecoder(payTaype,Float.parseFloat(moneyCount),true);
+            jumptoDecoder(payTaype,moneyCount,true);
         }
     }
 
