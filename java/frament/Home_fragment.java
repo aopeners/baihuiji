@@ -22,6 +22,7 @@ public class Home_fragment extends Fragment {
     private LinearLayout layout;
     private FragmentManager manager;
     private FragmentTransaction transaction;
+    private TreadSuccess treadSuccess;
 
     private void loadFragment() {
         if (this.manager == null) {
@@ -29,6 +30,7 @@ public class Home_fragment extends Fragment {
             this.transaction = this.manager.beginTransaction();
             this.transaction.add(R.id.home_page_fragment_linear, this.hDisplay_fragment);
             this.transaction.add(R.id.home_page_fragment_linear, this.countFragment).hide(this.countFragment);
+            transaction.add(R.id.home_page_fragment_linear, treadSuccess).hide(treadSuccess);
             this.transaction.show(this.hDisplay_fragment);
             this.transaction.commit();
             this.curentFragment = this.hDisplay_fragment;
@@ -48,17 +50,18 @@ public class Home_fragment extends Fragment {
             this.transaction.commit();
             this.curentFragment = paramFragment;
         }
-        if (paramFragment.hashCode() == this.countFragment.hashCode()) {
-            setSlip(false);
-            return;
+        if (curentFragment.hashCode() == hDisplay_fragment.hashCode()) {
+            ((HomPage) getActivity()).showButtom();
+        } else {
+            ((HomPage) getActivity()).hideButtom();
         }
-        setSlip(true);
     }
 
     public void onCreate(Bundle paramBundle) {
         super.onCreate(paramBundle);
         this.hDisplay_fragment = new Home_display_fragment();
         this.countFragment = new CountFragment();
+        treadSuccess = new TreadSuccess();
     }
 
     public View onCreateView(LayoutInflater paramLayoutInflater, @Nullable ViewGroup paramViewGroup, @Nullable Bundle paramBundle) {
@@ -94,6 +97,9 @@ public class Home_fragment extends Fragment {
             case 1:
                 showFragment(this.countFragment);
                 break;
+            case 2:
+                showFragment(treadSuccess);
+                break;
             default:
                 return;
         }
@@ -106,16 +112,29 @@ public class Home_fragment extends Fragment {
 
     /**
      * 按返回时的监听
+     *
      * @return
      */
-    public boolean onBack(){
-        if(curentFragment.hashCode()==hDisplay_fragment.hashCode()){
+    public boolean onBack() {
+        if (curentFragment.hashCode() == hDisplay_fragment.hashCode()) {
             //key退出
             return false;
-        }else {
+        } else {
             showFragment(hDisplay_fragment);
-            ((HomPage)getActivity()).showButtom();
+            ((HomPage) getActivity()).showButtom();
             return true;
         }
+    }
+
+    /**
+     * 显示设置
+     *
+     * @param paytype  支付类型
+     * @param signal   订单号
+     * @param paytime  支付时间
+     * @param payTotal 支付金额
+     */
+    public void setTreadSuccessDate(String paytype, String signal, String paytime, String payTotal) {
+        treadSuccess.setDate(paytype, signal, paytime, payTotal);
     }
 }

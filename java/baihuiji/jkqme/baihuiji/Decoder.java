@@ -111,6 +111,7 @@ public class Decoder extends Activity {
                     view1.setVisibility(View.VISIBLE);
                     view2.setVisibility(View.INVISIBLE);
                     selectState(1, "尚未开通微信支付");
+
                     break;
                 case R.id.decod1_slect1_tx:
                     view2.setVisibility(View.VISIBLE);
@@ -135,6 +136,7 @@ public class Decoder extends Activity {
             case 1:
                 if (applaication.getDate("payTypeStatus").charAt(0) == '1') {
                     payType = i;
+                    new MyAsy().execute("");
                 } else {
                     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
                 }
@@ -142,6 +144,7 @@ public class Decoder extends Activity {
             case 2:
                 if (applaication.getDate("payTypeStatus").charAt(2) == '1') {
                     payType = i;
+                    new MyAsy().execute("");
                 } else {
                     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
                 }
@@ -149,6 +152,7 @@ public class Decoder extends Activity {
             case 3:
                 if (applaication.getDate("payTypeStatus").charAt(4) == '1') {
                     payType = i;
+                    new MyAsy().execute("");
                 } else {
                     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
                 }
@@ -156,6 +160,7 @@ public class Decoder extends Activity {
             case 4:
                 if (applaication.getDate("payTypeStatus").charAt(6) == '1') {
                     payType = i;
+                    new MyAsy().execute("");
                 } else {
                     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
                 }
@@ -193,6 +198,21 @@ public class Decoder extends Activity {
         }
     };
 
+    /**
+     * 收款成功时
+     */
+    private void onOrderSuccess(String time) {
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putString("payType", payType + "");
+        bundle.putString("signal", orderNO);
+        bundle.putString("paytime", time);
+        bundle.putString("payTotal", money);
+        intent.putExtra("onTradSuccess", bundle);
+        setResult(3, intent);
+        finish();
+    }
+
     //扫描退款成功时
     private void onReFound(String sigal) {
         Intent intent = new Intent();
@@ -204,6 +224,7 @@ public class Decoder extends Activity {
 
     }
 
+    //
     private QRCodeReaderView readerView;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -291,7 +312,7 @@ public class Decoder extends Activity {
     }
 
     /**
-     * 设置收款方式，和收款金额
+     * 收款时进入的方法，设置收款方式，和收款金额
      */
     private void getDate() {
         MyApplaication applaication = (MyApplaication) getApplication();
@@ -351,7 +372,10 @@ public class Decoder extends Activity {
      */
     private Bitmap getOrderBitmap() {
         MyApplaication applaication = (MyApplaication) getApplication();
-
+        if(payType==0){
+            ShowTost("请选择支付类型");
+            return null;
+        }
         String date = "operateTel";
 
         String key[] = {"merchantId", "ordSource", "payType", "totalFee", "operateId", "MD5"};
@@ -364,10 +388,19 @@ public class Decoder extends Activity {
         if (getRequstSuccess(requst)) {
             return onGetBitmapSucced(requst);
         } else {
+            ShowTost(getMsg(requst));
             return null;
         }
     }
-
+    private String getMsg(String requst){
+        try {
+            JSONObject jsonObject=new JSONObject(requst);
+            return jsonObject.getString("msg");
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return "访问失败";
+        }
+    }
     /**
      * 当获取被扫描的bitmap成功时
      *
@@ -448,7 +481,8 @@ public class Decoder extends Activity {
                 String json = getJson(key, value, "MD5");
                 String requst = urlconection(tradQuerry, json);
                 if (getRequstSuccess(requst)) {
-                    ShowTost("交易成功");
+                    // ShowTost("交易成功");
+                    onOrderSuccess(getTime(requst));
                     tradSucess = true;
                 } else {
                     handler.sendEmptyMessageDelayed(1, 8000);
@@ -456,6 +490,22 @@ public class Decoder extends Activity {
             }
         }).start();
 
+    }
+
+    /**
+     * 获得交易时间
+     *
+     * @param requst
+     * @return
+     */
+    private String getTime(String requst) {
+        try {
+            JSONObject jsonObject = new JSONObject(requst);
+            return jsonObject.getString("time");
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return "没有获取到交易时间";
+        }
     }
 
     /**
@@ -484,8 +534,9 @@ public class Decoder extends Activity {
                     String requst1 = urlconection(getMony, json1);
                     Log.i("Decoder_getOrder", requst1);
                     if (collectionSucced(requst1)) {
-                        ShowTost("交易成功");
+                        // ShowTost("交易成功");
                         //没有返回或者没有支付成功的情况
+                        onOrderSuccess(getTime(requst1));
                     } else {
 
                     }

@@ -132,6 +132,14 @@ public class HomPage extends FragmentActivity {
         }
     }
 
+    /**
+     * 显示首页
+     */
+    public void showHomeFragment() {
+        showFragment(home_fragment);
+        home_fragment.showFragment(0);
+    }
+
     //绿图
     private int drawb1[] = {R.drawable.home, R.drawable.bill1, R.drawable.statistic1, R.drawable.mine1};
     //白图
@@ -182,7 +190,7 @@ public class HomPage extends FragmentActivity {
         bundle.putBoolean("fukuan", fukuanma);
         intent.putExtra("count", bundle);
         bundle.putBoolean("isRefund", false);
-        startActivity(intent);
+        startActivityForResult(intent, 1);
     }
 
     /**
@@ -206,6 +214,12 @@ public class HomPage extends FragmentActivity {
             Bundle bundle = data.getBundleExtra("signal");
             signal = bundle.getString("signal");
             bill.setSignal(signal);
+        } else if (requestCode == 3) {
+            Bundle bundle = data.getBundleExtra("onTradSuccess");
+            home_fragment.showFragment(2);
+            home_fragment.setTreadSuccessDate(bundle.getString("payType"),
+                    bundle.getString("signal"), bundle.getString("paytime"),
+                    bundle.getString("payTotal"));
         }
 
     }

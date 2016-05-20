@@ -97,7 +97,7 @@ public class CountFragment extends Fragment {
                         disView2.setText("");
                         break;
                     }
-                    if(string.contains("*")||string.contains("+")){
+                    if (string.contains("*") || string.contains("+")) {
                         disView.setText("");
                         disView2.setText("");
                         break;
@@ -130,7 +130,7 @@ public class CountFragment extends Fragment {
                         disView2.setText("");
                         break;
                     }
-                    if(string.contains("*")||string.contains("+")){
+                    if (string.contains("*") || string.contains("+")) {
                         disView.setText("");
                         disView2.setText("");
                         break;
@@ -193,7 +193,7 @@ public class CountFragment extends Fragment {
             disView.setText("");
             return "";
         }
-        if(paramString2.contains("*")||paramString2.contains("+")){
+        if (paramString2.contains("*") || paramString2.contains("+")) {
             disView.setText("");
             return "";
         }
@@ -262,8 +262,10 @@ public class CountFragment extends Fragment {
         this.delet.setOnClickListener(this.listener);
         this.disView = ((TextView) paramView.findViewById(R.id.comt_tx));
         this.disView2 = ((TextView) paramView.findViewById(R.id.comt_1_tx));
+        Log.i("ContFragment", "" + disView.getMeasuredHeight() + "   " + disView.getMeasuredWidth());
         this.linearLayout = ((LinearLayout) paramView.findViewById(R.id.count_2row_linear));
         TextView localTextView = null;
+        //键盘初始化
         for (int i = 0; i < tId.length; i++) {
             //给键盘加监听
             localTextView = (TextView) paramView.findViewById(this.tId[i]);
@@ -294,7 +296,7 @@ public class CountFragment extends Fragment {
                 disView.setText("");
                 //当disview2为空时
             } else if (string.length() == 0 && string0.length() > 0) {
-                disView2.setText(string0.substring(0, string0.length()-1));
+                disView2.setText(string0.substring(0, string0.length() - 1));
                 disView.setText("");
             }
 

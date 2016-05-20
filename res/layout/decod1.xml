@@ -3,7 +3,7 @@
     android:id="@+id/decod1_linear"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/black"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <LinearLayout
@@ -103,8 +103,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:visibility="invisible"
-                android:background="@color/green" />
+                android:background="@color/green"
+                android:visibility="invisible" />
 
             <View
                 android:id="@+id/decod1_v2"
@@ -147,8 +147,7 @@
         android:id="@+id/decode1_relative"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20.0dip">
+        android:layout_gravity="center_horizontal">
 
         <com.dlazaro66.qrcodereaderview.QRCodeReaderView
             android:id="@+id/decode1_qv"
