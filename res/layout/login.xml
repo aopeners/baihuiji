@@ -19,6 +19,7 @@
         android:layout_marginLeft="13.0dip"
         android:layout_marginRight="13.0dip"
         android:hint="请输入正确的账号"
+        android:digits="0123456789"
         android:padding="13.0dip"
         android:textColor="@android:color/black"
         android:textSize="13.0sp" />
@@ -30,6 +31,7 @@
         android:layout_marginLeft="13.0dip"
         android:layout_marginRight="13.0dip"
         android:password="true"
+        android:digits="@string/digst"
         android:hint="请输入正确的密码"
         android:padding="13.0dip"
         android:textColor="@android:color/black"

@@ -2,10 +2,12 @@ package baihuiji.jkqme.baihuiji;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -20,6 +22,7 @@ import frament.Login;
 import frament.NormalPage;
 import frament.Viewpage4;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -76,14 +79,14 @@ public class PageView extends FragmentActivity {
     }
 
     /**
-     * 判断直接跳到登录
+     * 判断直接跳到登录localMyApplaication.helper.isTableCreate(localSQLiteDatabase)
      */
     private void jugShowViewPager() {
 
         MyApplaication localMyApplaication = (MyApplaication) getApplication();
 
-        SQLiteDatabase localSQLiteDatabase = SQLiteDatabase.openOrCreateDatabase(localMyApplaication.helper.dbPath, null);
-        if (localMyApplaication.helper.isTableCreate(localSQLiteDatabase)) {
+       // SQLiteDatabase localSQLiteDatabase = SQLiteDatabase.openOrCreateDatabase(localMyApplaication.helper.dbPath, null);
+        if (perferensexist()) {
             jumptoLogin();
             return;
         }
@@ -124,6 +127,42 @@ public class PageView extends FragmentActivity {
             localMyApplaication.helper.createTable(localSQLiteDatabase);
         }
         Log.i("viewPage", "WriteDb");
+    }
+
+    /**
+     * 向perfrence中防数据
+     *
+     * @param name
+     * @param password
+     */
+    private void getSahedPerference(String name, String password) {
+        SharedPreferences preferences;
+        preferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("name", name);
+        editor.putString("password", password);
+        editor.commit();
+    }
+
+    private boolean perferensexist() {
+        SharedPreferences preferences=getSharedPreferences("user",Context.MODE_PRIVATE);
+        if(preferences.getBoolean("isFirst",true)){
+            SharedPreferences.Editor editor=preferences.edit();
+            editor.putBoolean("isFirst",false);
+            return false;
+        }else {
+            return true;
+        }
+
+       /* File file = new File("/data/data/" + getPackageName().toString()+"/shared_prefs" + "/user.xml");
+        Log.i("getShared","fdsfsdadddddddddddddddd111111111111111");
+        if (file.exists()) {
+            Log.i("getShared","fdsfsdadddddddddddddddd");
+            return true;
+        }else {
+            Log.i("getShared","fdsfsda");
+            return false;
+        }*/
     }
 }
 
