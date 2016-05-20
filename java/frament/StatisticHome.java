@@ -81,6 +81,11 @@ public class StatisticHome extends Fragment {
             this.transaction.commit();
             this.curentFragment = paramFragment;
         }
+        if (curentFragment.hashCode() == trade_statistic.hashCode()) {
+            ((HomPage) getActivity()).showButtom();
+        } else {
+            ((HomPage) getActivity()).hideButtom();
+        }
     }
     /**
      *

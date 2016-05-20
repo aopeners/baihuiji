@@ -49,6 +49,11 @@ public class Bill extends Fragment {
             this.transaction.commit();
             this.curentFragment = paramFragment;
         }
+        if (curentFragment.hashCode() == paylist_Fragment.hashCode()) {
+            ((HomPage) getActivity()).showButtom();
+        } else {
+            ((HomPage) getActivity()).hideButtom();
+        }
     }
 
     public void onCreate(Bundle paramBundle) {
@@ -135,6 +140,13 @@ public class Bill extends Fragment {
             ((HomPage)getActivity()).showButtom();
             return true;
         }
+    }
+
+    /**
+     * 设置订单
+     */
+    public void setSignal(String signal){
+        paylist_Fragment.setSignal(signal);
     }
 }
 

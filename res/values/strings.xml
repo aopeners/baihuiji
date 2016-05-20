@@ -9,4 +9,9 @@
     <string name="weixing">微信支付</string>
     <string name="zhifuboao">支付宝支付</string>
     <string name="pay_suceess">支付成功</string>
+    <string name="about_us_detail">威客巴巴商户版软件为您提供手机收款服务，支持微信支付，QQ钱包支付
+    ，支付宝支付，百度钱包支付，同时支持微信公众平台各类卡券核量（这里特指威客巴巴技术支持的平台）提供营业数据相关统计。
+    </string>
+    <string name="adress">地址：重庆市渝中区大坪正街160号万科中心写字楼1栋6楼</string>
+    <string name="phone">电话：400-0313-168</string>
 </resources>

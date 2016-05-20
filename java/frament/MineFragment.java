@@ -45,6 +45,9 @@ public class MineFragment extends Fragment {
                 case R.id.mine_password_linear:
                     jump(1);
                     break;
+                case R.id.mine_aboutus:
+                    jump(2);
+                    break;
                 default:
                     return;
             }
@@ -78,6 +81,8 @@ public class MineFragment extends Fragment {
         this.loginout = ((TextView) paramView.findViewById(R.id.mine_loginout_tx));
         this.loginout.setOnClickListener(this.listener);
         LinearLayout linearLayout = (LinearLayout) paramView.findViewById(R.id.mine_password_linear);
+        linearLayout.setOnClickListener(listener);
+        linearLayout= (LinearLayout) paramView.findViewById(R.id.mine_aboutus);
         linearLayout.setOnClickListener(listener);
         int textId[] = {R.id.mine_operater_tx, R.id.mine_operater_account_tx, R.id.mine_operater_logintime_tx, R.id.mine_merchantId_tx, R.id.mine_merchantName_tx
 

@@ -22,33 +22,39 @@ public class MineHome extends Fragment {
     private MineFragment mineFragment;
     private FragmentManager manager;
     private FragmentTransaction transaction;
-
+    private AboutUs aboutUs;
     private Modifi_password modifi_password;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-       mineFragment=new MineFragment();
-        modifi_password=new Modifi_password();
+        mineFragment = new MineFragment();
+        modifi_password = new Modifi_password();
+        aboutUs = new AboutUs();
     }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-       View view=inflater.inflate(R.layout.statistic_home,null,true);
+        View view = inflater.inflate(R.layout.statistic_home, null, true);
         lodFragment();//
         return view;
     }
-    private void lodFragment(){
-        if(manager==null){
-            manager=getChildFragmentManager();
-            transaction=manager.beginTransaction();
-            transaction.add(R.id.statistic_home_linear,mineFragment);
-            transaction.add(R.id.statistic_home_linear,modifi_password).hide(modifi_password);
+
+    private void lodFragment() {
+        if (manager == null) {
+            manager = getChildFragmentManager();
+            transaction = manager.beginTransaction();
+            transaction.add(R.id.statistic_home_linear, mineFragment);
+            transaction.add(R.id.statistic_home_linear, modifi_password).hide(modifi_password);
+            transaction.add(R.id.statistic_home_linear, aboutUs).hide(aboutUs);
             transaction.show(mineFragment);
             transaction.commit();
-            curentFragment=mineFragment;
+            curentFragment = mineFragment;
         }
     }
+
     /**
      * 避免suportv4,fragment bug
      */
@@ -65,6 +71,7 @@ public class MineHome extends Fragment {
             throw new RuntimeException(localIllegalAccessException);
         }
     }
+
     private void showFragment(Fragment paramFragment) {
         if (this.curentFragment.hashCode() != paramFragment.hashCode()) {
             this.transaction = this.manager.beginTransaction();
@@ -73,10 +80,15 @@ public class MineHome extends Fragment {
             this.transaction.commit();
             this.curentFragment = paramFragment;
         }
+        if (curentFragment.hashCode() == mineFragment.hashCode()) {
+            ((HomPage) getActivity()).showButtom();
+        } else {
+            ((HomPage) getActivity()).hideButtom();
+        }
     }
+
     /**
-     *
-     * @param paramInt 0 statisticfragment  ,1 modfipassword , 2billDetail
+     * @param paramInt 0 statisticfragment  ,1 modfipassword , 2aboutUs
      */
     public void showFragment(int paramInt) {
         switch (paramInt) {
@@ -88,22 +100,24 @@ public class MineHome extends Fragment {
             case 1:
                 showFragment(this.modifi_password);
                 break;
-            case 2://showFragment(this.bil_detail);
-                break;
+            case 2:showFragment(this.aboutUs);
+             break;
         }
 
     }
+
     /**
      * 按返回时的监听
+     *
      * @return
      */
-    public boolean onBack(){
-        if(curentFragment.hashCode()==mineFragment.hashCode()){
+    public boolean onBack() {
+        if (curentFragment.hashCode() == mineFragment.hashCode()) {
             //key退出
             return false;
-        }else {
+        } else {
             showFragment(mineFragment);
-            ((HomPage)getActivity()).showButtom();
+            ((HomPage) getActivity()).showButtom();
             return true;
         }
     }

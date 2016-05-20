@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -180,8 +181,33 @@ public class HomPage extends FragmentActivity {
         bundle.putString("money", moneycont);
         bundle.putBoolean("fukuan", fukuanma);
         intent.putExtra("count", bundle);
-
+        bundle.putBoolean("isRefund", false);
         startActivity(intent);
+    }
+
+    /**
+     * 退款扫码
+     */
+    public void jumbtoDecoderForRefund() {
+        Intent intent = new Intent(this, Decoder.class);
+        Bundle bundle = new Bundle();
+
+        bundle.putBoolean("isRefund", true);
+        intent.putExtra("count", bundle);
+
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 2) {
+            String signal;
+            Bundle bundle = data.getBundleExtra("signal");
+            signal = bundle.getString("signal");
+            bill.setSignal(signal);
+        }
+
     }
 
     protected void onCreate(Bundle paramBundle) {
@@ -231,6 +257,16 @@ public class HomPage extends FragmentActivity {
             return mineHome.onBack();
         }
         return false;
+    }
+
+    public void showToast(final String toast) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(HomPage.this, toast, Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 }
 

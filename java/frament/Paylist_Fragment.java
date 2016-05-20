@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
+import baihuiji.jkqme.baihuiji.HomPage;
 import baihuiji.jkqme.baihuiji.MyApplaication;
 
 import org.json.JSONArray;
@@ -206,7 +207,7 @@ public class Paylist_Fragment extends Fragment {
     }
 
     private void jumptoDecode() {
-        // ((HomPage) getParentFragment().getActivity()).jumptoDecode();
+        ((HomPage) getParentFragment().getActivity()).jumbtoDecoderForRefund();
     }
 
     private void loadComponent(View paramView) {
@@ -229,7 +230,7 @@ public class Paylist_Fragment extends Fragment {
     };
 
     /**
-     * 当子项被点击时调用
+     * 当子项被点击时调用,扫描订单成功时调用
      *
      * @param map
      */
@@ -265,6 +266,23 @@ public class Paylist_Fragment extends Fragment {
     }
 
     /**
+     * 设置订单
+     */
+    public void setSignal(String signal) {
+        HashMap<String, String> map = null;
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).get("singal").equals(signal)) {
+                map = list.get(i);
+            }
+        }
+        if (map != null) {
+            clickIten(map);
+        }else {
+            ((HomPage)getParentFragment().getActivity()).showToast("不存在该订单");
+        }
+    }
+
+    /**
      * 同一级fragment切换时有用
      *
      * @param paramBoolean
@@ -274,7 +292,7 @@ public class Paylist_Fragment extends Fragment {
         if ((!paramBoolean) && (this.billAdpter == null))
 
             new MyAsyn().execute("");
-      //  Log.i("ONhiddenChange", "paramBoolean");
+        //  Log.i("ONhiddenChange", "paramBoolean");
     }
 
     /**

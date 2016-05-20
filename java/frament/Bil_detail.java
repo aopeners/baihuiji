@@ -1,11 +1,14 @@
 package frament;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +17,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,6 +35,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
+import baihuiji.jkqme.baihuiji.HomPage;
 import baihuiji.jkqme.baihuiji.MyApplaication;
 import baihuiji.jkqme.baihuiji.R;
 import web.BaihuijiNet;
@@ -40,16 +45,24 @@ import web.Ip;
  * 账单详情,payListFragment 子项
  */
 public class Bil_detail extends Fragment {
-    private boolean state;
+    private boolean state;//支付状态,ture 支付成功，false 退款状态
     private LayoutInflater inflater;
-    private  EditText editText;
-    private Handler handler=new Handler(){
+    private EditText editText;
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            setState(state,map);
+            if (state) {
+                setState(state, map);
+                dialog.cancel();
+
+            } else {
+
+                dialog.cancel();
+            }
         }
     };
+
     public View onCreateView(LayoutInflater paramLayoutInflater, @Nullable ViewGroup paramViewGroup, @Nullable Bundle paramBundle) {
         View view = paramLayoutInflater.inflate(R.layout.bill_detai, null);
         this.inflater = paramLayoutInflater;
@@ -101,7 +114,7 @@ public class Bil_detail extends Fragment {
 
             ImageView imageView = (ImageView) view.findViewById(R.id.dialog_refund_close);
             imageView.setOnClickListener(listener);
-             editText = (EditText) view.findViewById(R.id.dialog_refund_etx);
+            editText = (EditText) view.findViewById(R.id.dialog_refund_etx);
             editText.setOnEditorActionListener(elstener);
 
 
@@ -110,6 +123,7 @@ public class Bil_detail extends Fragment {
             textView.setOnClickListener(listener);
             dialog = builder.create();
             dialog.setCanceledOnTouchOutside(false);
+            dialog.setOnDismissListener(dismissListener);
         }
         textView = (TextView) view.findViewById(R.id.dialog_refund_tx);
         textView.setText(map.get("ordPrice"));
@@ -117,7 +131,12 @@ public class Bil_detail extends Fragment {
 
 
     }
-
+    private DialogInterface.OnDismissListener dismissListener=new DialogInterface.OnDismissListener() {
+        @Override
+        public void onDismiss(DialogInterface dialogInterface) {
+            editText.setText("");
+        }
+    };
     /**
      * 点击退款监听
      */
@@ -296,13 +315,13 @@ public class Bil_detail extends Fragment {
                     "ordSource", "operateId", "backPsw",
                     "ver", "MD5"};
             String valu[] = {applaication.getDate("merchantId")
-                    , map.get("singal"),"pc"
+                    , map.get("singal"), "pc"
                     ,
                     applaication.getDate("operateId"),
                     password,
                     "2.6",
                     getMd5_32("merchantId&orderNo&ordSource&operateId&backPsw&ver&=*"
-                    + applaication.getDate("merchantId") + "*" + map.get("singal") + "*" + "pc"+ "*" + applaication.getDate("operateId") + "*" + password + "*" + "2.6")
+                            + applaication.getDate("merchantId") + "*" + map.get("singal") + "*" + "pc" + "*" + applaication.getDate("operateId") + "*" + password + "*" + "2.6")
             };
             String json = getJson(key, valu, "MD5");
             String requst;
@@ -310,10 +329,17 @@ public class Bil_detail extends Fragment {
             @Override
             public void run() {
                 requst = urlconection(Ip.refund, json);
+                Log.i("OnRefund", requst);
+                Looper.prepare();
                 if (refundSuccess(requst)) {
                     map.put("backTime", getJsonValu(requst, "time"));
                     state = false;
+                    showToast("已退款");
                     handler.sendEmptyMessage(1);
+                } else {
+                    state = true;
+                    handler.sendEmptyMessage(1);
+                    showToast("超过最大退款日期，不能进行退款。");
                 }
             }
         }).start();
@@ -458,6 +484,15 @@ public class Bil_detail extends Fragment {
             i++;
         }
         return localStringBuffer.toString();
+    }
+
+    private void showToast(final String tost) {
+        getParentFragment().getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getParentFragment().getActivity(),tost,Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
 

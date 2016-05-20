@@ -273,6 +273,8 @@
                     android:gravity="right"
                     android:padding="13.0dip"
                     android:text="2015-12-03"
+                    android:singleLine="true"
+                    android:ellipsize="end"
                     android:textColor="@color/black"
                     android:textSize="13.0sp" />
             </LinearLayout>
