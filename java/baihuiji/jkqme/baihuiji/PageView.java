@@ -114,10 +114,15 @@ public class PageView extends FragmentActivity {
         jugShowViewPager();
     }
 
+    /**
+     * 当数据库不存在user 表时创建user biao
+     */
     public void writDb() {
         MyApplaication localMyApplaication = (MyApplaication) getApplication();
         SQLiteDatabase localSQLiteDatabase = SQLiteDatabase.openOrCreateDatabase(localMyApplaication.helper.dbPath, null);
-        localMyApplaication.helper.createTable(localSQLiteDatabase);
+        if (localMyApplaication.helper.isTableCreate(localSQLiteDatabase)) {
+            localMyApplaication.helper.createTable(localSQLiteDatabase);
+        }
         Log.i("viewPage", "WriteDb");
     }
 }

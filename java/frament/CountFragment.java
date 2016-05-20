@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -33,6 +35,13 @@ public class CountFragment extends Fragment {
     private ImageView img;
     private LinearLayout linearLayout;
     private int payTaype = -1;
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            Log.i("ContFragment", "  " + disView.getMeasuredHeight() + "   " + disView.getMeasuredWidth());
+        }
+    };
     private OnClickListener listener = new OnClickListener() {
         public void onClick(View paramAnonymousView) {
             String string, string0;
@@ -262,7 +271,8 @@ public class CountFragment extends Fragment {
         this.delet.setOnClickListener(this.listener);
         this.disView = ((TextView) paramView.findViewById(R.id.comt_tx));
         this.disView2 = ((TextView) paramView.findViewById(R.id.comt_1_tx));
-        Log.i("ContFragment", "" + disView.getMeasuredHeight() + "   " + disView.getMeasuredWidth());
+
+
         this.linearLayout = ((LinearLayout) paramView.findViewById(R.id.count_2row_linear));
         TextView localTextView = null;
         //键盘初始化
@@ -273,6 +283,7 @@ public class CountFragment extends Fragment {
         }
         this.rowView = localTextView;
         setState(1);
+        handler.sendEmptyMessageDelayed(1,500);
     }
 
     /**

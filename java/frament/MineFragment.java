@@ -1,16 +1,19 @@
 package frament;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,8 +36,41 @@ import java.net.URL;
 import baihuiji.jkqme.baihuiji.R;
 import web.BaihuijiNet;
 
+/**
+ * 我的主界面
+ */
 public class MineFragment extends Fragment {
     private ImageView imageView;
+    private AlertDialog dialog;
+    private String loginOutRequst;
+    private TextView loginout;
+    private TextView textView;
+    private LayoutInflater inflater;
+    private String phone;
+
+    private void showServicephome() {
+        if (dialog == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getParentFragment().getActivity());
+            View view = inflater.inflate(R.layout.service_phone_dialog, null, true);
+            builder.setView(view);
+            TextView textView;
+            int textId[] = {R.id.service_pone, R.id.service_hone_cancel_tx, R.id.service_phone_call_tx};
+            for (int i = 0; i < textId.length; i++) {
+                textView = (TextView) view.findViewById(textId[i]);
+                if (i == 0) {
+                    phone = textView.getText().toString().replace("-","");
+                } else {
+                    textView.setOnClickListener(listener);
+                }
+
+            }
+            dialog = builder.create();
+            dialog.setCanceledOnTouchOutside(false);
+
+        }
+        dialog.show();
+    }
+
     private OnClickListener listener = new OnClickListener() {
         public void onClick(View paramAnonymousView) {
             switch (paramAnonymousView.getId()) {
@@ -48,15 +84,24 @@ public class MineFragment extends Fragment {
                 case R.id.mine_aboutus:
                     jump(2);
                     break;
+                case R.id.mine_service_phone_linear:
+                    showServicephome();
+                    break;
+                case R.id.service_hone_cancel_tx:
+                    dialog.cancel();
+                    break;
+                case R.id.service_phone_call_tx:
+                    break;
                 default:
                     return;
             }
 
         }
     };
-    private String loginOutRequst;
-    private TextView loginout;
-    private TextView textView;
+    private void onCall(){
+        Intent intent=new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+phone));
+        startActivity(intent);
+    }
 
     private boolean isloginout(String paramString) {
         JSONObject localJSONObject1 = null;
@@ -82,7 +127,9 @@ public class MineFragment extends Fragment {
         this.loginout.setOnClickListener(this.listener);
         LinearLayout linearLayout = (LinearLayout) paramView.findViewById(R.id.mine_password_linear);
         linearLayout.setOnClickListener(listener);
-        linearLayout= (LinearLayout) paramView.findViewById(R.id.mine_aboutus);
+        linearLayout = (LinearLayout) paramView.findViewById(R.id.mine_aboutus);
+        linearLayout.setOnClickListener(listener);
+        linearLayout = (LinearLayout) paramView.findViewById(R.id.mine_service_phone_linear);
         linearLayout.setOnClickListener(listener);
         int textId[] = {R.id.mine_operater_tx, R.id.mine_operater_account_tx, R.id.mine_operater_logintime_tx, R.id.mine_merchantId_tx, R.id.mine_merchantName_tx
 
@@ -134,6 +181,7 @@ public class MineFragment extends Fragment {
 
     public View onCreateView(LayoutInflater paramLayoutInflater, @Nullable ViewGroup paramViewGroup, @Nullable Bundle paramBundle) {
         View localView = paramLayoutInflater.inflate(R.layout.mine, null, true);
+        this.inflater = paramLayoutInflater;
         loadComponent(localView);
         return localView;
     }

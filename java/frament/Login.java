@@ -1,5 +1,6 @@
 package frament;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -47,15 +48,16 @@ public class Login extends Fragment {
         public void onClick(View paramAnonymousView) {
             String user = userNameEtx.getText().toString();
             String password = passwordEtx.getText().toString();
-            user = "18716398031";
-            password = "123456";
+         //   user = "18716398031";
+          //  password = "123456";
             Log.i("Onclick", "" + user + password);
+
             if ((Login.this.checkBox.isChecked()) && user.trim().length() > 0 && password.trim().length() > 0 && !loginclick) {
                 loginclick = true;
-                Login.this.conect("18716398031", "123456");
+                Login.this.conect(user, password);
             } else if (user.trim().length() > 0 && password.trim().length() > 0 && !loginclick) {
                 loginclick = true;
-                Login.this.conect("18716398031", "123456");
+                Login.this.conect(user, password);
             }
         }
     };
@@ -270,6 +272,11 @@ public class Login extends Fragment {
                 return;
             try {
                 localMyApplaication.putData(arrayOfString[i], localJSONObject2.getString(arrayOfString[i]));
+                if(checkBox.isChecked()){
+                    saveUser(true);
+                }else {
+                    saveUser(false);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -277,6 +284,14 @@ public class Login extends Fragment {
         }
     }
 
+    /**
+     * 保存用户,保存密码或不保存密码
+     */
+    private void saveUser(boolean savaPassword){
+        MyApplaication localMyApplaication = (MyApplaication) getActivity().getApplication();
+        SQLiteDatabase localSQLiteDatabase = SQLiteDatabase.openOrCreateDatabase(localMyApplaication.helper.dbPath, null);
+            localMyApplaication.helper.isUserExct(localSQLiteDatabase,userNameEtx.getText().toString(),passwordEtx.getText().toString(),savaPassword);
+    }
     private void showToast() {
         getActivity().runOnUiThread(new Runnable() {
             public void run() {

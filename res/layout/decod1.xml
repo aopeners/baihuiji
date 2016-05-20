@@ -3,7 +3,7 @@
     android:id="@+id/decod1_linear"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/white"
+    android:background="@color/black"
     android:orientation="vertical">
 
     <LinearLayout

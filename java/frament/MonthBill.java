@@ -101,6 +101,7 @@ public class MonthBill extends Fragment {
         public void onDismiss(DialogInterface dialogInterface) {
             if (time != null) {
                 Log.i("OnDismis", time);
+
                 new MyAsyn().execute(time);
             }
         }
@@ -169,6 +170,10 @@ public class MonthBill extends Fragment {
      * @param paramString
      */
     private void getDate(String paramString) {
+        if (time != null) {
+            year.setText(time.substring(0, 4));
+            month.setText(time.substring(4, 6));
+        }
         if (list.size() > 0) {
             list.removeAll(list);
         }
@@ -188,10 +193,7 @@ public class MonthBill extends Fragment {
 
         int tId[] = {R.id.month_bill_num1_tx, R.id.month_bill_get1_tx, R.id.month_bill_back1_tx};
         //设置顶部数据
-        if (time != null) {
-            year.setText(time.substring(0, 4));
-            month.setText(time.substring(4, 6));
-        }
+
         for (int i = 0; i < tId.length; i++) {
             textView = (TextView) view.findViewById(tId[i]);
 
