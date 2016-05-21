@@ -38,6 +38,7 @@ import web.BaihuijiNet;
 import web.Ip;
 
 public class Login extends Fragment {
+
     private boolean loginclick = false;//记录是否点击登录
     private CheckBox checkBox;
     private OnCheckedChangeListener clistener = new OnCheckedChangeListener() {
@@ -273,9 +274,9 @@ public class Login extends Fragment {
             try {
                 localMyApplaication.putData(arrayOfString[i], localJSONObject2.getString(arrayOfString[i]));
                 if(checkBox.isChecked()){
-                    saveUser(true);
+                 //   saveUser(true);
                 }else {
-                    saveUser(false);
+               //     saveUser(false);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
