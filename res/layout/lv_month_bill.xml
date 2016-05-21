@@ -49,22 +49,34 @@
                 android:textSize="10.0sp" />
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/lv_message_pay_img"
+        <LinearLayout
+            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/purse" />
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/lv_message_pay_tx"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1.0"
-            android:text="@string/acount"
-            android:textColor="@android:color/black"
-            android:textSize="13.0sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1.0"
+                android:text="收款:"
+                android:textColor="@android:color/black"
+                android:textSize="13.0sp"
+                android:id="@+id/lv_message_pay_tx" />
+
+            <TextView
+                android:id="@+id/lv_month_get_tx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1.0"
+                android:text="退款"
+                android:textColor="@android:color/black"
+                android:textSize="13.0sp" />
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/lv_message_pay_num_tx"

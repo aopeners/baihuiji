@@ -116,7 +116,7 @@ public class StatisticsFragment extends Fragment {
         super.onHiddenChanged(paramBoolean);
         if (!paramBoolean) {
 
-            this.sector.setWidth(0.2F, 0.3F, 0.1F, 0.4F,0.1f,0.1f);
+           // this.sector.setWidth("", 0.3F, 0.1F, 0.4F,0.1f,0.1f);
             onshow();
         }
     }

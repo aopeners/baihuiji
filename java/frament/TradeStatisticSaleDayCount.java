@@ -84,7 +84,7 @@ public class TradeStatisticSaleDayCount extends Fragment {
     private String getDates(String requst) {
         Log.i("BillMonth0", "传人的地址    " + requst);
         //String json;
-        requst = connection(requst);
+        requst = connection(requst + "&payType=" + payType);
         Log.i("BillMonth", requst);
         if (getSuccess(requst)) {
             // MonthBill.this.getDate(requst);
@@ -104,14 +104,17 @@ public class TradeStatisticSaleDayCount extends Fragment {
      * @param paramString
      */
     private void getDate(String paramString) {
-
+        if (list != null) {
+            list.removeAll(list);
+        }
 
         TextView textView;//显示空间
         JSONObject jsonObject = null;
         JSONArray jsonArray = null;
         try {
             jsonObject = new JSONObject(paramString);
-            jsonArray = jsonObject.getJSONArray("o2o");
+            jsonObject = jsonObject.getJSONObject("o2o");
+            jsonArray = jsonObject.getJSONArray("detail");
         } catch (JSONException e) {
             e.printStackTrace();
             showTost("没有当月数据");
@@ -147,8 +150,8 @@ public class TradeStatisticSaleDayCount extends Fragment {
         int tId[] = {R.id.month_bill_num1_tx, R.id.month_bill_get1_tx, R.id.month_bill_back1_tx};
         //设置顶部数据
         if (time != null) {
-            year.setText(time.substring(0,4)+"年");
-            month.setText(time.substring(4,6)+"月");
+            year.setText(time.substring(0, 4) + "年");
+            month.setText(time.substring(4, 6) + "月");
         }
         for (int i = 0; i < tId.length; i++) {
             textView = (TextView) view.findViewById(tId[i]);
@@ -299,5 +302,12 @@ public class TradeStatisticSaleDayCount extends Fragment {
             }
         }
     }
-
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(hidden&&dayCoutAdpter!=null){
+            list.removeAll(list);
+           dayCoutAdpter.setDate(payType,list);
+        }
+    }
 }

@@ -7,9 +7,11 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
@@ -206,15 +208,25 @@ public class HomPage extends FragmentActivity {
         startActivityForResult(intent, 1);
     }
 
+    /**
+     * 扫码退款返回
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 2) {
+        //退款返回
+        if (resultCode == 2) {
             String signal;
             Bundle bundle = data.getBundleExtra("signal");
             signal = bundle.getString("signal");
             bill.setSignal(signal);
-        } else if (requestCode == 3) {
+
+            //收款返回
+        } else if (resultCode == 3) {
             Bundle bundle = data.getBundleExtra("onTradSuccess");
             home_fragment.showFragment(2);
             home_fragment.setTreadSuccessDate(bundle.getString("payType"),
@@ -228,6 +240,10 @@ public class HomPage extends FragmentActivity {
         super.onCreate(paramBundle);
         requestWindowFeature(1);
         setContentView(R.layout.home_page_activity);
+        //最外层LinearLayout
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.home_liear);
+        //视图结构变化时的监听
+        linearLayout.addOnLayoutChangeListener(layoutListener);
         this.rGroup = ((LinearLayout) findViewById(R.id.buttom_radioh));
         //   this.rGroup.setOnCheckedChangeListener(this.rlistener);
         getFragment();
@@ -236,6 +252,23 @@ public class HomPage extends FragmentActivity {
             this.button[i].setOnClickListener(this.listener);
         }
     }
+
+    /**
+     * 视图结构变化时的监听,处理payList的bug
+     */
+    private View.OnLayoutChangeListener layoutListener = new View.OnLayoutChangeListener() {
+        @Override
+        public void onLayoutChange(View view, int left, int top, int right,
+                                   int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+            //键盘弹起,且控件高度大于0
+            if (oldBottom != 0 && bottom != 0 && (bottom - oldBottom) < 0) {
+              rGroup.setAlpha(0);
+                //键盘缩小
+            } else if (oldBottom != 0 && bottom != 0 && (bottom - oldBottom > 0)) {
+                rGroup.setAlpha(1);
+            }
+        }
+    };
 
     public boolean onKeyDown(int paramInt, KeyEvent paramKeyEvent) {
         if (paramInt == 4) {

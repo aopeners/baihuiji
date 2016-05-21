@@ -40,13 +40,16 @@ import web.BaihuijiNet;
  * 我的主界面
  */
 public class MineFragment extends Fragment {
+    private AlertDialog loginougDialog;//退出登录弹出框
+
     private ImageView imageView;
-    private AlertDialog dialog;
+    private AlertDialog dialog;//服务电话弹出框
     private String loginOutRequst;
     private TextView loginout;
     private TextView textView;
     private LayoutInflater inflater;
     private String phone;
+
 
     private void showServicephome() {
         if (dialog == null) {
@@ -58,7 +61,7 @@ public class MineFragment extends Fragment {
             for (int i = 0; i < textId.length; i++) {
                 textView = (TextView) view.findViewById(textId[i]);
                 if (i == 0) {
-                    phone = textView.getText().toString().replace("-","");
+                    phone = textView.getText().toString().replace("-", "");
                 } else {
                     textView.setOnClickListener(listener);
                 }
@@ -76,7 +79,7 @@ public class MineFragment extends Fragment {
             switch (paramAnonymousView.getId()) {
 
                 case R.id.mine_loginout_tx:
-                    MineFragment.this.loginOut();
+                    LoginoutDialog();
                     break;
                 case R.id.mine_password_linear:
                     jump(1);
@@ -91,6 +94,13 @@ public class MineFragment extends Fragment {
                     dialog.cancel();
                     break;
                 case R.id.service_phone_call_tx:
+                    onCall();
+                    break;
+                case R.id.login_out_tx2:
+                    MineFragment.this.loginOut();
+                    break;
+                case R.id.login_out_tx1:
+                    loginougDialog.cancel();
                     break;
                 default:
                     return;
@@ -98,8 +108,9 @@ public class MineFragment extends Fragment {
 
         }
     };
-    private void onCall(){
-        Intent intent=new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+phone));
+
+    private void onCall() {
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone));
         startActivity(intent);
     }
 
@@ -136,7 +147,7 @@ public class MineFragment extends Fragment {
         };
         String text[] = {
                 "操作员:" + localMyApplaication.getDate("operateName"), "账号:" + localMyApplaication.getDate("operateTel"),
-                "上次登录时间:" + localMyApplaication.getDate("time"), localMyApplaication.getDate("merchantId"), localMyApplaication.getDate("merName")
+                "上次登录时间:" + localMyApplaication.getDate("time"), localMyApplaication.getDate("operateName"), localMyApplaication.getDate("merName")
         };
         TextView textView;
         for (int i = 0; i < textId.length; i++) {
@@ -233,6 +244,27 @@ public class MineFragment extends Fragment {
         }
 
         return bitma;
+    }
+
+
+    /**
+     * 退出登录弹出框
+     */
+    private void LoginoutDialog() {
+        if (loginougDialog == null) {
+            AlertDialog.Builder builder;
+            builder = new AlertDialog.Builder(getParentFragment().getActivity());
+            View view1 = inflater.inflate(R.layout.loging_out_diolg, null, true);
+            TextView textView = (TextView) view1.findViewById(R.id.login_out_tx1);
+            textView.setOnClickListener(listener);
+            textView = (TextView) view1.findViewById(R.id.login_out_tx2);
+
+            textView.setOnClickListener(listener);
+            loginougDialog = builder.create();
+            loginougDialog.setCanceledOnTouchOutside(false);
+        }
+        loginougDialog.show();
+
     }
 
     class MyAsy extends AsyncTask<String, String, Bitmap> {

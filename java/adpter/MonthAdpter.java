@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -61,7 +62,7 @@ public class MonthAdpter extends BaseAdapter {
             holder.lv_message_time_tx = (TextView) paramView.findViewById(R.id.lv_message_time_tx);
             holder.lv_message_time1_tx = (TextView) paramView.findViewById(R.id.lv_message_time1_tx);
 
-            holder.img = (ImageView) paramView.findViewById(R.id.lv_message_pay_img);
+            holder.lv_month_get_tx = (TextView) paramView.findViewById(R.id.lv_month_get_tx);
 
             holder.lv_message_pay_tx = (TextView) paramView.findViewById(R.id.lv_message_pay_tx);
 
@@ -77,10 +78,11 @@ public class MonthAdpter extends BaseAdapter {
         }
         // holder.lv_message_time_tx.setText(list.get(paramInt).get("totalDate"));
         // holder.lv_message_time1_tx.setText(list.get(paramInt).get("totalDate"));
+        //时间设置
         setDate(list.get(paramInt).get("totalDate"), holder.lv_message_time_tx, holder.lv_message_time1_tx);
 
         //  holder.lv_message_pay_tx.setText(isGain(list.get(paramInt).get("payNum"),list.get(paramInt).get("backNum")));
-        isGain(list.get(paramInt).get("payTotal"), list.get(paramInt).get("backNum"), holder.lv_message_pay_tx, holder.lv_message_pay_num_tx);
+        isGain(list.get(paramInt).get("payTotal"), list.get(paramInt).get("backNum"), holder.lv_message_pay_tx,holder.lv_month_get_tx, holder.lv_message_pay_num_tx);
         return paramView;
     }
 
@@ -91,9 +93,10 @@ public class MonthAdpter extends BaseAdapter {
         TextView lv_message_time_tx;
         TextView lv_message_time1_tx;
         //交易方式图标
-        ImageView img;
+
         //操作员
         TextView lv_message_pay_tx;
+        TextView lv_month_get_tx;
         //金额
         TextView lv_message_pay_num_tx;
     }
@@ -103,24 +106,32 @@ public class MonthAdpter extends BaseAdapter {
      *
      * @param get       赚取金额
      * @param back      退款
-     * @param textView
+     * @param textView 收款控件
+     * @param  backTotal 退款控件
      * @param textView1 收入数
      */
-    private void isGain(String get, String back, TextView textView, TextView textView1) {
+    private void isGain(String get, String back, TextView textView,TextView backTotal, TextView textView1) {
         if (get == null && back == null) {
-            textView.setText("收款");
-            textView1.setText("¥:0");
+            textView.setText("收款:0.00");
+            backTotal.setText("退款:0.00");
+            textView1.setText("总计:0.00");
             return;
         } else if (get == null && back != null) {
-            textView.setText("退款");
-            textView1.setText("¥:" + back);
+            textView.setText("收款:0.00");
+            backTotal.setText("退款:"+back);
+            textView1.setText("总计:"+back);
             return;
         } else if (get != null && back == null) {
-            textView.setText("收款");
-            textView1.setText("¥:" + get);
+            textView.setText("收款:"+get);
+            backTotal.setText("退款:0.00");
+            textView1.setText("总计:"+get);
             return;
+        }else if(get!=null&&back!=null){
+            textView.setText("收款:"+get);
+            backTotal.setText("退款:"+back);
+            textView1.setText("总计:"+ new BigDecimal(get).add(new BigDecimal(back)).floatValue());
         }
-        int a = Integer.parseInt(get) - Integer.parseInt(back);
+       /* int a = Integer.parseInt(get) - Integer.parseInt(back);
         if (a >= 0) {
             textView.setText("收款");
             textView1.setText("¥:" + a + "");
@@ -129,7 +140,7 @@ public class MonthAdpter extends BaseAdapter {
             textView.setText("退款");
             textView1.setText("¥:" + -a + "");
             //  textView.setTextColor(textView.getResources().getColor(R.color.red));
-        }
+        }*/
     }
 
     /**

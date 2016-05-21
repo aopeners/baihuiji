@@ -99,9 +99,10 @@ public class BillAdpter extends BaseAdapter {
         //操作员
         localHolder.lv_message_pay1_tx.setText((CharSequence) ((HashMap) this.list.get(paramInt)).get("singal"));
         localHolder.lv_message_pay_num_tx.setText((CharSequence) ((HashMap) this.list.get(paramInt)).get("ordPrice"));
-        if (!((String) ((HashMap) this.list.get(paramInt)).get("ordState")).equals("0")) {
+        if (((String) ((HashMap) this.list.get(paramInt)).get("ordState")).equals("1")) {
 
-            localHolder.lv_message_pay_num1_tx.setText("交易成功");
+            localHolder.lv_message_pay_num1_tx.setText("已付款");
+            localHolder.lv_message_pay_num1_tx.setTextColor(paramView.getResources().getColor(R.color.black));
         } else {
             localHolder.lv_message_pay_num1_tx.setText("已退款");
             localHolder.lv_message_pay_num1_tx.setTextColor(paramView.getResources().getColor(R.color.red));

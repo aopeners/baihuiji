@@ -206,8 +206,14 @@ public class Paylist_Fragment extends Fragment {
         return false;
     }
 
+    private boolean jsjump = true;//扫码跳转判断
+
     private void jumptoDecode() {
-        ((HomPage) getParentFragment().getActivity()).jumbtoDecoderForRefund();
+        if (jsjump) {
+            jsjump = false;
+            ((HomPage) getParentFragment().getActivity()).jumbtoDecoderForRefund();
+            jsjump=true;
+        }
     }
 
     private void loadComponent(View paramView) {
@@ -277,8 +283,8 @@ public class Paylist_Fragment extends Fragment {
         }
         if (map != null) {
             clickIten(map);
-        }else {
-            ((HomPage)getParentFragment().getActivity()).showToast("不存在该订单");
+        } else {
+            ((HomPage) getParentFragment().getActivity()).showToast("不存在该订单");
         }
     }
 

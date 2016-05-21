@@ -146,9 +146,11 @@ public class PageView extends FragmentActivity {
 
     private boolean perferensexist() {
         SharedPreferences preferences=getSharedPreferences("user",Context.MODE_PRIVATE);
+
         if(preferences.getBoolean("isFirst",true)){
             SharedPreferences.Editor editor=preferences.edit();
             editor.putBoolean("isFirst",false);
+            editor.commit();
             return false;
         }else {
             return true;

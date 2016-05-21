@@ -33,7 +33,11 @@ public class DayCoutAdpter extends BaseAdapter {
         this.list = list;
         this.inflater = LayoutInflater.from(context);
     }
-
+    public void setDate(int payType ,ArrayList<HashMap<String, String>> list){
+        this.payType=payType;
+        this.list=list;
+        notifyDataSetChanged();
+    }
     @Override
     public int getCount() {
         return list.size();

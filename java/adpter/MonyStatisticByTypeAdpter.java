@@ -1,6 +1,7 @@
 package adpter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,13 @@ public class MonyStatisticByTypeAdpter extends BaseAdapter {
         this.inflater = LayoutInflater.from(context);
     }
 
+    public void setDate(int payType,
+                        ArrayList<HashMap<String, String>> list) {
+        this.payType = payType;
+        this.list = list;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getCount() {
         return list.size();
@@ -65,6 +73,7 @@ public class MonyStatisticByTypeAdpter extends BaseAdapter {
         } else {
             holder = (Holder) view.getTag();
         }
+        Log.i("MoneyAdpter",payType+"");
         //支付图标设置
         if (payType == 1) {
             holder.img.setImageResource(R.drawable.payweichar);
@@ -108,13 +117,13 @@ public class MonyStatisticByTypeAdpter extends BaseAdapter {
     private void setDate(String date, TextView textView, TextView textView1) {
 
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-        SimpleDateFormat format1=new SimpleDateFormat("E");
+        SimpleDateFormat format1 = new SimpleDateFormat("E");
         Date date1 = null;
         String day = "0";//显示星期
         String day1;//显示一个月中的天
         try {
             date1 = format.parse(date);
-            day=format1.format(date1);
+            day = format1.format(date1);
             textView.setText(day);
         } catch (ParseException e) {
             e.printStackTrace();

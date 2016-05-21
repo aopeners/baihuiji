@@ -56,7 +56,8 @@ import views.MyView;
 import web.Ip;
 
 /**
- * 扫码activity,可以扫描
+ * 扫码activity,可以扫描,返回的result code 2,为收款， 3为退款
+ * 接收的 requst  不用判断
  */
 public class Decoder extends Activity {
     private boolean isRefund;//是否退款
@@ -379,8 +380,8 @@ public class Decoder extends Activity {
         String date = "operateTel";
 
         String key[] = {"merchantId", "ordSource", "payType", "totalFee", "operateId", "MD5"};
-        String value[] = {applaication.getDate(key[0]), "pc", payType + "", money.replace(".", "") + "", applaication.getDate(date), getMd5_32("merchantId&ordSource&payType&totalFee&operateId&=*"
-                + applaication.getDate(key[0]) + "*" + "pc" + "*" + payType + "*" + money.replace(".", "") + "*" + applaication.getDate(date))};
+        String value[] = {applaication.getDate(key[0]), "app", payType + "", money.replace(".", "") + "", applaication.getDate(date), getMd5_32("merchantId&ordSource&payType&totalFee&operateId&=*"
+                + applaication.getDate(key[0]) + "*" + "app" + "*" + payType + "*" + money.replace(".", "") + "*" + applaication.getDate(date))};
         String json = getJson(key, value, "MD5");
         String requst = urlconection(getMonny_bySwap, json);
 
@@ -518,7 +519,7 @@ public class Decoder extends Activity {
             public void run() {
                 MyApplaication applaication = (MyApplaication) getApplication();
                 String key[] = {"merchantId", "ordSource", "MD5"};
-                String value[] = {applaication.getDate(key[0]), "pc", getMd5_32("merchantId&ordSource&=*" + applaication.getDate(key[0]) + "*" + "pc")};
+                String value[] = {applaication.getDate(key[0]), "app", getMd5_32("merchantId&ordSource&=*" + applaication.getDate(key[0]) + "*" + "pc")};
                 String json = getJson(key, value, "MD5");
                 //获取订单
                 String orRequst = urlconection(ordSource, json);
@@ -527,9 +528,9 @@ public class Decoder extends Activity {
                     orderNO = getOrderNo(orRequst);
                     //收款部分
                     String key1[] = {"authCode", "merchantId", "orderNo", "ordSource", "payType", "totalFee", "operateId", "MD5"};
-                    String value1[] = {authcods, applaication.getDate(key1[1]), orderNO, "pc", payType + "", money.replace(".", "") + "", applaication.getDate(key1[6]),
+                    String value1[] = {authcods, applaication.getDate(key1[1]), orderNO, "app", payType + "", money.replace(".", "") + "", applaication.getDate(key1[6]),
                             getMd5_32("authCode&merchantId&orderNo&ordSource&payType&totalFee&operateId&=*"
-                                    + authcods + "*" + applaication.getDate(key1[1]) + "*" + orderNO + "*" + "pc" + "*" + payType + "*" + money.replace(".", "") + "*" + applaication.getDate(key1[6]))};
+                                    + authcods + "*" + applaication.getDate(key1[1]) + "*" + orderNO + "*" + "app" + "*" + payType + "*" + money.replace(".", "") + "*" + applaication.getDate(key1[6]))};
                     String json1 = getJson(key1, value1, "MD5");
                     String requst1 = urlconection(getMony, json1);
                     Log.i("Decoder_getOrder", requst1);

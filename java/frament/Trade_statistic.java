@@ -37,13 +37,14 @@ import web.Ip;
  * 统计主类
  */
 public class Trade_statistic extends Fragment {
+    private LinearLayout secorlayout1, sectorlayout2;
     private int month;//本月份
     private int year;//本年份
     private TextView timeText;//时间的Textview
     private String time;//时间
     private LayoutInflater inflater;
     private LinearLayout layoutm, layout2n;
-    private Sector sector;
+    private Sector sector, sector1;
     private TextView textView;
     private View view;
     private TextView view1, view2;
@@ -83,7 +84,8 @@ public class Trade_statistic extends Fragment {
     public View onCreateView(LayoutInflater paramLayoutInflater, @Nullable ViewGroup paramViewGroup, @Nullable Bundle paramBundle) {
         view = paramLayoutInflater.inflate(R.layout.trad_statistic_2, null, true);
         this.inflater = paramLayoutInflater;
-        this.sector = ((Sector) view.findViewById(R.id.trad_static_sector_1));
+        this.sector = (Sector) view.findViewById(R.id.trad_static_sector_1);
+        sector1 = (Sector) view.findViewById(R.id.trad_static_sector_2);
         loadView(view);
         return view;
     }
@@ -239,42 +241,42 @@ public class Trade_statistic extends Fragment {
 
         switch (a) {
             case 1:
-                buffer.append(Ip.monthstatistic + "?");//这一段是需要判断的
+                buffer.append(Ip.monthBillString + "?");//这一段是需要判断的
                 payType = 1;
                 payTotle = statisticNum[0][0];
                 break;
             case 2:
-                buffer.append(Ip.monthstatistic + "?");//这一段是需要判断的
+                buffer.append(Ip.monthBillString + "?");//这一段是需要判断的
                 payType = 2;
                 payTotle = statisticNum[0][1];
                 break;
             case 3:
-                buffer.append(Ip.monthstatistic + "?");//这一段是需要判断的
+                buffer.append(Ip.monthBillString + "?");//这一段是需要判断的
                 payType = 3;
                 payTotle = statisticNum[0][2];
                 break;
             case 4:
-                buffer.append(Ip.monthstatistic + "?");//这一段是需要判断的
+                buffer.append(Ip.monthBillString + "?");//这一段是需要判断的
                 payType = 4;
                 payTotle = statisticNum[0][3];
                 break;
             case 5:
-                buffer.append(Ip.saleDayCount + "?");
+                buffer.append(Ip.monthBillString + "?");
                 payType = 1;
                 payTotle = statisticNum[0][0];
                 break;
             case 6:
-                buffer.append(Ip.saleDayCount + "?");
+                buffer.append(Ip.monthBillString + "?");
                 payType = 2;
                 payTotle = statisticNum[0][1];
                 break;
             case 7:
-                buffer.append(Ip.saleDayCount + "?");
+                buffer.append(Ip.monthBillString + "?");
                 payType = 3;
                 payTotle = statisticNum[0][2];
                 break;
             case 8:
-                buffer.append(Ip.saleDayCount + "?");
+                buffer.append(Ip.monthBillString + "?");
                 payType = 4;
                 payTotle = statisticNum[0][3];
                 break;
@@ -310,13 +312,17 @@ public class Trade_statistic extends Fragment {
             layout2n.setVisibility(View.VISIBLE);
             view1.setVisibility(View.INVISIBLE);
             view2.setVisibility(View.VISIBLE);
-            sector.setWight(Float.parseFloat(statisticMoney[0][2]), Float.parseFloat(statisticMoney[0][1]), Float.parseFloat(statisticMoney[0][3]), Float.parseFloat(statisticMoney[0][0]));
+            sector.setVisibility(View.VISIBLE);
+            sector.setWight(statisticMoney[0][2], statisticMoney[0][1], statisticMoney[0][3], statisticMoney[0][0]);
+            sector1.setVisibility(View.GONE);
         } else {
             layoutm.setVisibility(View.VISIBLE);
             layout2n.setVisibility(View.GONE);
             view2.setVisibility(View.INVISIBLE);
             view1.setVisibility(View.VISIBLE);
-            sector.setWight(statisticNum[0][2], statisticNum[0][1], statisticNum[0][3], statisticNum[0][0]);
+            sector1.setVisibility(View.VISIBLE);
+            sector1.setWight(String.valueOf(statisticNum[0][2]), String.valueOf(statisticNum[0][1]), String.valueOf(statisticNum[0][3]), String.valueOf(statisticNum[0][0]));
+            sector.setVisibility(View.GONE);
         }
     }
 
@@ -420,7 +426,11 @@ public class Trade_statistic extends Fragment {
                 textView.setText(statisticNum[1][a - 4] + "");
             }
         }
-        sector.setWight(Float.parseFloat(statisticMoney[0][0]), Float.parseFloat(statisticMoney[0][1]), Float.parseFloat(statisticMoney[0][2]), Float.parseFloat(statisticMoney[0][3]));
+        if (sector.getVisibility() == View.VISIBLE) {
+            sector.setWight(statisticMoney[0][0], statisticMoney[0][1], statisticMoney[0][2], statisticMoney[0][3]);
+        } else {
+            sector1.setWight(String.valueOf(statisticNum[1][0]), String.valueOf(statisticNum[1][1]), String.valueOf(statisticNum[1][2]), String.valueOf(statisticNum[1][3]));
+        }
     }
 
     /**
@@ -467,34 +477,34 @@ public class Trade_statistic extends Fragment {
 
                 if (jsonObject.getString("payType").equals("1")) {
                     //金额获取
-                    statisticMoney[0][0] = getMone(statisticMoney[0][0],jsonObject.getString("payTotal"));
-                    statisticMoney[1][0] = getMone(statisticMoney[1][0],jsonObject.getString("backTotal"));
+                    statisticMoney[0][0] = getMone(statisticMoney[0][0], jsonObject.getString("payTotal"));
+                    statisticMoney[1][0] = getMone(statisticMoney[1][0], jsonObject.getString("backTotal"));
                     //数量统计
                     statisticNum[0][0] = statisticNum[0][0] + getNum(jsonObject.getString("payNum"));
                     statisticNum[1][0] = statisticNum[1][0] + getNum(jsonObject.getString("backNum"));
 
                 } else if (jsonObject.getString("payType").equals("2")) {
-                    statisticMoney[0][1] =  getMone(statisticMoney[0][1],jsonObject.getString("payTotal"));
-                    statisticMoney[1][1] = getMone(statisticMoney[1][1] ,jsonObject.getString("backTotal"));
+                    statisticMoney[0][1] = getMone(statisticMoney[0][1], jsonObject.getString("payTotal"));
+                    statisticMoney[1][1] = getMone(statisticMoney[1][1], jsonObject.getString("backTotal"));
 
                     statisticNum[0][1] = statisticNum[0][1] + getNum(jsonObject.getString("payNum"));
                     statisticNum[1][1] = statisticNum[1][1] + getNum(jsonObject.getString("backNum"));
                 } else if (jsonObject.getString("payType").equals("3")) {
-                    statisticMoney[0][2] = getMone(statisticMoney[0][2],jsonObject.getString("payTotal"));
-                    statisticMoney[1][2] = getMone(statisticMoney[1][2],jsonObject.getString("backTotal"));
+                    statisticMoney[0][2] = getMone(statisticMoney[0][2], jsonObject.getString("payTotal"));
+                    statisticMoney[1][2] = getMone(statisticMoney[1][2], jsonObject.getString("backTotal"));
 
                     statisticNum[0][2] = statisticNum[0][2] + getNum(jsonObject.getString("payNum"));
                     statisticNum[1][2] = statisticNum[1][2] + getNum(jsonObject.getString("backNum"));
                 } else if (jsonObject.getString("payType").equals("4")) {
-                    statisticMoney[0][3] = getMone(statisticMoney[0][3],jsonObject.getString("payTotal"));
-                    statisticMoney[1][3] = getMone(statisticMoney[1][3],jsonObject.getString("backTotal"));
+                    statisticMoney[0][3] = getMone(statisticMoney[0][3], jsonObject.getString("payTotal"));
+                    statisticMoney[1][3] = getMone(statisticMoney[1][3], jsonObject.getString("backTotal"));
 
                     statisticNum[0][3] = statisticNum[0][3] + getNum(jsonObject.getString("payNum"));
                     statisticNum[1][3] = statisticNum[1][3] + getNum(jsonObject.getString("backNum"));
                 }
                 //总金额
-                totalMoney[0] =getMone( totalMoney[0],jsonObject.getString("payTotal"));
-                totalMoney[1] = getMone(totalMoney[1],jsonObject.getString("backTotal"));
+                totalMoney[0] = getMone(totalMoney[0], jsonObject.getString("payTotal"));
+                totalMoney[1] = getMone(totalMoney[1], jsonObject.getString("backTotal"));
 
                 totalNum[0] = totalNum[0] + getNum(jsonObject.getString("payNum"));
                 totalNum[1] = totalNum[1] + getNum(jsonObject.getString("backNum"));
@@ -508,17 +518,17 @@ public class Trade_statistic extends Fragment {
     /**
      * 计算单种方式获得的金额
      *
-     * @param pay  新的收入值
-     * @param origin  传入的原值
+     * @param pay    新的收入值
+     * @param origin 传入的原值
      * @return
      */
-    private String getMone(String origin,String pay) {
-        BigDecimal b1=new BigDecimal(origin);
+    private String getMone(String origin, String pay) {
+        BigDecimal b1 = new BigDecimal(origin);
         BigDecimal b2;
         if (pay == null) {
             return origin;
         } else {
-            b2=new BigDecimal(pay);
+            b2 = new BigDecimal(pay);
             return b1.add(b2).toString();
         }
     }

@@ -114,7 +114,7 @@
                     android:layout_gravity="center_vertical"
                     android:gravity="center"
                     android:padding="13.0sp"
-                    android:text="商户号"
+                    android:text="商户名称"
                     android:textSize="13.0sp" />
 
                 <View
@@ -136,7 +136,7 @@
 
             <View
                 android:layout_width="fill_parent"
-                android:layout_height="1.0dip"
+                android:layout_height="0.5dip"
                 android:background="@color/loginback" />
 
             <LinearLayout
@@ -158,13 +158,13 @@
                     android:layout_gravity="center_vertical"
                     android:gravity="center"
                     android:padding="13.0sp"
-                    android:text="商户名称"
+                    android:text="门店名称"
                     android:textSize="13.0sp" />
 
                 <View
                     android:layout_width="0.0dip"
                     android:layout_height="14.0dip"
-                    android:layout_weight="1.0" />
+                    android:layout_weight="1" />
 
                 <TextView
                     android:id="@+id/mine_merchantName_tx"
@@ -180,7 +180,7 @@
 
             <View
                 android:layout_width="fill_parent"
-                android:layout_height="1.0dip"
+                android:layout_height="0.5dip"
                 android:background="@color/loginback" />
 
             <LinearLayout
@@ -262,7 +262,10 @@
                     android:padding="11.0sp"
                     android:src="@drawable/right" />
             </LinearLayout>
-
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.6dp"
+                    android:background="@color/loginback"/>
             <LinearLayout
 
                 android:id="@+id/mine_service_phone_linear"
@@ -302,9 +305,9 @@
             </LinearLayout>
 
             <View
-                android:layout_width="0.0dip"
-                android:layout_height="14.0dip"
-                android:layout_weight="1.0" />
+                android:layout_width="match_parent"
+                android:layout_height="0.6dp"
+                android:background="@color/loginback"/>
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -331,7 +334,7 @@
 
                 <View
                     android:layout_width="0.0dip"
-                    android:layout_height="14.0dip"
+                    android:layout_height="10.0dip"
                     android:layout_weight="1.0" />
 
                 <ImageView

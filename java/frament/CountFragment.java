@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 import java.math.BigDecimal;
 
 import baihuiji.jkqme.baihuiji.HomPage;
+import baihuiji.jkqme.baihuiji.MyApplaication;
 import baihuiji.jkqme.baihuiji.R;
 
 
@@ -33,15 +35,50 @@ public class CountFragment extends Fragment {
     private TextView disView;
     private TextView disView2;
     private ImageView img;
+    private View view;
+    private int currentY;
+    private boolean isMesurd = false;//true 时表示不测量
     private LinearLayout linearLayout;
     private int payTaype = -1;
-    private Handler handler=new Handler(){
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             Log.i("ContFragment", "  " + disView.getMeasuredHeight() + "   " + disView.getMeasuredWidth());
         }
     };
+
+    /**
+     * 检测控件高度
+     *
+     * @param views
+     */
+    private void getAttributs(View views) {
+        final View view = views;
+        view.getViewTreeObserver().addOnGlobalLayoutListener(
+                new ViewTreeObserver.OnGlobalLayoutListener() {
+
+                    @SuppressLint("NewApi")
+                    @Override
+                    public void onGlobalLayout() {
+                        // 设置margin
+                        if (!isMesurd) {
+                            int height;
+                            height = view.getHeight();
+                            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) view.getLayoutParams();
+                            currentY = currentY + height;
+                            Log.i("CountFragment", "  currentY  " + currentY);
+                            // isMesurd=true;
+                            if (view.hashCode() == disView2.hashCode()) {
+                                isMesurd = true;
+                                setParamas();
+                            }
+                        }
+                    }
+                });
+
+    }
+
     private OnClickListener listener = new OnClickListener() {
         public void onClick(View paramAnonymousView) {
             String string, string0;
@@ -183,8 +220,7 @@ public class CountFragment extends Fragment {
         }
     };
     private TextView rowView;
-    private TextView[] t = new TextView[18];
-    //最后三个定义的为右下键
+    //最后三个定义的为右下键,最后一个id为站两行的View
     private int[] tId = {R.id.count0_tx, R.id.count1_tx, R.id.count2_tx, R.id.count3_tx, R.id.count4_tx, R.id.count5_tx, R.id.count6_tx, R.id.count7_tx, R.id.count8_tx, R.id.count9_tx, R.id.count_add_tx, R.id.count_point_tx,
             R.id.count_clear_tx, R.id.countx_tx, R.id.cont_2row_1, R.id.cont_2row_2, R.id.count_2row_tx};
 
@@ -269,9 +305,10 @@ public class CountFragment extends Fragment {
         this.img.setOnClickListener(this.listener);
         this.delet = ((ImageView) paramView.findViewById(R.id.count_cancel_img));
         this.delet.setOnClickListener(this.listener);
+        //测量顶部高度
+
         this.disView = ((TextView) paramView.findViewById(R.id.comt_tx));
         this.disView2 = ((TextView) paramView.findViewById(R.id.comt_1_tx));
-
 
         this.linearLayout = ((LinearLayout) paramView.findViewById(R.id.count_2row_linear));
         TextView localTextView = null;
@@ -283,7 +320,7 @@ public class CountFragment extends Fragment {
         }
         this.rowView = localTextView;
         setState(1);
-        handler.sendEmptyMessageDelayed(1,500);
+        handler.sendEmptyMessageDelayed(1, 500);
     }
 
     /**
@@ -338,16 +375,23 @@ public class CountFragment extends Fragment {
     }
 
     public View onCreateView(LayoutInflater paramLayoutInflater, @Nullable ViewGroup paramViewGroup, @Nullable Bundle paramBundle) {
-        View localView = paramLayoutInflater.inflate(R.layout.count, null, true);
-        loadComponent(localView);
+        view = paramLayoutInflater.inflate(R.layout.count, null, true);
+        loadComponent(view);
         getDialog(paramLayoutInflater);
-        return localView;
+        return view;
     }
 
     public void onHiddenChanged(boolean paramBoolean) {
         super.onHiddenChanged(paramBoolean);
-        if (!paramBoolean)
+        if (!paramBoolean) {
             hideButtom();
+            if (!isMesurd) {
+                getAttributs(img);
+                getAttributs(disView);
+                getAttributs(disView2);
+                setParamas();
+            }
+        }
     }
 
     /**
@@ -386,6 +430,27 @@ public class CountFragment extends Fragment {
 
     public void setPayType(int type) {
         payTaype = type;
+    }
+
+    /**
+     * 设置键盘高度
+     */
+    private void setParamas() {
+        MyApplaication applaication = (MyApplaication) getParentFragment().getActivity().getApplication();
+        int height = applaication.getHeight();
+        height = height - currentY;
+        height = height / 4;
+        Log.i("ContFragment_height", "   " + height);
+        TextView textView;
+        for (int i = 0; i < tId.length; i++) {
+            textView = (TextView) view.findViewById(tId[i]);
+            if (i == tId.length - 1) {
+                textView.setHeight(2*height);
+            } else {
+                textView.setHeight(height);
+            }
+        }
+
     }
 }
 

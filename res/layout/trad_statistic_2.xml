@@ -104,13 +104,13 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/blue"
-            android:visibility="gone" />
+            android:visibility="invisible" />
     </LinearLayout>
 
     <ScrollView
-        android:layout_marginTop="20dp"
         android:layout_width="fill_parent"
         android:layout_height="0.0dip"
+        android:layout_marginTop="20dp"
         android:layout_weight="1.0"
         android:fillViewport="false"
         android:scrollbars="none">
@@ -145,30 +145,38 @@
                     android:textSize="11.0sp" />
 
                 <ImageView
-                    android:layout_weight="1"
                     android:id="@+id/trad_statistic_right_img"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
 
                     android:rotation="180"
                     android:src="@drawable/bright" />
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/trad_statistic_linear"
-                android:layout_width="fill_parent"
-                android:layout_height="1.0dip"
-                android:orientation="vertical" />
-
-            <LinearLayout
-                android:visibility="visible"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="visible">
 
                 <views.Sector
                     android:id="@+id/trad_static_sector_1"
+                    android:layout_width="160.0dip"
+                    android:layout_height="160.0dip"
+                    android:layout_gravity="center_horizontal" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <views.Sector
+                    android:id="@+id/trad_static_sector_2"
                     android:layout_width="160.0dip"
                     android:layout_height="160.0dip"
                     android:layout_gravity="center_horizontal" />
@@ -616,12 +624,12 @@
                     android:layout_height="1dp" />
 
                 <LinearLayout
+                    android:id="@+id/trad_statistic_linear4"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:orientation="horizontal"
-                    android:paddingLeft="4.0dip"
-                    android:id="@+id/trad_statistic_linear4">
+                    android:paddingLeft="4.0dip">
 
                     <ImageView
                         android:id="@+id/lv_statistic_trad3_img"
@@ -770,13 +778,13 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/trad_statistic_linear5"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="1dp"
                     android:background="@color/white"
                     android:orientation="horizontal"
-                    android:paddingLeft="4.0dip"
-                    android:id="@+id/trad_statistic_linear5">
+                    android:paddingLeft="4.0dip">
 
                     <ImageView
                         android:id="@+id/lv_statistic_trad_img2"
@@ -861,13 +869,13 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/trad_statistic_linear6"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="1dp"
                     android:background="@color/white"
                     android:orientation="horizontal"
-                    android:paddingLeft="4.0dip"
-                    android:id="@+id/trad_statistic_linear6">
+                    android:paddingLeft="4.0dip">
 
                     <ImageView
                         android:id="@+id/lv_statistic_trad1_img2_1"
@@ -952,13 +960,13 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/trad_statistic_linear7"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="1dp"
                     android:background="@color/white"
                     android:orientation="horizontal"
-                    android:paddingLeft="4.0dip"
-                    android:id="@+id/trad_statistic_linear7">
+                    android:paddingLeft="4.0dip">
 
                     <ImageView
                         android:id="@+id/lv_statistic_trad2_img2_2"
@@ -1043,13 +1051,13 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/trad_statistic_linear8"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="1dp"
                     android:background="@color/white"
                     android:orientation="horizontal"
-                    android:paddingLeft="4.0dip"
-                    android:id="@+id/trad_statistic_linear8">
+                    android:paddingLeft="4.0dip">
 
                     <ImageView
                         android:id="@+id/lv_statistic_trad3_img2_2"

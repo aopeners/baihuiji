@@ -1,5 +1,6 @@
 package frament;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
@@ -37,6 +38,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import baihuiji.jkqme.baihuiji.R;
+import views.MyProgerss;
 import web.BaihuijiNet;
 import web.Ip;
 
@@ -70,7 +72,9 @@ public class Login extends Fragment {
     private String requst;
     private EditText userNameEtx;
 
-    private void conect(String paramString1, String paramString2) {
+    private void conect(String paramString1, final String paramString2) {
+        loginclick = true;
+        showProgress();
         final String[] arrayOfString1 = {"merchantId", "ordSource", "operateId", "operatePass", "MD5"};
         final String[] arrayOfString2 = new String[5];
         arrayOfString2[0] = "0";
@@ -87,9 +91,11 @@ public class Login extends Fragment {
                     Login.this.requst = BaihuijiNet.urlconection(Ip.logip, json);
                     Log.i("Login", Login.this.requst);
                     if (Login.this.loginSuccess(Login.this.requst)) {
-                        Login.this.saveDate(Login.this.requst);
+                        Login.this.saveDate(Login.this.requst, paramString2);
                         if (checkBox.isChecked()) {
-                            getSahedPerference(userNameEtx.toString(),passwordEtx.toString());
+                            getSahedPerference(userNameEtx.getText().toString(), passwordEtx.getText().toString(), true);
+                        } else {
+                            getSahedPerference(userNameEtx.getText().toString(), passwordEtx.getText().toString(), false);
                         }
                         Login.this.jumptoHomepage();
                         return;
@@ -97,7 +103,7 @@ public class Login extends Fragment {
                 } catch (Exception localException) {
 
                     localException.printStackTrace();
-                    showToast();
+                  //  showToast();
                     Log.i("Login", Login.this.requst + "登录失败");
                 }
                 loginclick = false;
@@ -105,7 +111,6 @@ public class Login extends Fragment {
         }
                 .start();
     }
-
 
 
     /**
@@ -259,12 +264,15 @@ public class Login extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        if (str.equals("登录成功")) return true;
+        if (str.equals("登录成功")){ return true;}else {
+            showToast(str);
+        }
         return false;
     }
 
-    private void saveDate(String paramString) {
+    private void saveDate(String paramString, String password) {
         MyApplaication localMyApplaication = (MyApplaication) getActivity().getApplication();
+        localMyApplaication.putData("password", password);
         int i = 0;
         String[] arrayOfString;
         arrayOfString = new String[]{"logo", "merchantId", "merName", "shopName", "time", "payTypeStatus", "company", "operateName", "operateTel"};
@@ -281,38 +289,42 @@ public class Login extends Fragment {
                 return;
             try {
                 localMyApplaication.putData(arrayOfString[i], localJSONObject2.getString(arrayOfString[i]));
-<<<<<<< HEAD
-                if(checkBox.isChecked()){
-                 //   saveUser(true);
-                }else {
-               //     saveUser(false);
-=======
+
                 if (checkBox.isChecked()) {
-                   // saveUser(true);
+                    //   saveUser(true);
                 } else {
-                   // saveUser(false);
->>>>>>> e59cbaa10b49518ae8fd237e825966fdf25765a7
+                    //     saveUser(false);
+
+                    if (checkBox.isChecked()) {
+                        // saveUser(true);
+                    } else {
+                        // saveUser(false);
+
+                    }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             i++;
+
         }
     }
 
     /**
      * 保存用户,保存密码或不保存密码
      */
+
     private void saveUser(boolean savaPassword) {
         MyApplaication localMyApplaication = (MyApplaication) getActivity().getApplication();
         SQLiteDatabase localSQLiteDatabase = SQLiteDatabase.openOrCreateDatabase(localMyApplaication.helper.dbPath, null);
         localMyApplaication.helper.isUserExct(localSQLiteDatabase, userNameEtx.getText().toString(), passwordEtx.getText().toString(), savaPassword);
     }
 
-    private void showToast() {
+    private void showToast(final String string) {
         getActivity().runOnUiThread(new Runnable() {
             public void run() {
-                Toast.makeText(Login.this.getActivity(), "登录失败", Toast.LENGTH_LONG).show();
+                //   progerss.hide();
+                Toast.makeText(Login.this.getActivity(), string, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -330,18 +342,20 @@ public class Login extends Fragment {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if(!hidden){
+        if (!hidden) {
             setUser();
+
         }
 
     }
+
     /**
      * 向perfrence中防数据
      *
      * @param name
      * @param password
      */
-    private void getSahedPerference(String name, String password) {
+    private void getSahedPerference(String name, String password, boolean savepass) {
 
         SharedPreferences preferences;
 
@@ -350,19 +364,40 @@ public class Login extends Fragment {
         if (!preferences.contains("user") || !preferences.getString("user", "").equals(name))
             editor.putString("name", name);
 
-        if (!preferences.contains("password") || !preferences.getString("password", "").equals(password))
-            ;
-        editor.putString("password", password);
+
+        if (savepass) {
+            if (!preferences.contains("password") || !preferences.getString("password", "").equals(password))
+                ;
+            editor.putString("password", password);
+        }
         editor.commit();
     }
-    public void setUser(){
-        SharedPreferences sharedPreferences=getActivity().getSharedPreferences("user",Context.MODE_PRIVATE);
-        if(sharedPreferences.contains("name")){
-            userNameEtx.setText(sharedPreferences.getString("name",""));
+
+    /**
+     * 将用户信息写进手机,有信息就登录
+     */
+    public void setUser() {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
+
+        if (sharedPreferences.contains("name")) {
+            userNameEtx.setText(sharedPreferences.getString("name", ""));
+            if (sharedPreferences.contains("password")) {
+                passwordEtx.setText(sharedPreferences.getString("password", ""));
+                conect(sharedPreferences.getString("name", ""), sharedPreferences.getString("password", ""));
+                return;
+            }
         }
-        if(sharedPreferences.contains("password")){
-            passwordEtx.setText(sharedPreferences.getString("password",""));
+    }
+
+    private ProgressDialog progerss;
+
+    private void showProgress() {
+        if (progerss == null) {
+            progerss = new MyProgerss(getActivity());
+            progerss.setCanceledOnTouchOutside(false);
+
         }
+        // progerss.show();
     }
 }
 

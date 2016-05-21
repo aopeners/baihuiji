@@ -25,6 +25,7 @@ public abstract interface Ip {
   public String monthstatistic=ips+"aide/moneyDayCount";
   //点击统计的交易次数部分ips+""
   public String saleDayCount=ips+"aide/saleDayCount";
+  public String upPass=ips+"aide/updPass";
 }
 
 /* Location:           C:\Users\jkqme\Androids\Androids\classes_dex2jar.jar

@@ -128,6 +128,7 @@ public class DayBill extends Fragment {
      * @param paramString
      */
     private void getDate(String paramString) {
+        list.removeAll(list);
         JSONObject jsonObject = null;
         JSONArray jsonArray = null;
         try {
@@ -275,6 +276,15 @@ public class DayBill extends Fragment {
                 if (s.trim().length() > 0)
                     getDate(s);
             }
+        }
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(hidden&&billAdpter!=null){
+            list.removeAll(list);
+            billAdpter.setList(list);
         }
     }
 }

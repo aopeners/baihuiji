@@ -8,4 +8,29 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="theme.customer_progress_dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:progressBarStyle">@style/customer_progress_dialog</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:paddingLeft">10dip</item>  //图片与左边距的距离
+        <item name="android:paddingRight">10dip</item> //message与右边距的距离
+        <item name="android:textSize">20sp</item>      //message字体的大小
+        <item name="android:textColor">@android:color/white</item>  //message字体的颜色
+    </style>
+
+    <style name="customer_progress_dialog" parent="@android:style/Widget.ProgressBar">
+        <item name="android:indeterminateDuration">2000</item>
+        <item name="android:height">@android:dimen/dialog_min_width_major</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:width">@android:dimen/dialog_min_width_major</item>
+        <item name="android:alpha">1</item>
+        <item name="android:background">@android:color/transparent</item>
+
+    </style>
 </resources>
+
+
+
