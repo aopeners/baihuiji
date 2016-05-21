@@ -1,5 +1,7 @@
 package frament;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -49,8 +52,8 @@ public class Login extends Fragment {
         public void onClick(View paramAnonymousView) {
             String user = userNameEtx.getText().toString();
             String password = passwordEtx.getText().toString();
-         //   user = "18716398031";
-          //  password = "123456";
+            //   user = "18716398031";
+            //  password = "123456";
             Log.i("Onclick", "" + user + password);
 
             if ((Login.this.checkBox.isChecked()) && user.trim().length() > 0 && password.trim().length() > 0 && !loginclick) {
@@ -85,6 +88,9 @@ public class Login extends Fragment {
                     Log.i("Login", Login.this.requst);
                     if (Login.this.loginSuccess(Login.this.requst)) {
                         Login.this.saveDate(Login.this.requst);
+                        if (checkBox.isChecked()) {
+                            getSahedPerference(userNameEtx.toString(),passwordEtx.toString());
+                        }
                         Login.this.jumptoHomepage();
                         return;
                     }
@@ -99,6 +105,8 @@ public class Login extends Fragment {
         }
                 .start();
     }
+
+
 
     /**
      * hashMap 转jison,不可用
@@ -273,10 +281,17 @@ public class Login extends Fragment {
                 return;
             try {
                 localMyApplaication.putData(arrayOfString[i], localJSONObject2.getString(arrayOfString[i]));
+<<<<<<< HEAD
                 if(checkBox.isChecked()){
                  //   saveUser(true);
                 }else {
                //     saveUser(false);
+=======
+                if (checkBox.isChecked()) {
+                   // saveUser(true);
+                } else {
+                   // saveUser(false);
+>>>>>>> e59cbaa10b49518ae8fd237e825966fdf25765a7
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -288,11 +303,12 @@ public class Login extends Fragment {
     /**
      * 保存用户,保存密码或不保存密码
      */
-    private void saveUser(boolean savaPassword){
+    private void saveUser(boolean savaPassword) {
         MyApplaication localMyApplaication = (MyApplaication) getActivity().getApplication();
         SQLiteDatabase localSQLiteDatabase = SQLiteDatabase.openOrCreateDatabase(localMyApplaication.helper.dbPath, null);
-            localMyApplaication.helper.isUserExct(localSQLiteDatabase,userNameEtx.getText().toString(),passwordEtx.getText().toString(),savaPassword);
+        localMyApplaication.helper.isUserExct(localSQLiteDatabase, userNameEtx.getText().toString(), passwordEtx.getText().toString(), savaPassword);
     }
+
     private void showToast() {
         getActivity().runOnUiThread(new Runnable() {
             public void run() {
@@ -309,6 +325,44 @@ public class Login extends Fragment {
         View localView = paramLayoutInflater.inflate(R.layout.login, null, true);
         loadComponent(localView);
         return localView;
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(!hidden){
+            setUser();
+        }
+
+    }
+    /**
+     * 向perfrence中防数据
+     *
+     * @param name
+     * @param password
+     */
+    private void getSahedPerference(String name, String password) {
+
+        SharedPreferences preferences;
+
+        preferences = getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        if (!preferences.contains("user") || !preferences.getString("user", "").equals(name))
+            editor.putString("name", name);
+
+        if (!preferences.contains("password") || !preferences.getString("password", "").equals(password))
+            ;
+        editor.putString("password", password);
+        editor.commit();
+    }
+    public void setUser(){
+        SharedPreferences sharedPreferences=getActivity().getSharedPreferences("user",Context.MODE_PRIVATE);
+        if(sharedPreferences.contains("name")){
+            userNameEtx.setText(sharedPreferences.getString("name",""));
+        }
+        if(sharedPreferences.contains("password")){
+            passwordEtx.setText(sharedPreferences.getString("password",""));
+        }
     }
 }
 
