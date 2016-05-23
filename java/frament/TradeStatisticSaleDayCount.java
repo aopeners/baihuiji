@@ -31,6 +31,7 @@ import java.util.HashMap;
 
 import adpter.DayCoutAdpter;
 import adpter.MonyStatisticByTypeAdpter;
+import baihuiji.jkqme.baihuiji.HomPage;
 import baihuiji.jkqme.baihuiji.R;
 
 /**
@@ -282,6 +283,8 @@ public class TradeStatisticSaleDayCount extends Fragment {
         this.payType = payType;
         this.time = time;
         this.payTotleNum = payTotleNumber;
+        HomPage homPage= (HomPage) getParentFragment().getActivity();
+        homPage.showProgress();
         new MyAsyn().execute(requst);
     }
 
@@ -296,18 +299,22 @@ public class TradeStatisticSaleDayCount extends Fragment {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             Log.i("MonthBillASy", s + "   onpost");
+            HomPage homPage= (HomPage) getParentFragment().getActivity();
+            homPage.dialogCancle();
             if (s != null) {
                 if (s.trim().length() > 0)
                     getDate(s);
             }
         }
     }
+
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if(hidden&&dayCoutAdpter!=null){
+        if (hidden && dayCoutAdpter != null) {
+
             list.removeAll(list);
-           dayCoutAdpter.setDate(payType,list);
+            dayCoutAdpter.setDate(payType, list);
         }
     }
 }

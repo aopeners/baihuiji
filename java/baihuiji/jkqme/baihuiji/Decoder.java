@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -133,6 +134,7 @@ public class Decoder extends Activity {
 
     private void selectState(int i, String msg) {
         MyApplaication applaication = (MyApplaication) getApplication();
+        showProgress();
         switch (i) {
             case 1:
                 if (applaication.getDate("payTypeStatus").charAt(0) == '1') {
@@ -182,7 +184,7 @@ public class Decoder extends Activity {
             Log.i("QRcode", paramAnonymousString + "   " + onOrder);
             // Toast.makeText(Decoder.this,paramAnonymousString,Toast.LENGTH_LONG).show();
             //  authCode=paramAnonymousString;
-
+            //是否退款
             if (!isRefund) {
                 //是否已获得订单号
                 if (!onOrder) {
@@ -209,17 +211,21 @@ public class Decoder extends Activity {
         bundle.putString("signal", orderNO);
         bundle.putString("paytime", time);
         bundle.putString("payTotal", money);
+        //收款成功位
+        bundle.putBoolean("getSuccess", true);
         intent.putExtra("onTradSuccess", bundle);
         setResult(3, intent);
         finish();
     }
 
-    //扫描退款成功时
+    //扫描退款成功时,回到账单详情退款
     private void onReFound(String sigal) {
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
         bundle.putString("signal", sigal);
+        bundle.putBoolean("refondSuccess", true);
         intent.putExtra("signal", bundle);
+
         setResult(2, intent);
         finish();
 
@@ -253,8 +259,9 @@ public class Decoder extends Activity {
         view2 = findViewById(R.id.decod1_v2);
 
         layout1 = (LinearLayout) findViewById(R.id.decod1_linear);
+        //付款方式选择框
         layout2 = (LinearLayout) findViewById(R.id.decod1_select_linear);
-
+        // decod1_select_linear
         merchantId = (TextView) findViewById(R.id.decod1_mercant_tx);
         merchatMoney = (TextView) findViewById(R.id.decod1_mercan_money_tx);
         int[] textId = {R.id.decod1_slect_tx, R.id.decod1_slect1_tx, R.id.decod1_slect2_tx, R.id.decod1_slect3_tx};
@@ -285,7 +292,9 @@ public class Decoder extends Activity {
         hashswich = true;
         if (layout.getVisibility() == View.VISIBLE) {
             layout1.setBackgroundColor(getResources().getColor(R.color.loginback));
+            layout2.setGravity(View.VISIBLE);
             onOrder = false;
+            readerView.setVisibility(View.INVISIBLE);
             readerView.getCameraManager().stopPreview();
             layout.setVisibility(View.GONE);
             swichImg.setVisibility(View.VISIBLE);
@@ -295,10 +304,14 @@ public class Decoder extends Activity {
             bTextView.setText("切换到扫码收款");
             merchantId.setVisibility(View.VISIBLE);
             merchatMoney.setVisibility(View.VISIBLE);
+            showProgress();
+
             new MyAsy().execute("");
             hashswich = false;
         } else {
             layout1.setBackgroundColor(getResources().getColor(R.color.black));
+            readerView.setVisibility(View.VISIBLE);
+            layout2.setVisibility(View.INVISIBLE);
             readerView.getCameraManager().startPreview();
             layout.setVisibility(View.VISIBLE);
             swichImg.setVisibility(View.GONE);
@@ -328,16 +341,13 @@ public class Decoder extends Activity {
             boolean fukuanma = bundle.getBoolean("fukuan");
             merchantId.setText(applaication.getDate("merName"));
             merchatMoney.setText("¥" + money);
-            if (payType == 0) {
-                layout2.setVisibility(View.VISIBLE);
-
+            if (fukuanma) {
+                swich();
             } else {
                 layout2.setVisibility(View.INVISIBLE);
             }
-            if (fukuanma) {
-                swich();
-            }
-        } else {
+        } else {//退款
+            layout2.setVisibility(View.INVISIBLE);
             isRefund = true;
             TextView textView = (TextView) findViewById(R.id.count_title_tx);
             textView.setText("退款扫描");
@@ -364,8 +374,17 @@ public class Decoder extends Activity {
     }
 
     protected void onResume() {
+        Log.i("DecoderonResume", "Dcoder");
         super.onResume();
-        this.readerView.getCameraManager().startPreview();
+        if (readerView == null) {
+            readerView = ((QRCodeReaderView) findViewById(R.id.decode1_qv));
+        }
+        if (readerView.getCameraManager() != null) {
+            this.readerView.getCameraManager().startPreview();
+        } else {
+            readerView.getCameramanager();
+        }
+        getDate();
     }
 
     /**
@@ -373,7 +392,7 @@ public class Decoder extends Activity {
      */
     private Bitmap getOrderBitmap() {
         MyApplaication applaication = (MyApplaication) getApplication();
-        if(payType==0){
+        if (payType == 0) {
             ShowTost("请选择支付类型");
             return null;
         }
@@ -389,19 +408,21 @@ public class Decoder extends Activity {
         if (getRequstSuccess(requst)) {
             return onGetBitmapSucced(requst);
         } else {
-            ShowTost(getMsg(requst));
+            showToast(getMsg(requst));
             return null;
         }
     }
-    private String getMsg(String requst){
+
+    private String getMsg(String requst) {
         try {
-            JSONObject jsonObject=new JSONObject(requst);
+            JSONObject jsonObject = new JSONObject(requst);
             return jsonObject.getString("msg");
         } catch (JSONException e) {
             e.printStackTrace();
             return "访问失败";
         }
     }
+
     /**
      * 当获取被扫描的bitmap成功时
      *
@@ -513,6 +534,7 @@ public class Decoder extends Activity {
      * 获得订单号，扫比人
      */
     private void getOrder(String authCode) {
+        showProgress();
         final String authcods = authCode;
         new Thread(new Runnable() {
             @Override
@@ -537,12 +559,13 @@ public class Decoder extends Activity {
                     if (collectionSucced(requst1)) {
                         // ShowTost("交易成功");
                         //没有返回或者没有支付成功的情况
+                        showToast("收款成功");
                         onOrderSuccess(getTime(requst1));
                     } else {
 
                     }
                 } else {
-                    ShowTost("获取订单失败");
+                    showToast("获取订单失败");
                 }
                 //
 
@@ -796,6 +819,12 @@ public class Decoder extends Activity {
 
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+    }
+
     class MyAsy extends AsyncTask<String, String, Bitmap> {
 
         @Override
@@ -807,10 +836,46 @@ public class Decoder extends Activity {
         protected void onPostExecute(Bitmap bitmap) {
             super.onPostExecute(bitmap);
             if (bitmap != null) {
+                dialogCancle();
                 swichImg.setImageBitmap(bitmap);
                 handler.sendEmptyMessageAtTime(1, 8000);
             }
         }
+    }
+
+    private void showToast(final String string) {
+        runOnUiThread(new Runnable() {
+            public void run() {
+                progerss.setCancelable(true);
+                progerss.cancel();
+                Toast.makeText(Decoder.this, string, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    //progress+dialog
+    private android.support.v7.app.AlertDialog progerss;
+
+    private void showProgress() {
+        if (progerss == null) {
+
+            progerss = new android.support.v7.app.AlertDialog.Builder(this, R.style.mydiaog).create();
+            progerss.setView(LayoutInflater.from(this).inflate(R.layout.progress, null, true));
+            progerss.setCanceledOnTouchOutside(false);
+            progerss.setCancelable(false);
+
+        }
+        progerss.show();
+    }
+
+    private void dialogCancle() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progerss.setCancelable(true);
+                progerss.cancel();
+            }
+        });
     }
 }
 

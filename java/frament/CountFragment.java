@@ -287,7 +287,7 @@ public class CountFragment extends Fragment {
      *
      * @param type
      * @param money
-     * @param fukuanma
+     * @param fukuanma 付款码付款
      */
     private void jumptoDecoder(int type, String money, boolean fukuanma) {
         if (money.contains(".")) {
@@ -298,6 +298,7 @@ public class CountFragment extends Fragment {
             }
         }
         ((HomPage) getParentFragment().getActivity()).jumptoDecode(type, money, fukuanma);
+        ((HomPage) getParentFragment().getActivity()).showProgress();
     }
 
     private void loadComponent(View paramView) {
@@ -357,7 +358,6 @@ public class CountFragment extends Fragment {
             jumptoDecoder(payTaype, moneyCount, true);
         }
     }
-
     private void showButtom() {
         ((HomPage) getParentFragment().getActivity()).showButtom();
     }

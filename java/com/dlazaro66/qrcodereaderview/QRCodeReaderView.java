@@ -322,4 +322,22 @@ public class QRCodeReaderView extends SurfaceView implements SurfaceHolder.Callb
         mHolder.addCallback(this);
         mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);  // Need to set this flag despite it's deprecated
     }
+
+    //形成新的Cameramanager实例
+    public void getCameramanager() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (checkCameraHardware(getContext())) {
+                    mCameraManager = new CameraManager(getContext());
+                } else {
+                    Log.e(TAG, "Error: Camera not found");
+                    if (mOnQRCodeReadListener != null) {
+                        mOnQRCodeReadListener.cameraNotFound();
+                    }
+                }
+
+            }
+        });
+    }
 }

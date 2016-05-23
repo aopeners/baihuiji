@@ -145,7 +145,7 @@ public class Home_display_fragment extends Fragment {
     /**
      * 获取今日收入，和月收入
      */
-    private void getDayDate() {
+    public void getDayDate() {
         new Thread(new Runnable() {
             MyApplaication applaication = (MyApplaication) Home_display_fragment.this.getParentFragment().getActivity().getApplication();
             Bundle bundle = new Bundle();

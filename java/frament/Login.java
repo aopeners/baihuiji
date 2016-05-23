@@ -1,16 +1,13 @@
 package frament;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.text.Editable;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,8 +19,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import baihuiji.jkqme.baihuiji.MyApplaication;
-import baihuiji.jkqme.baihuiji.PageView;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -31,14 +28,10 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import baihuiji.jkqme.baihuiji.MyApplaication;
+import baihuiji.jkqme.baihuiji.PageView;
 import baihuiji.jkqme.baihuiji.R;
-import views.MyProgerss;
 import web.BaihuijiNet;
 import web.Ip;
 
@@ -93,6 +86,7 @@ public class Login extends Fragment {
                     if (Login.this.loginSuccess(Login.this.requst)) {
                         Login.this.saveDate(Login.this.requst, paramString2);
                         if (checkBox.isChecked()) {
+                            //保存数据
                             getSahedPerference(userNameEtx.getText().toString(), passwordEtx.getText().toString(), true);
                         } else {
                             getSahedPerference(userNameEtx.getText().toString(), passwordEtx.getText().toString(), false);
@@ -103,7 +97,7 @@ public class Login extends Fragment {
                 } catch (Exception localException) {
 
                     localException.printStackTrace();
-                  //  showToast();
+
                     Log.i("Login", Login.this.requst + "登录失败");
                 }
                 loginclick = false;
@@ -255,6 +249,7 @@ public class Login extends Fragment {
             localJSONObject1 = new JSONObject(paramString);
         } catch (JSONException e) {
             e.printStackTrace();
+            showToast("");
             return false;
         }
 
@@ -264,7 +259,9 @@ public class Login extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        if (str.equals("登录成功")){ return true;}else {
+        if (str.equals("登录成功")) {
+            return true;
+        } else {
             showToast(str);
         }
         return false;
@@ -320,14 +317,7 @@ public class Login extends Fragment {
         localMyApplaication.helper.isUserExct(localSQLiteDatabase, userNameEtx.getText().toString(), passwordEtx.getText().toString(), savaPassword);
     }
 
-    private void showToast(final String string) {
-        getActivity().runOnUiThread(new Runnable() {
-            public void run() {
-                //   progerss.hide();
-                Toast.makeText(Login.this.getActivity(), string, Toast.LENGTH_LONG).show();
-            }
-        });
-    }
+
 
     private void writDb() {
         ((PageView) getActivity()).writDb();
@@ -389,15 +379,27 @@ public class Login extends Fragment {
         }
     }
 
-    private ProgressDialog progerss;
+    private AlertDialog progerss;
 
     private void showProgress() {
         if (progerss == null) {
-            progerss = new MyProgerss(getActivity());
+
+            progerss = new AlertDialog.Builder(getContext(), R.style.mydiaog).create();
+            progerss.setView(LayoutInflater.from(getContext()).inflate(R.layout.progress, null, true));
             progerss.setCanceledOnTouchOutside(false);
+            progerss.setCancelable(false);
 
         }
-        // progerss.show();
+        progerss.show();
+    }
+    private void showToast(final String string) {
+        getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                progerss.setCancelable(true);
+                progerss.cancel();
+                Toast.makeText(Login.this.getActivity(), string, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }
 

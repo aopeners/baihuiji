@@ -140,4 +140,7 @@ public class Home_fragment extends Fragment {
     public void setTreadSuccessDate(String paytype, String signal, String paytime, String payTotal) {
         treadSuccess.setDate(paytype, signal, paytime, payTotal);
     }
+    public void getDate(){
+        hDisplay_fragment.getDayDate();
+    }
 }

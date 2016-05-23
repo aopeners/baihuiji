@@ -27,6 +27,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import baihuiji.jkqme.baihuiji.HomPage;
 import baihuiji.jkqme.baihuiji.MyApplaication;
 import baihuiji.jkqme.baihuiji.R;
 import views.Sector;
@@ -312,17 +313,17 @@ public class Trade_statistic extends Fragment {
             layout2n.setVisibility(View.VISIBLE);
             view1.setVisibility(View.INVISIBLE);
             view2.setVisibility(View.VISIBLE);
-            sector.setVisibility(View.VISIBLE);
-            sector.setWight(statisticMoney[0][2], statisticMoney[0][1], statisticMoney[0][3], statisticMoney[0][0]);
-            sector1.setVisibility(View.GONE);
+            sector.setVisibility(View.GONE);
+            //   sector.setWight(statisticMoney[0][2], statisticMoney[0][1], statisticMoney[0][3], statisticMoney[0][0]);
+            sector1.setVisibility(View.VISIBLE);
         } else {
             layoutm.setVisibility(View.VISIBLE);
             layout2n.setVisibility(View.GONE);
             view2.setVisibility(View.INVISIBLE);
             view1.setVisibility(View.VISIBLE);
-            sector1.setVisibility(View.VISIBLE);
-            sector1.setWight(String.valueOf(statisticNum[0][2]), String.valueOf(statisticNum[0][1]), String.valueOf(statisticNum[0][3]), String.valueOf(statisticNum[0][0]));
-            sector.setVisibility(View.GONE);
+            sector1.setVisibility(View.GONE);
+            //    sector1.setWight(String.valueOf(statisticNum[0][2]), String.valueOf(statisticNum[0][1]), String.valueOf(statisticNum[0][3]), String.valueOf(statisticNum[0][0]));
+            sector.setVisibility(View.VISIBLE);
         }
     }
 
@@ -426,11 +427,11 @@ public class Trade_statistic extends Fragment {
                 textView.setText(statisticNum[1][a - 4] + "");
             }
         }
-        if (sector.getVisibility() == View.VISIBLE) {
-            sector.setWight(statisticMoney[0][0], statisticMoney[0][1], statisticMoney[0][2], statisticMoney[0][3]);
-        } else {
-            sector1.setWight(String.valueOf(statisticNum[1][0]), String.valueOf(statisticNum[1][1]), String.valueOf(statisticNum[1][2]), String.valueOf(statisticNum[1][3]));
-        }
+        Log.i("treade_statistic", "sector");
+        sector.setWight(statisticMoney[0][0], statisticMoney[0][1], statisticMoney[0][2], statisticMoney[0][3]);
+        Log.i("treade_statistic", "sector1");
+      //  sector1.setWight(statisticNum[1][0] + "", statisticNum[1][1] + "", statisticNum[1][2] + "", statisticNum[1][3] + "");
+
     }
 
     /**
@@ -551,6 +552,8 @@ public class Trade_statistic extends Fragment {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
+            HomPage homPage= (HomPage) getParentFragment().getActivity();
+            homPage.showProgress();
             new MyAsy().execute("");
         }
     }
@@ -619,6 +622,8 @@ public class Trade_statistic extends Fragment {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            HomPage homPage= (HomPage) getParentFragment().getActivity();
+            homPage.dialogCancle();
             if (list1.size() > 0) {
                 setDate();
             }

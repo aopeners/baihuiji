@@ -3,6 +3,7 @@ package frament;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,6 +63,7 @@ public class Modifi_password extends Fragment {
      * 修改密码的方法
      */
     private void onModify() {
+        showProgress();
         final MyApplaication applaication = (MyApplaication) getParentFragment().getActivity().getApplication();
         new Thread(new Runnable() {
             @Override
@@ -78,9 +80,13 @@ public class Modifi_password extends Fragment {
                             editText2.getText().toString() + "*" + applaication.getDate("operateTel"))};
                     String json = BaihuijiNet.getJson(key, value, "MD5");
                     String requst;
-                    if (editText2.getText().toString().trim().equals(editText3.toString().trim())) {
+                    if (editText2.getText().toString().trim().equals(editText1.getText().toString().trim())) {
+                        showToast("新密码与原密码一致");
+                    } else if (editText2.getText().toString().trim().equals(editText3.getText().toString().trim())) {
                         requst = BaihuijiNet.urlconection(Ip.upPass, json);
                         Log.i("ModifiPassword", requst);
+                        applaication.putData("password", editText1.getText().toString().trim());
+                        showToast("修改成功");
                     } else {
                         showToast("新密码不一致");
                     }
@@ -107,11 +113,26 @@ public class Modifi_password extends Fragment {
         }
     }
 
-    private void showToast(final String toast) {
-        getParentFragment().getActivity().runOnUiThread(new Runnable() {
-            @Override
+    private AlertDialog progerss;
+
+    private void showProgress() {
+        if (progerss == null) {
+
+            progerss = new AlertDialog.Builder(getContext(), R.style.mydiaog).create();
+            progerss.setView(LayoutInflater.from(getContext()).inflate(R.layout.progress, null, true));
+            progerss.setCanceledOnTouchOutside(false);
+            progerss.setCancelable(false);
+
+        }
+        progerss.show();
+    }
+
+    private void showToast(final String string) {
+        getActivity().runOnUiThread(new Runnable() {
             public void run() {
-                Toast.makeText(getParentFragment().getActivity(), toast, Toast.LENGTH_SHORT).show();
+                progerss.setCancelable(true);
+                progerss.cancel();
+                Toast.makeText(getParentFragment().getActivity(), string, Toast.LENGTH_LONG).show();
             }
         });
     }

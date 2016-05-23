@@ -16,4 +16,6 @@
     <color name="tbluee">#ff66f0f2</color>
     <color name="red1">#fffb96fe</color>
     <color name="greyback">#EFEFEF</color>
+    <color name="dialogbck">#009C9799</color>
+    <color name="blue_back">#43C4C0</color>
 </resources>

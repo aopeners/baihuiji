@@ -212,7 +212,7 @@ public class Paylist_Fragment extends Fragment {
         if (jsjump) {
             jsjump = false;
             ((HomPage) getParentFragment().getActivity()).jumbtoDecoderForRefund();
-            jsjump=true;
+            jsjump = true;
         }
     }
 
@@ -295,9 +295,10 @@ public class Paylist_Fragment extends Fragment {
      */
     public void onHiddenChanged(boolean paramBoolean) {
         super.onHiddenChanged(paramBoolean);
-        if ((!paramBoolean) && (this.billAdpter == null))
-
+        if ((!paramBoolean) && (this.billAdpter == null)) {
+            HomPage homPage = (HomPage) getParentFragment().getActivity();
             new MyAsyn().execute("");
+        }
         //  Log.i("ONhiddenChange", "paramBoolean");
     }
 
@@ -318,6 +319,8 @@ public class Paylist_Fragment extends Fragment {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            HomPage homPage= (HomPage) getParentFragment().getActivity();
+            homPage.dialogCancle();
             if (s != null) {
                 if (s.trim().length() > 0)
                     getDate(s);

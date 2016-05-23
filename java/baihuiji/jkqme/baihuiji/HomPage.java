@@ -6,9 +6,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AlphaAnimation;
@@ -184,6 +186,7 @@ public class HomPage extends FragmentActivity {
      * @param fukuanma
      */
     public void jumptoDecode(int payType, String moneycont, boolean fukuanma) {
+        dialogCancle();
         Intent intent = new Intent(this, Decoder.class);
         Bundle bundle = new Bundle();
 
@@ -199,6 +202,7 @@ public class HomPage extends FragmentActivity {
      * 退款扫码
      */
     public void jumbtoDecoderForRefund() {
+        dialogCancle();
         Intent intent = new Intent(this, Decoder.class);
         Bundle bundle = new Bundle();
 
@@ -224,7 +228,7 @@ public class HomPage extends FragmentActivity {
             Bundle bundle = data.getBundleExtra("signal");
             signal = bundle.getString("signal");
             bill.setSignal(signal);
-
+            dialogCancle();
             //收款返回
         } else if (resultCode == 3) {
             Bundle bundle = data.getBundleExtra("onTradSuccess");
@@ -232,6 +236,13 @@ public class HomPage extends FragmentActivity {
             home_fragment.setTreadSuccessDate(bundle.getString("payType"),
                     bundle.getString("signal"), bundle.getString("paytime"),
                     bundle.getString("payTotal"));
+            //设置日收入和月收入
+            if (bundle.getBoolean("getSuccess", false)) {
+                home_fragment.getDate();
+            }
+            dialogCancle();
+        } else {
+            dialogCancle();
         }
 
     }
@@ -262,7 +273,7 @@ public class HomPage extends FragmentActivity {
                                    int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
             //键盘弹起,且控件高度大于0
             if (oldBottom != 0 && bottom != 0 && (bottom - oldBottom) < 0) {
-              rGroup.setAlpha(0);
+                rGroup.setAlpha(0);
                 //键盘缩小
             } else if (oldBottom != 0 && bottom != 0 && (bottom - oldBottom > 0)) {
                 rGroup.setAlpha(1);
@@ -306,14 +317,39 @@ public class HomPage extends FragmentActivity {
         return false;
     }
 
-    public void showToast(final String toast) {
+    public void showToast(final String string) {
+        runOnUiThread(new Runnable() {
+            public void run() {
+                progerss.setCancelable(true);
+                progerss.cancel();
+                Toast.makeText(HomPage.this, string, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private AlertDialog progerss;
+
+    public void showProgress() {
+        if (progerss == null) {
+            progerss = new AlertDialog.Builder(this, R.style.mydiaog).create();
+            progerss.setView(LayoutInflater.from(this).inflate(R.layout.progress, null, true));
+            progerss.setCanceledOnTouchOutside(false);
+            progerss.setCancelable(false);
+        }
+        progerss.show();
+    }
+
+    //取消锁屏
+    public void dialogCancle() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(HomPage.this, toast, Toast.LENGTH_SHORT).show();
+                if (progerss != null) {
+                    progerss.setCancelable(true);
+                    progerss.cancel();
+                }
             }
         });
-
     }
 }
 

@@ -131,7 +131,8 @@ public class Bil_detail extends Fragment {
 
 
     }
-    private DialogInterface.OnDismissListener dismissListener=new DialogInterface.OnDismissListener() {
+
+    private DialogInterface.OnDismissListener dismissListener = new DialogInterface.OnDismissListener() {
         @Override
         public void onDismiss(DialogInterface dialogInterface) {
             editText.setText("");
@@ -309,8 +310,10 @@ public class Bil_detail extends Fragment {
 
     //退款
     private void onRefund(final String password) {
+        final MyApplaication applaication = (MyApplaication) getParentFragment().getActivity().getApplication();
+        final HomPage homPage = (HomPage) getParentFragment().getActivity();
         new Thread(new Runnable() {
-            MyApplaication applaication = (MyApplaication) getParentFragment().getActivity().getApplication();
+
             String key[] = {"merchantId", "orderNo",
                     "ordSource", "operateId", "backPsw",
                     "ver", "MD5"};
@@ -331,6 +334,7 @@ public class Bil_detail extends Fragment {
                 requst = urlconection(Ip.refund, json);
                 Log.i("OnRefund", requst);
                 Looper.prepare();
+                homPage.dialogCancle();
                 if (refundSuccess(requst)) {
                     map.put("backTime", getJsonValu(requst, "time"));
                     state = false;
@@ -490,7 +494,7 @@ public class Bil_detail extends Fragment {
         getParentFragment().getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getParentFragment().getActivity(),tost,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getParentFragment().getActivity(), tost, Toast.LENGTH_SHORT).show();
             }
         });
     }

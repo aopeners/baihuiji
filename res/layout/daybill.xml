@@ -42,5 +42,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/daybill_lv"
-        android:text="点击加载更多" />
+        android:text="" />
 </RelativeLayout>

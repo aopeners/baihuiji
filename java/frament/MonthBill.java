@@ -23,6 +23,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import baihuiji.jkqme.baihuiji.HomPage;
 import baihuiji.jkqme.baihuiji.MyApplaication;
 
 import java.io.BufferedReader;
@@ -170,6 +171,8 @@ public class MonthBill extends Fragment {
      * @param paramString
      */
     private void getDate(String paramString) {
+        HomPage homPage= (HomPage) getParentFragment().getActivity();
+        homPage.dialogCancle();
         if (time != null) {
             year.setText(time.substring(0, 4));
             month.setText(time.substring(4, 6));
@@ -296,6 +299,8 @@ public class MonthBill extends Fragment {
     public void onHiddenChanged(boolean paramBoolean) {
         super.onHiddenChanged(paramBoolean);
         if ((!paramBoolean) && (this.monthAdpter == null)) {
+            HomPage homPage= (HomPage) getParentFragment().getActivity();
+            homPage.showProgress();
             Log.i("MOtnBill", "ONHIDENCHSNGED");
             new MyAsyn().execute("");
         }

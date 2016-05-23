@@ -172,14 +172,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:orientation="horizontal"
-                android:visibility="gone">
+                android:orientation="horizontal">
 
                 <views.Sector
                     android:id="@+id/trad_static_sector_2"
                     android:layout_width="160.0dip"
                     android:layout_height="160.0dip"
-                    android:layout_gravity="center_horizontal" />
+                    android:layout_gravity="center_horizontal"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <!--扇形表示区-->

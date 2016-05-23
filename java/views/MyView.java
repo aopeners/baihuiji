@@ -96,7 +96,7 @@ public class MyView extends View {
             toshow = false;
         } else if (visibility == VISIBLE) {
             toshow = true;
-
+            handler.sendEmptyMessageDelayed(1,60);
         }
         Log.i("onVisible", "fdsf");
     }

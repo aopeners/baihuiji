@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import adpter.MonyStatisticByTypeAdpter;
+import baihuiji.jkqme.baihuiji.HomPage;
 import baihuiji.jkqme.baihuiji.R;
 
 /**
@@ -292,6 +293,8 @@ public class MonyStatisticByType extends Fragment {
         Log.i("MonyeStatistic_qust", payType + "");
         this.time = time;
         this.payTotleNum = payTotleNumber;
+        HomPage homPage=(HomPage)(getParentFragment().getActivity());
+        homPage.showProgress();
         new MyAsyn().execute(requst);
     }
 
@@ -306,6 +309,8 @@ public class MonyStatisticByType extends Fragment {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             Log.i("MonthBillASy", s + "   onpost");
+            HomPage homPage= (HomPage) getParentFragment().getActivity();
+            homPage.dialogCancle();
             if (s != null) {
                 if (s.trim().length() > 0)
                     getDate(s);

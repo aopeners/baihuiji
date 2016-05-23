@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import adpter.BillAdpter;
+import baihuiji.jkqme.baihuiji.HomPage;
 import baihuiji.jkqme.baihuiji.MyApplaication;
 import baihuiji.jkqme.baihuiji.R;
 import web.BaihuijiNet;
@@ -99,6 +100,7 @@ public class DayBill extends Fragment {
     public void setTime(String time) {
         this.time = time;
         Log.i("DayBill_setTime", time + "  ");
+        ((HomPage)getParentFragment().getActivity()).showProgress();
         new MyAsyn().execute(time);
     }
 
