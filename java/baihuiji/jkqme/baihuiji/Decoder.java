@@ -338,7 +338,8 @@ public class Decoder extends Activity {
             isRefund = false;
             payType = bundle.getInt("payType");
             money = bundle.getString("money");
-            boolean fukuanma = bundle.getBoolean("fukuan");
+            boolean fukuanma = bundle.getBoolean("fukuan",false);
+            Log.i("Decoder","  "+fukuanma);
             merchantId.setText(applaication.getDate("merName"));
             merchatMoney.setText("¥" + money);
             if (fukuanma) {

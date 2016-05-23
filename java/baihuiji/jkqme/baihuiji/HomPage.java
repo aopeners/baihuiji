@@ -189,7 +189,6 @@ public class HomPage extends FragmentActivity {
         dialogCancle();
         Intent intent = new Intent(this, Decoder.class);
         Bundle bundle = new Bundle();
-
         bundle.putInt("payType", payType);
         bundle.putString("money", moneycont);
         bundle.putBoolean("fukuan", fukuanma);
@@ -341,16 +340,12 @@ public class HomPage extends FragmentActivity {
 
     //取消锁屏
     public void dialogCancle() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
+
                 if (progerss != null) {
                     progerss.setCancelable(true);
                     progerss.cancel();
                 }
             }
-        });
-    }
 }
 
 /* Location:           C:\Users\jkqme\Androids\Androids\classes_dex2jar.jar

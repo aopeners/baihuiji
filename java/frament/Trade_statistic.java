@@ -225,6 +225,7 @@ public class Trade_statistic extends Fragment {
         } else {
             time = year + "" + month;
         }
+        ((HomPage) getParentFragment().getActivity()).showProgress();
         new MyAsy().execute(time);
     }
 
@@ -429,8 +430,8 @@ public class Trade_statistic extends Fragment {
         }
         Log.i("treade_statistic", "sector");
         sector.setWight(statisticMoney[0][0], statisticMoney[0][1], statisticMoney[0][2], statisticMoney[0][3]);
-        Log.i("treade_statistic", "sector1");
-      //  sector1.setWight(statisticNum[1][0] + "", statisticNum[1][1] + "", statisticNum[1][2] + "", statisticNum[1][3] + "");
+        Log.i("treade_statistic", "sector1  " + statisticNum[0][0] + "  " + statisticNum[0][1] + "  " + statisticNum[0][2] + "  " + statisticNum[0][3] + "  ");
+        sector1.setWight(statisticNum[0][0] + "", statisticNum[0][1] + "", statisticNum[0][2] + "", statisticNum[0][3] + "");
 
     }
 
@@ -552,8 +553,9 @@ public class Trade_statistic extends Fragment {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            HomPage homPage= (HomPage) getParentFragment().getActivity();
+            HomPage homPage = (HomPage) getParentFragment().getActivity();
             homPage.showProgress();
+            ((HomPage) getParentFragment().getActivity()).showProgress();
             new MyAsy().execute("");
         }
     }
@@ -622,7 +624,7 @@ public class Trade_statistic extends Fragment {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            HomPage homPage= (HomPage) getParentFragment().getActivity();
+            HomPage homPage = (HomPage) getParentFragment().getActivity();
             homPage.dialogCancle();
             if (list1.size() > 0) {
                 setDate();
