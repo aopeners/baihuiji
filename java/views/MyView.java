@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
@@ -21,6 +22,9 @@ import baihuiji.jkqme.baihuiji.R;
  * @author jkqme
  */
 public class MyView extends View {
+    private int width = 0;//扫描框高度
+    private int height = 0;//扫描线高度
+    private int start = 0;
     private boolean toshow = true;
     private Handler handler = new Handler() {
         // 自定义类的局部变量
@@ -30,13 +34,17 @@ public class MyView extends View {
         public void handleMessage(Message msg) {
             // TODO Auto-generated method stub
 
-           // Log.i("MyviewHander", heights + "");
+            // Log.i("MyviewHander", heights + "");
+            //复位
             if (i == 70) {
                 matrix.setTranslate(0, 0);
+                height = 0;
                 i = 1;
             }
             if (toshow) {
                 i++;
+
+                height = height + 4;
                 invalidate();
                 sendEmptyMessageDelayed(1, 60);
             }
@@ -49,6 +57,7 @@ public class MyView extends View {
 
     Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
             R.drawable.scan_name);
+    private RectF f;
 
     public MyView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -59,10 +68,51 @@ public class MyView extends View {
         handler.sendEmptyMessage(1);
     }
 
+    private Canvas canva;
+
     @Override
     public void onDraw(Canvas canvas) {
         // TODO Auto-generated method stub
+        if (width == 0) {
+            width = getMeasuredWidth();
+            if (canva == null) {
+                canva = canvas;
+                paint.setColor(getResources().getColor(R.color.green));
+                paint.setStrokeWidth(3);
 
+                canvas.save();
+
+            }
+
+        }
+
+        if (canva != null) {
+            //canva.restore();
+            canva=canvas;
+            //左上
+           // Log.i("MyView", height + "");
+            f = new RectF(0, 0, 10, 3);
+            canva.drawRect(f, paint);
+            f = new RectF(0, 0, 3, 10);
+            canva.drawRect(f, paint);
+            //左下
+            f = new RectF(0, width - 10, 3, width);
+            canva.drawRect(f, paint);
+            f = new RectF(0, width - 3, 10, width);
+            canva.drawRect(f, paint);
+            //右下
+            f = new RectF(width - 3, width - 10, width, width);
+            canva.drawRect(f, paint);
+            f = new RectF(width - 10, width - 3, width, width);
+            canva.drawRect(f, paint);
+            //右上
+            f = new RectF(width - 10, 3, width, 0);
+            canva.drawRect(f, paint);
+            f = new RectF(width - 3, 10, width, 0);
+            canva.drawRect(f, paint);
+
+            canva.drawLine(0, height, width, height, paint);
+        }
         // matrix.postTranslate(0, heights);
         float b[] = new float[9];
         // 获取3个矢量
@@ -73,9 +123,9 @@ public class MyView extends View {
             Log.i("matrix", b[i] + "  " + b[i++] + "  " + b[i++]);
 
         }*/
-        matrix.postTranslate(0, 4);
-        canvas.drawBitmap(bitmap, matrix, paint);
-        super.onDraw(canvas);
+        // matrix.postTranslate(0, 4);
+        //   canvas.drawBitmap(bitmap, matrix, paint);
+        super.onDraw(canva);
     }
 
     @Override
@@ -96,7 +146,7 @@ public class MyView extends View {
             toshow = false;
         } else if (visibility == VISIBLE) {
             toshow = true;
-            handler.sendEmptyMessageDelayed(1,60);
+            handler.sendEmptyMessageDelayed(1, 60);
         }
         Log.i("onVisible", "fdsf");
     }

@@ -102,6 +102,9 @@ public class MineFragment extends Fragment {
                 case R.id.login_out_tx1:
                     loginougDialog.cancel();
                     break;
+                case R.id.mine_message_linear:
+                    jump(3);
+                    break;
                 default:
                     return;
             }
@@ -141,6 +144,8 @@ public class MineFragment extends Fragment {
         linearLayout = (LinearLayout) paramView.findViewById(R.id.mine_aboutus);
         linearLayout.setOnClickListener(listener);
         linearLayout = (LinearLayout) paramView.findViewById(R.id.mine_service_phone_linear);
+        linearLayout.setOnClickListener(listener);
+        linearLayout = (LinearLayout) paramView.findViewById(R.id.mine_message_linear);
         linearLayout.setOnClickListener(listener);
         int textId[] = {R.id.mine_operater_tx, R.id.mine_operater_account_tx, R.id.mine_operater_logintime_tx, R.id.mine_merchantId_tx, R.id.mine_merchantName_tx
 

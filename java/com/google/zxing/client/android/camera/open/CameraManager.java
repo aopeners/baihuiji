@@ -148,6 +148,7 @@ public final class CameraManager {
     if (autoFocusManager != null) {
       autoFocusManager.stop();
       autoFocusManager = null;
+
     }
     if (camera != null && previewing) {
       camera.stopPreview();

@@ -162,8 +162,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:alpha="0"
-                android:background="@drawable/decod_blank">
+                >
                 <views.MyView
                     android:layout_width="200.0dip"
                     android:layout_height="200.0dip" />

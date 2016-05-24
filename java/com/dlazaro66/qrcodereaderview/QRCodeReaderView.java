@@ -23,8 +23,6 @@ import com.google.zxing.client.android.camera.open.CameraManager;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.QRCodeReader;
 
-import java.io.IOException;
-
 /*
  * Copyright 2014 David Lázaro Esparcia.
  *
@@ -121,6 +119,7 @@ public class QRCodeReaderView extends SurfaceView implements SurfaceHolder.Callb
 
     /****************************************************
      * SurfaceHolder.Callback,Camera.PreviewCallback
+     * 视图建立时调用
      ****************************************************/
 
     @Override
@@ -128,7 +127,7 @@ public class QRCodeReaderView extends SurfaceView implements SurfaceHolder.Callb
         try {
             // Indicate camera, our View dimensions
             mCameraManager.openDriver(holder, this.getWidth(), this.getHeight());
-        } catch (IOException e) {
+        } catch (Exception e) {
             Log.w(TAG, "Can not openDriver: " + e.getMessage());
             mCameraManager.closeDriver();
         }
@@ -141,14 +140,16 @@ public class QRCodeReaderView extends SurfaceView implements SurfaceHolder.Callb
             mCameraManager.closeDriver();
         }
     }
-
+    //视图销毁时自动调用
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         Log.d(TAG, "surfaceDestroyed");
-        mCameraManager.getCamera().setPreviewCallback(null);
-        mCameraManager.getCamera().stopPreview();
-        mCameraManager.getCamera().release();
-        mCameraManager.closeDriver();
+        if (mCameraManager == null) {
+            mCameraManager.getCamera().setPreviewCallback(null);
+            mCameraManager.getCamera().stopPreview();
+            mCameraManager.getCamera().release();
+            mCameraManager.closeDriver();
+        }
     }
 
     // Called when camera take a frame
@@ -198,19 +199,22 @@ public class QRCodeReaderView extends SurfaceView implements SurfaceHolder.Callb
 
         //preview_width = width;
         //preview_height = height;
+        try {
+            if (mCameraManager != null) {
+                mPreviewWidth = mCameraManager.getPreviewSize().x;
+                mPreviewHeight = mCameraManager.getPreviewSize().y;
+                mCameraManager.stopPreview();
+                mCameraManager.getCamera().setPreviewCallback(this);
+                mCameraManager.getCamera().setDisplayOrientation(90); // Portrait mode
 
-        mPreviewWidth = mCameraManager.getPreviewSize().x;
-        mPreviewHeight = mCameraManager.getPreviewSize().y;
+                // Fix the camera sensor rotation
+                setCameraDisplayOrientation(this.getContext(), mCameraManager.getCamera());
 
-
-        mCameraManager.stopPreview();
-        mCameraManager.getCamera().setPreviewCallback(this);
-        mCameraManager.getCamera().setDisplayOrientation(90); // Portrait mode
-
-        // Fix the camera sensor rotation
-        setCameraDisplayOrientation(this.getContext(), mCameraManager.getCamera());
-
-        mCameraManager.startPreview();
+                mCameraManager.startPreview();
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -325,19 +329,14 @@ public class QRCodeReaderView extends SurfaceView implements SurfaceHolder.Callb
 
     //形成新的Cameramanager实例
     public void getCameramanager() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if (checkCameraHardware(getContext())) {
-                    mCameraManager = new CameraManager(getContext());
-                } else {
-                    Log.e(TAG, "Error: Camera not found");
-                    if (mOnQRCodeReadListener != null) {
-                        mOnQRCodeReadListener.cameraNotFound();
-                    }
-                }
-
+        if (checkCameraHardware(getContext())) {
+            new MyAsy().execute(getContext());
+        } else {
+            Log.e(TAG, "Error: Camera not found");
+            if (mOnQRCodeReadListener != null) {
+                mOnQRCodeReadListener.cameraNotFound();
             }
-        });
+        }
     }
+
 }

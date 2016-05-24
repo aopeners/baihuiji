@@ -1,6 +1,9 @@
 package baihuiji.jkqme.baihuiji;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -8,17 +11,19 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -27,6 +32,8 @@ import frament.Home_fragment;
 import frament.MineHome;
 import frament.StatisticHome;
 import views.MyViewPager;
+import web.BaihuijiNet;
+import web.Ip;
 
 /**
  * 主fragment
@@ -54,6 +61,14 @@ public class HomPage extends FragmentActivity {
                     break;
                 case R.id.buttom_radioh_bt4:
                     HomPage.this.showFragment(HomPage.this.mineHome);
+                    break;
+                case R.id.service_hone_cancel_tx:
+                    dialog.setCancelable(true);
+                    dialog.cancel();
+                    break;
+                case R.id.service_phone_call_tx:
+                    dialog.setCancelable(true);
+                    dialog.cancel();
                     break;
             }
 
@@ -192,6 +207,7 @@ public class HomPage extends FragmentActivity {
         bundle.putInt("payType", payType);
         bundle.putString("money", moneycont);
         bundle.putBoolean("fukuan", fukuanma);
+
         intent.putExtra("count", bundle);
         bundle.putBoolean("isRefund", false);
         startActivityForResult(intent, 1);
@@ -261,6 +277,7 @@ public class HomPage extends FragmentActivity {
             this.button[i] = ((Button) findViewById(this.btId[i]));
             this.button[i].setOnClickListener(this.listener);
         }
+        new MyAsy().execute("");
     }
 
     /**
@@ -341,11 +358,90 @@ public class HomPage extends FragmentActivity {
     //取消锁屏
     public void dialogCancle() {
 
-                if (progerss != null) {
-                    progerss.setCancelable(true);
-                    progerss.cancel();
-                }
+        if (progerss != null) {
+            progerss.setCancelable(true);
+            progerss.cancel();
+        }
+    }
+
+    //百汇集更新的异步
+    private class MyAsy extends AsyncTask<String, String, String> {
+        @Override
+        protected String doInBackground(String... strings) {
+            String string;
+            return update();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if (!s.equals("e")) {
+                showNotification(s);
             }
+        }
+    }
+
+    /**
+     * 更新检查
+     *
+     * @return 更新号，错误时返回"e"
+     */
+    private String update() {
+        String requst = BaihuijiNet.connection(Ip.update);
+        JSONObject jsonObject;
+        try {
+            jsonObject = new JSONObject(requst);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return "e";
+        }
+        try {
+            if (jsonObject.getString("errcode").equals("100")) {
+                jsonObject = jsonObject.getJSONObject("respBody");
+                return jsonObject.getString("wangqi");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return "e";
+        }
+        return "e";
+    }
+
+    private AlertDialog dialog;
+
+    /**
+     * 显示更新
+     *
+     * @param string
+     */
+    private void showNotification(String string) {
+        SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
+        if (!preferences.getString("update", "0").equals(string)) {
+            if (dialog == null) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                View view = LayoutInflater.from(this).inflate(R.layout.service_phone_dialog, null, true);
+                TextView textView = (TextView) view.findViewById(R.id.service_hone_cancel_tx);
+                textView.setText("以后再说");
+                textView.setOnClickListener(listener);
+                textView = (TextView) view.findViewById(R.id.service_phone_call_tx);
+                textView.setText("现在更新");
+                textView.setOnClickListener(listener);
+                textView = (TextView) view.findViewById(R.id.service_pone);
+                textView.setText("白汇集商户版更新到" + string + "您要现在更新吗");
+                builder.setView(view);
+                dialog = builder.create();
+                builder.setCancelable(false);
+            }
+            dialog.show();
+        }
+
+    }
 }
 
 /* Location:           C:\Users\jkqme\Androids\Androids\classes_dex2jar.jar

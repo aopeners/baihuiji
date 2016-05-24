@@ -2,6 +2,8 @@ package frament;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -31,6 +33,7 @@ import baihuiji.jkqme.baihuiji.HomPage;
 import baihuiji.jkqme.baihuiji.MyApplaication;
 import baihuiji.jkqme.baihuiji.R;
 import views.Sector;
+import views.Sector1;
 import web.BaihuijiNet;
 import web.Ip;
 
@@ -45,7 +48,8 @@ public class Trade_statistic extends Fragment {
     private String time;//时间
     private LayoutInflater inflater;
     private LinearLayout layoutm, layout2n;
-    private Sector sector, sector1;
+    private Sector sector;
+    private Sector1 sector1;
     private TextView textView;
     private View view;
     private TextView view1, view2;
@@ -59,6 +63,13 @@ public class Trade_statistic extends Fragment {
     private String statisticMoney[][] = new String[2][4];
     //金额统计数据
     private ArrayList<HashMap<String, String>> list1 = new ArrayList<HashMap<String, String>>();
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            sector1.reDraw();
+        }
+    };
     /**
      * 交易笔数id,前四位为收款，后四位退款
      */
@@ -86,12 +97,14 @@ public class Trade_statistic extends Fragment {
         view = paramLayoutInflater.inflate(R.layout.trad_statistic_2, null, true);
         this.inflater = paramLayoutInflater;
         this.sector = (Sector) view.findViewById(R.id.trad_static_sector_1);
-        sector1 = (Sector) view.findViewById(R.id.trad_static_sector_2);
+        sector1 = (Sector1) view.findViewById(R.id.trad_static_sector_2);
         loadView(view);
         return view;
     }
 
     private void loadView(View view) {
+        secorlayout1 = (LinearLayout) view.findViewById(R.id.trad_statistic_sector_linear1);
+        sectorlayout2 = (LinearLayout) view.findViewById(R.id.trad_statistic_sector_linear2);
         month = Integer.parseInt(BaihuijiNet.getTime("MM"));
         year = Integer.parseInt(BaihuijiNet.getTime("yyyy"));
         //选择门店
@@ -314,17 +327,20 @@ public class Trade_statistic extends Fragment {
             layout2n.setVisibility(View.VISIBLE);
             view1.setVisibility(View.INVISIBLE);
             view2.setVisibility(View.VISIBLE);
-            sector.setVisibility(View.GONE);
+            secorlayout1.setVisibility(View.GONE);
             //   sector.setWight(statisticMoney[0][2], statisticMoney[0][1], statisticMoney[0][3], statisticMoney[0][0]);
-            sector1.setVisibility(View.VISIBLE);
+           // sectorlayout2.setVisibility(View.VISIBLE);
+           handler.sendEmptyMessageDelayed(1,100);
         } else {
             layoutm.setVisibility(View.VISIBLE);
             layout2n.setVisibility(View.GONE);
             view2.setVisibility(View.INVISIBLE);
             view1.setVisibility(View.VISIBLE);
-            sector1.setVisibility(View.GONE);
+           // sectorlayout2.setVisibility(View.INVISIBLE);
             //    sector1.setWight(String.valueOf(statisticNum[0][2]), String.valueOf(statisticNum[0][1]), String.valueOf(statisticNum[0][3]), String.valueOf(statisticNum[0][0]));
-            sector.setVisibility(View.VISIBLE);
+          //  sectorlayout2.setVisibility(View.INVISIBLE);
+            secorlayout1.setVisibility(View.VISIBLE);
+            sector.reDraw();
         }
     }
 

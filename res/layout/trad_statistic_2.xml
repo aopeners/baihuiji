@@ -154,33 +154,38 @@
                     android:src="@drawable/bright" />
             </LinearLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:orientation="horizontal"
-                android:visibility="visible">
+                android:layout_gravity="center_horizontal">
 
-                <views.Sector
-                    android:id="@+id/trad_static_sector_1"
+
+                <LinearLayout
+                    android:id="@+id/trad_statistic_sector_linear2"
                     android:layout_width="160.0dip"
                     android:layout_height="160.0dip"
-                    android:layout_gravity="center_horizontal" />
-            </LinearLayout>
+                    android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:orientation="horizontal">
+                    <views.Sector1
+                        android:id="@+id/trad_static_sector_2"
+                        android:layout_width="160.0dip"
+                        android:layout_height="160.0dip"
+                        android:layout_gravity="center_horizontal" />
+                </LinearLayout>
 
-                <views.Sector
-                    android:id="@+id/trad_static_sector_2"
+                <LinearLayout
+                    android:id="@+id/trad_statistic_sector_linear1"
                     android:layout_width="160.0dip"
                     android:layout_height="160.0dip"
-                    android:layout_gravity="center_horizontal"
-                    android:visibility="gone" />
-            </LinearLayout>
+                    android:orientation="horizontal">
+                    <views.Sector
+                        android:id="@+id/trad_static_sector_1"
+                        android:layout_width="160.0dip"
+                        android:layout_height="160.0dip"
+                        android:layout_gravity="center_horizontal" />
+                </LinearLayout>
+
+            </RelativeLayout>
 
             <!--扇形表示区-->
             <LinearLayout

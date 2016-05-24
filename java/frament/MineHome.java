@@ -24,7 +24,7 @@ public class MineHome extends Fragment {
     private FragmentTransaction transaction;
     private AboutUs aboutUs;
     private Modifi_password modifi_password;
-
+    private Help help;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +32,7 @@ public class MineHome extends Fragment {
         mineFragment = new MineFragment();
         modifi_password = new Modifi_password();
         aboutUs = new AboutUs();
+        help=new Help();
     }
 
     @Nullable
@@ -49,6 +50,7 @@ public class MineHome extends Fragment {
             transaction.add(R.id.statistic_home_linear, mineFragment);
             transaction.add(R.id.statistic_home_linear, modifi_password).hide(modifi_password);
             transaction.add(R.id.statistic_home_linear, aboutUs).hide(aboutUs);
+            transaction.add(R.id.statistic_home_linear, help).hide(help);
             transaction.show(mineFragment);
             transaction.commit();
             curentFragment = mineFragment;
@@ -102,6 +104,8 @@ public class MineHome extends Fragment {
                 break;
             case 2:showFragment(this.aboutUs);
              break;
+            case 3:showFragment(this.help);
+                break;
         }
 
     }

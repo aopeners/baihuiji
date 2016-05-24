@@ -1,13 +1,10 @@
 package baihuiji.jkqme.baihuiji;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PointF;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Message;
@@ -16,7 +13,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -28,14 +24,13 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
-
+import com.google.zxing.client.android.camera.open.CameraManager;
 import com.google.zxing.common.BitMatrix;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -44,23 +39,20 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.nio.Buffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 
-import frament.Home_display_fragment;
 import views.MyView;
-import web.Ip;
+
 
 /**
  * 扫码activity,可以扫描,返回的result code 2,为收款， 3为退款
  * 接收的 requst  不用判断
  */
 public class Decoder extends Activity {
+    private boolean toDecor = true;
     private boolean isRefund;//是否退款
     private boolean tradSucess = false;//交易成功判断
     private boolean hashswich;//是否切换方式判断
@@ -103,10 +95,12 @@ public class Decoder extends Activity {
         public void onClick(View paramAnonymousView) {
             switch (paramAnonymousView.getId()) {
                 case R.id.count_back:
+                  /*  readerView.getCameraManager().stopPreview();
+                    readerView.getCameraManager().closeDriver();*/
                     finish();
                     break;
                 case R.id.decod1_bt_tx:
-                    swich();
+                    swich(!toDecor);
                     break;
                 case R.id.decod1_slect_tx:
 
@@ -215,6 +209,16 @@ public class Decoder extends Activity {
         bundle.putBoolean("getSuccess", true);
         intent.putExtra("onTradSuccess", bundle);
         setResult(3, intent);
+        if (readerView != null) {
+            if (readerView.getCameraManager() != null) {
+                readerView.getCameraManager().stopPreview();
+            }
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         finish();
     }
 
@@ -227,6 +231,17 @@ public class Decoder extends Activity {
         intent.putExtra("signal", bundle);
 
         setResult(2, intent);
+        if (readerView != null) {
+            if (readerView.getCameraManager() != null) {
+                readerView.getCameraManager().stopPreview();
+            }
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
         finish();
 
     }
@@ -280,22 +295,30 @@ public class Decoder extends Activity {
      * 視圖
      * 視圖切换
      */
-    private void swich() {
+    private void swich(boolean toDecor) {
+
         //判断相机是否开启，如果是
+
         if (readerView.getCameraManager().isOpen()) {
             hashswich = false;
+        } else {
+            hashswich = true;
         }
         //如果相机开启，返回
         if (hashswich) {
             return;
+
         }
-        hashswich = true;
+        Log.i("DecoderSwich", "" + toDecor);
         if (layout.getVisibility() == View.VISIBLE) {
             layout1.setBackgroundColor(getResources().getColor(R.color.loginback));
-            layout2.setGravity(View.VISIBLE);
+            layout2.setVisibility(View.VISIBLE);
             onOrder = false;
             readerView.setVisibility(View.INVISIBLE);
-            readerView.getCameraManager().stopPreview();
+            if (readerView != null) {
+                readerView.getCameraManager().stopPreview();
+                readerView.getCameraManager().closeDriver();
+            }
             layout.setVisibility(View.GONE);
             swichImg.setVisibility(View.VISIBLE);
             pleaseSwap.setText("请顾客扫描二维码");
@@ -312,7 +335,9 @@ public class Decoder extends Activity {
             layout1.setBackgroundColor(getResources().getColor(R.color.black));
             readerView.setVisibility(View.VISIBLE);
             layout2.setVisibility(View.INVISIBLE);
-            readerView.getCameraManager().startPreview();
+            if (readerView != null) {
+                readerView.getCameraManager().startPreview();
+            }
             layout.setVisibility(View.VISIBLE);
             swichImg.setVisibility(View.GONE);
 
@@ -338,12 +363,36 @@ public class Decoder extends Activity {
             isRefund = false;
             payType = bundle.getInt("payType");
             money = bundle.getString("money");
-            boolean fukuanma = bundle.getBoolean("fukuan",false);
-            Log.i("Decoder","  "+fukuanma);
+            boolean fukuanma = bundle.getBoolean("fukuan", false);
+            Log.i("Decoder", " fukuanma " + fukuanma);
             merchantId.setText(applaication.getDate("merName"));
             merchatMoney.setText("¥" + money);
             if (fukuanma) {
-                swich();
+                //toDecor = false;
+                layout1.setBackgroundColor(getResources().getColor(R.color.loginback));
+                layout2.setVisibility(View.VISIBLE);
+                onOrder = false;
+                try {
+                    //延时
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                readerView.setVisibility(View.INVISIBLE);
+                readerView.getCameraManager().closeDriver();
+                //   readerView.getCameraManager().stopPreview();
+                layout.setVisibility(View.GONE);
+                swichImg.setVisibility(View.VISIBLE);
+                pleaseSwap.setText("请顾客扫描二维码");
+                pleaseSwap.setTextColor(getResources().getColor(R.color.black));
+
+                bTextView.setText("切换到扫码收款");
+                merchantId.setVisibility(View.VISIBLE);
+                merchatMoney.setVisibility(View.VISIBLE);
+                showProgress();
+
+                new MyAsy().execute("");
+                hashswich = false;
             } else {
                 layout2.setVisibility(View.INVISIBLE);
             }
@@ -357,7 +406,12 @@ public class Decoder extends Activity {
     }
 
     protected void onDestroy() {
-        this.readerView.getCameraManager().stopPreview();
+        if (readerView != null) {
+            Log.i("Decoder","Destroy");
+            this.readerView.getCameraManager().stopPreview();
+        /*    CameraManager manager = readerView.getCameraManager();
+            manager.getCamera().release();*/
+        }
         super.onDestroy();
     }
 
@@ -371,7 +425,11 @@ public class Decoder extends Activity {
 
     protected void onPause() {
         super.onPause();
-        this.readerView.getCameraManager().stopPreview();
+        if (readerView != null) {
+            this.readerView.getCameraManager().stopPreview();
+           /* CameraManager manager = readerView.getCameraManager();
+            manager.getCamera().release();*/
+        }
     }
 
     protected void onResume() {
@@ -380,9 +438,12 @@ public class Decoder extends Activity {
         if (readerView == null) {
             readerView = ((QRCodeReaderView) findViewById(R.id.decode1_qv));
         }
+        CameraManager manager = readerView.getCameraManager();
         if (readerView.getCameraManager() != null) {
+
             this.readerView.getCameraManager().startPreview();
         } else {
+
             readerView.getCameramanager();
         }
         getDate();
@@ -814,7 +875,11 @@ public class Decoder extends Activity {
 
     @Override
     public void onStop() {
-        readerView.getCameraManager().stopPreview();
+        if (readerView != null) {
+            CameraManager manager = readerView.getCameraManager();
+            manager.stopPreview();
+            //   manager.getCamera().release();
+        }
         super.onStop();
 
 
@@ -836,8 +901,9 @@ public class Decoder extends Activity {
         @Override
         protected void onPostExecute(Bitmap bitmap) {
             super.onPostExecute(bitmap);
+            dialogCancle();
             if (bitmap != null) {
-                dialogCancle();
+
                 swichImg.setImageBitmap(bitmap);
                 handler.sendEmptyMessageAtTime(1, 8000);
             }

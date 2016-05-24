@@ -44,7 +44,7 @@ public class CountFragment extends Fragment {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            Log.i("ContFragment", "  " + disView.getMeasuredHeight() + "   " + disView.getMeasuredWidth());
+          //  Log.i("ContFragment", "  " + disView.getMeasuredHeight() + "   " + disView.getMeasuredWidth());
         }
     };
 
@@ -67,7 +67,7 @@ public class CountFragment extends Fragment {
                             height = view.getHeight();
                             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) view.getLayoutParams();
                             currentY = currentY + height;
-                            Log.i("CountFragment", "  currentY  " + currentY);
+                         //   Log.i("CountFragment", "  currentY  " + currentY);
                             // isMesurd=true;
                             if (view.hashCode() == disView2.hashCode()) {
                                 isMesurd = true;
@@ -97,7 +97,7 @@ public class CountFragment extends Fragment {
                     break;
                 case R.id.count_clear_tx:
                     disView.setText("");
-                    Log.i("count", "clear");
+                //    Log.i("count", "clear");
                     disView2.setText("");
                     break;
                 case R.id.count0_tx:
@@ -251,7 +251,7 @@ public class CountFragment extends Fragment {
 
             if ((paramString2.length() > 0)) {
                 f2 = new BigDecimal(paramString2);
-                Log.i("countf2", "f2=0");
+            //    Log.i("countf2", "f2=0");
 
                 return f1.add(f2).toString();
             }
@@ -265,7 +265,7 @@ public class CountFragment extends Fragment {
 
             if ((paramString2.length() > 0)) {
                 f2 = new BigDecimal(paramString2);
-                Log.i("countf2", "f2=0");
+            //    Log.i("countf2", "f2=0");
                 return f1.multiply(f2).toString();
             }
         }
@@ -440,7 +440,7 @@ public class CountFragment extends Fragment {
         int height = applaication.getHeight();
         height = height - currentY;
         height = height / 4;
-        Log.i("ContFragment_height", "   " + height);
+      //  Log.i("ContFragment_height", "   " + height);
         TextView textView;
         for (int i = 0; i < tId.length; i++) {
             textView = (TextView) view.findViewById(tId[i]);
