@@ -43,7 +43,7 @@ public class MyNotifi {
     //传入文件名
     public MyNotifi(String Filename, Context context) {
         this.fileName = Filename;
-       // fileName = "BHJ_1.0.0.apk";
+     // fileName = "BHJ_1.0.0.apk";
         this.context = context;
         CreateNotification(context);
         connecion();
@@ -54,12 +54,13 @@ public class MyNotifi {
 
         public void handleMessage(android.os.Message msg) {
             a += 5;
-
+            Log.i("Notify","Hander  a:"+a);
             if (a == 100) {
                 views.setTextViewText(R.id.notify_tx, "下载完毕");
                 notification.contentView.setTextViewText(R.id.notify_tx, "下载完毕");
-                Instanll();
+
                 nManager.notify(null, 1, notification);
+
             } else {
                 views.setProgressBar(R.id.notify_progress, 100, a, false);
                 notification.contentView.setProgressBar(R.id.notify_progress, 100, a, false);
@@ -124,6 +125,7 @@ public class MyNotifi {
                 connection.setDoOutput(false);
                 connection.setDoInput(true);
                 connection.setUseCaches(false);
+                connection.setInstanceFollowRedirects(true);
                 try {
                     connection.setRequestMethod("POST");
                 } catch (ProtocolException e) {
@@ -158,7 +160,7 @@ public class MyNotifi {
                             e.printStackTrace();
                         }
                     }
-                    fileOutputStream = new FileOutputStream(file);
+                    fileOutputStream = new FileOutputStream(file,true);
                 } catch (FileNotFoundException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
@@ -168,21 +170,27 @@ public class MyNotifi {
                     bufferedInputStream = new BufferedInputStream(connection.getInputStream());
                     writer = new BufferedOutputStream(fileOutputStream);
 
-                   byte b=0;
+                   int b=0;
                     filesize = connection.getContentLength();//获取文件大小
                     Log.i("MYNotifi","  "+filesize);
-                    int hasDown = 1;
+                    int hasDown = 0;
                     Looper.prepare();
                     if (connection.getResponseCode() == HttpURLConnection.HTTP_OK)
-                        while ((b= (byte) bufferedInputStream.read())!=-1) {
+                        while ((b=bufferedInputStream.read())!=-1) {
+                          //  b=bufferedInputStream.read();
                             hasDown ++;
                             writer.write(b);
                             // Log.i("MyNotifi", "onDown" + hasDown + "  " + filesize);
-                            if (filesize / hasDown == 5) {
-                                hasDown = 1;
+                          if (filesize/20<hasDown) {
+                                hasDown = 0;
+                                Log.i("Notify","sendHandelr  hasDown"+hasDown);
                                 handler.sendEmptyMessage(1);
                             }
+
                         }
+                    //最后要执行一次结尾
+                    writer.write(b);
+                    handler.sendEmptyMessage(1);
                     //  handler.sendEmptyMessage(1);
                     fileOutputStream.flush();
                     writer.flush();
@@ -190,12 +198,13 @@ public class MyNotifi {
                     writer.close();
 
                     bufferedInputStream.close();
-
+                    Log.i("Notify", "hasDown" + hasDown);
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
                 connection.disconnect();
+                Instanll();
             }
         }).start();
 

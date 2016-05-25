@@ -438,6 +438,7 @@ public class HomPage extends FragmentActivity {
      * @param string,更新版本，
      */
     private void showNotification(String string) {
+        Log.i("Hompage","版本号 "+string);
         MyApplaication applaication= (MyApplaication) getApplication();
         SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
         if (!string.equals(applaication.getDate("update"))) {

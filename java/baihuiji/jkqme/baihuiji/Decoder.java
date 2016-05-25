@@ -631,7 +631,7 @@ public class Decoder extends Activity {
                         showToast("收款成功");
                         onOrderSuccess(getTime(requst1));
                     } else {
-
+                        showToast("收款失败");
                     }
                 } else {
                     showToast("获取订单失败");

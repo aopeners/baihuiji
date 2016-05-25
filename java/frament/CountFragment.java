@@ -289,18 +289,14 @@ public class CountFragment extends Fragment {
      * @param fukuanma 付款码付款
      */
     private void jumptoDecoder(int type, String money, boolean fukuanma) {
+
         if (money.contains(".")) {
+            money = money + "00";
             int i = money.indexOf(".");
-            //保留两位截取
-            if (money.length() >=i + 3) {
-                //sbstring 第二为第一位 加截取数
-                money = money.substring(0, i + 3);
-                //传入的数为保留一位
-            }else if(money.length()<i+3){
-                money=money+"0";
-            }
-        }else {
-            money=money+".00";
+            //保留两位截取,当保留位为两位以上
+            money = money.substring(0, i + 3);
+        } else {
+            money = money + ".00";
         }
         ((HomPage) getParentFragment().getActivity()).jumptoDecode(type, money, fukuanma);
         ((HomPage) getParentFragment().getActivity()).showProgress();
