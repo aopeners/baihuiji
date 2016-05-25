@@ -56,7 +56,7 @@ public class Bil_detail extends Fragment {
                 dialog.cancel();
 
             } else {
-
+                setState(state, map);
                 dialog.cancel();
             }
         }
@@ -151,7 +151,12 @@ public class Bil_detail extends Fragment {
     };
 
     private void jumptoPaylist() {
-        ((Bill) getParentFragment()).showFragment(0);
+        //订单没改变的状态
+        if (state) {
+            ((Bill) getParentFragment()).showFragment(0);
+        } else {
+            ((Bill) getParentFragment()).onBillDateChange();
+        }
     }
 
     private HashMap<String, String> map;
@@ -311,6 +316,7 @@ public class Bil_detail extends Fragment {
     private void onRefund(final String password) {
         final MyApplaication applaication = (MyApplaication) getParentFragment().getActivity().getApplication();
         final HomPage homPage = (HomPage) getParentFragment().getActivity();
+        homPage.showProgress();
         new Thread(new Runnable() {
 
             String key[] = {"merchantId", "orderNo",
@@ -331,7 +337,7 @@ public class Bil_detail extends Fragment {
 
             @Override
             public void run() {
-                Log.i("Bile_detail_Refound",json);
+                Log.i("Bile_detail_Refound", json);
                 requst = urlconection(Ip.refund, json);
                 Log.i("OnRefund", requst);
                 Looper.prepare();
@@ -372,8 +378,12 @@ public class Bil_detail extends Fragment {
             return false;
         }
         try {
-            if (jsonObject.getString("code").equals("100"))
+            if (jsonObject.getString("code").equals("100")) {
+                map.put("backTime", jsonObject.getString("time"));
+                state = false;
                 return true;
+
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();

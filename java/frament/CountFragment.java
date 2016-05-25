@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -44,7 +43,7 @@ public class CountFragment extends Fragment {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-          //  Log.i("ContFragment", "  " + disView.getMeasuredHeight() + "   " + disView.getMeasuredWidth());
+            //  Log.i("ContFragment", "  " + disView.getMeasuredHeight() + "   " + disView.getMeasuredWidth());
         }
     };
 
@@ -67,7 +66,7 @@ public class CountFragment extends Fragment {
                             height = view.getHeight();
                             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) view.getLayoutParams();
                             currentY = currentY + height;
-                         //   Log.i("CountFragment", "  currentY  " + currentY);
+                            //   Log.i("CountFragment", "  currentY  " + currentY);
                             // isMesurd=true;
                             if (view.hashCode() == disView2.hashCode()) {
                                 isMesurd = true;
@@ -97,7 +96,7 @@ public class CountFragment extends Fragment {
                     break;
                 case R.id.count_clear_tx:
                     disView.setText("");
-                //    Log.i("count", "clear");
+                    //    Log.i("count", "clear");
                     disView2.setText("");
                     break;
                 case R.id.count0_tx:
@@ -251,7 +250,7 @@ public class CountFragment extends Fragment {
 
             if ((paramString2.length() > 0)) {
                 f2 = new BigDecimal(paramString2);
-            //    Log.i("countf2", "f2=0");
+                //    Log.i("countf2", "f2=0");
 
                 return f1.add(f2).toString();
             }
@@ -265,7 +264,7 @@ public class CountFragment extends Fragment {
 
             if ((paramString2.length() > 0)) {
                 f2 = new BigDecimal(paramString2);
-            //    Log.i("countf2", "f2=0");
+                //    Log.i("countf2", "f2=0");
                 return f1.multiply(f2).toString();
             }
         }
@@ -292,10 +291,16 @@ public class CountFragment extends Fragment {
     private void jumptoDecoder(int type, String money, boolean fukuanma) {
         if (money.contains(".")) {
             int i = money.indexOf(".");
-            if (money.length() > i + 3) {
+            //保留两位截取
+            if (money.length() >=i + 3) {
                 //sbstring 第二为第一位 加截取数
                 money = money.substring(0, i + 3);
+                //传入的数为保留一位
+            }else if(money.length()<i+3){
+                money=money+"0";
             }
+        }else {
+            money=money+".00";
         }
         ((HomPage) getParentFragment().getActivity()).jumptoDecode(type, money, fukuanma);
         ((HomPage) getParentFragment().getActivity()).showProgress();
@@ -352,12 +357,19 @@ public class CountFragment extends Fragment {
             setState(1);
         } else if (paramString.equals("扫一扫") && moneyCount.length() > 0) {
             disView2.setText("");
-            jumptoDecoder(payTaype, moneyCount, false);
+            //如果输入的数字为0，排除不可用数据
+            if (moneyCount.replace("0", "").replace(".", "").trim().length() > 0) {
+                jumptoDecoder(payTaype, moneyCount, false);
+            }
         } else if (paramString.equals("付款码") && moneyCount.length() > 0) {
             disView2.setText("");
-            jumptoDecoder(payTaype, moneyCount, true);
+            //如果输入的数字为0
+            if (moneyCount.replace("0", "").replace(".", "").trim().length() > 0) {
+                jumptoDecoder(payTaype, moneyCount, true);
+            }
         }
     }
+
     private void showButtom() {
         ((HomPage) getParentFragment().getActivity()).showButtom();
     }
@@ -440,12 +452,12 @@ public class CountFragment extends Fragment {
         int height = applaication.getHeight();
         height = height - currentY;
         height = height / 4;
-      //  Log.i("ContFragment_height", "   " + height);
+        //  Log.i("ContFragment_height", "   " + height);
         TextView textView;
         for (int i = 0; i < tId.length; i++) {
             textView = (TextView) view.findViewById(tId[i]);
             if (i == tId.length - 1) {
-                textView.setHeight(2*height);
+                textView.setHeight(2 * height);
             } else {
                 textView.setHeight(height);
             }

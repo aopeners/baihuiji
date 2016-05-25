@@ -1,7 +1,8 @@
 package web;
 
 public abstract interface Ip {
-    String ips = "http://baihuiji.weikebaba.com/";
+  //  String ips = "http://baihuiji.weikebaba.com/";
+   String ips="http://baihuiji.weikebaba.com:40/";
 
     // String ips = "http://testbhj.weikebaba.com/";
 
@@ -25,7 +26,7 @@ public abstract interface Ip {
     public String monthstatistic = ips + "aide/moneyDayCount";
     //点击统计的交易次数部分ips+""
     public String saleDayCount = ips + "aide/saleDayCount";
-    public String upPass = ips + "aide/updPass";
+    public String upPass = ips+ "aide/updPass";
     //更新
     public String update = ips + "getBaiHuiCheckUpdate";
     //下载更新包

@@ -274,6 +274,7 @@ public class DayBill extends Fragment {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            ((HomPage)getParentFragment().getActivity()).dialogCancle();
             if (s != null) {
                 if (s.trim().length() > 0)
                     getDate(s);

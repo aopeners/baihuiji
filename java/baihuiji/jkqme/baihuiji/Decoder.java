@@ -359,7 +359,7 @@ public class Decoder extends Activity {
      */
     private void getDate() {
         MyApplaication applaication = (MyApplaication) getApplication();
-
+        onOrder=false;
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("count");
         //判断是否为退款
@@ -405,6 +405,7 @@ public class Decoder extends Activity {
                 layout2.setVisibility(View.INVISIBLE);
             }
         } else {//退款
+
             layout2.setVisibility(View.INVISIBLE);
             isRefund = true;
             TextView textView = (TextView) findViewById(R.id.count_title_tx);
@@ -894,7 +895,7 @@ public class Decoder extends Activity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        holder=readerView.getHolder();
+       // holder=readerView.getHolder();
     }
 
     class MyAsy extends AsyncTask<String, String, Bitmap> {

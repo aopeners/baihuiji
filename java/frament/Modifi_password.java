@@ -76,17 +76,19 @@ public class Modifi_password extends Fragment {
                 EditText editText3 = (EditText) view.findViewById(R.id.modifi_password_verify_etx);
                 //初始密码正确
                 if (editText1.getText().toString().trim().equals(applaication.getDate("password"))) {
-                    String key[] = {"updPass", "uId", "MD5"};
+                    String key[] = {"password", "uId"};
 
                     String value[] = {editText2.getText().toString(),
-                            applaication.getDate("operateTel"), BaihuijiNet.getMd5_32("password&uId&=*" +
-                            editText2.getText().toString() + "*" + applaication.getDate("operateTel"))};
-                    String json = BaihuijiNet.getJson(key, value, "MD5");
+                            applaication.getDate("operateTel")};
+                   /* , BaihuijiNet.getMd5_32("password&uId&=*" +
+                            editText2.getText().toString() + "*" + applaication.getDate("operateTel"))*/
+                    String json = Ip.upPass+ BaihuijiNet.getRequst(key,value);
+                    Log.i("ModifPassword",json);
                     String requst;
                     if (editText2.getText().toString().trim().equals(editText1.getText().toString().trim())) {
                         showToast("新密码与原密码一致");
                     } else if (editText2.getText().toString().trim().equals(editText3.getText().toString().trim())) {
-                        requst = BaihuijiNet.urlconection(Ip.upPass, json);
+                        requst = BaihuijiNet.connection(json);
                         Log.i("ModifiPassword", requst);
                         if (modifySucess(requst)) {
                             applaication.putData("password", editText1.getText().toString().trim());

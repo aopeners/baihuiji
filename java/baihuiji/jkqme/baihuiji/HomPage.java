@@ -243,6 +243,10 @@ public class HomPage extends FragmentActivity {
             String signal;
             Bundle bundle = data.getBundleExtra("signal");
             signal = bundle.getString("signal");
+
+            showFragment(bill);
+            bill.showFragment(2);
+
             bill.setSignal(signal);
             if (bundle.getBoolean("backSuccess", false)) {
                 home_fragment.getDate();
@@ -251,13 +255,17 @@ public class HomPage extends FragmentActivity {
             //收款返回
         } else if (resultCode == 3) {
             Bundle bundle = data.getBundleExtra("onTradSuccess");
+
+            showFragment(home_fragment);
             home_fragment.showFragment(2);
+
             home_fragment.setTreadSuccessDate(bundle.getString("payType"),
                     bundle.getString("signal"), bundle.getString("paytime"),
                     bundle.getString("payTotal"));
             //设置日收入和月收入
             if (bundle.getBoolean("getSuccess", false)) {
                 home_fragment.getDate();
+                bill.onBillDateChange();
             }
             dialogCancle();
         } else {
@@ -399,7 +407,7 @@ public class HomPage extends FragmentActivity {
     /**
      * 更新检查
      *
-     * @return 更新号，错误时返回"e"
+     * @return 更新号 如“1.0.1”，错误时返回"e"
      */
     private String update() {
         String requst = BaihuijiNet.connection(Ip.update);
@@ -430,9 +438,10 @@ public class HomPage extends FragmentActivity {
      * @param string,更新版本，
      */
     private void showNotification(String string) {
+        MyApplaication applaication= (MyApplaication) getApplication();
         SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
-        if (!preferences.getString("update", "0").equals(string)) {
-            if (dialog == null) {
+        if (!string.equals(applaication.getDate("update"))) {
+                if (dialog == null) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 View view = LayoutInflater.from(this).inflate(R.layout.service_phone_dialog, null, true);
                 TextView textView = (TextView) view.findViewById(R.id.service_hone_cancel_tx);

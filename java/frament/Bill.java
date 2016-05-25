@@ -143,6 +143,12 @@ public class Bill extends Fragment {
     }
 
     /**
+     * 订单数据改变时
+     */
+    public void onBillDateChange(){
+        paylist_Fragment.onDateChange();
+    }
+    /**
      * 设置订单
      */
     public void setSignal(String signal){

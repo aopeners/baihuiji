@@ -300,7 +300,9 @@ public class Paylist_Fragment extends Fragment {
         }
         //  Log.i("ONhiddenChange", "paramBoolean");
     }
-
+    public void onDateChange(){
+        new MyAsyn().execute("");
+    }
     /**
      * 退款时的动作
      */
