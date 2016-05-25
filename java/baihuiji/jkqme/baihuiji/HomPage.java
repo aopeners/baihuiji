@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import frament.Bill;
@@ -276,9 +278,10 @@ public class HomPage extends FragmentActivity {
     /**
      * 退款页面调用
      */
-    public void onRefound(){
+    public void onRefound() {
         home_fragment.getDate();
     }
+
     protected void onCreate(Bundle paramBundle) {
         super.onCreate(paramBundle);
         requestWindowFeature(1);
@@ -432,17 +435,19 @@ public class HomPage extends FragmentActivity {
 
     private AlertDialog dialog;
     private String apkName;
+
     /**
      * 显示更新
      *
      * @param string,更新版本，
      */
     private void showNotification(String string) {
-        Log.i("Hompage","版本号 "+string);
-        MyApplaication applaication= (MyApplaication) getApplication();
+        Log.i("Hompage", "版本号 " + string);
+        MyApplaication applaication = (MyApplaication) getApplication();
+
         SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
         if (!string.equals(applaication.getDate("update"))) {
-                if (dialog == null) {
+            if (dialog == null) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 View view = LayoutInflater.from(this).inflate(R.layout.service_phone_dialog, null, true);
                 TextView textView = (TextView) view.findViewById(R.id.service_hone_cancel_tx);
@@ -457,7 +462,14 @@ public class HomPage extends FragmentActivity {
                 dialog = builder.create();
                 builder.setCancelable(false);
             }
-            apkName="BHJ_"+string+".apk";
+            //当前版本路径
+            String path = Environment.getExternalStorageDirectory().getPath() + File.separator +
+                    "Download" + File.separator + "baihuiji" + File.separator;
+            File file = new File(path + "BHJ_" + applaication.getDate("update") + ".apk");
+            if (file.exists()) {
+                file.delete();//删除当前版本
+            }
+            apkName = "BHJ_" + string + ".apk";
             dialog.show();
         }
 
@@ -466,8 +478,8 @@ public class HomPage extends FragmentActivity {
     /**
      * 下载跟新apk方法
      */
-    private void onDownLoad(){
-        new MyNotifi(apkName,this);
+    private void onDownLoad() {
+        new MyNotifi(apkName, this);
     }
 }
 
