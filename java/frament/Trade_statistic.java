@@ -447,6 +447,11 @@ public class Trade_statistic extends Fragment {
         Log.i("treade_statistic", "sector");
         sector.setWight(statisticMoney[0][0], statisticMoney[0][1], statisticMoney[0][2], statisticMoney[0][3]);
         Log.i("treade_statistic", "sector1  " + statisticNum[0][0] + "  " + statisticNum[0][1] + "  " + statisticNum[0][2] + "  " + statisticNum[0][3] + "  ");
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         sector1.setWight(statisticNum[0][0] + "", statisticNum[0][1] + "", statisticNum[0][2] + "", statisticNum[0][3] + "");
 
     }

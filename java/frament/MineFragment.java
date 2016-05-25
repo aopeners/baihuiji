@@ -4,15 +4,12 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.graphics.Rect;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,8 +20,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import baihuiji.jkqme.baihuiji.MyApplaication;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -33,6 +28,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import baihuiji.jkqme.baihuiji.MyApplaication;
 import baihuiji.jkqme.baihuiji.R;
 import web.BaihuijiNet;
 
@@ -263,8 +259,8 @@ public class MineFragment extends Fragment {
             TextView textView = (TextView) view1.findViewById(R.id.login_out_tx1);
             textView.setOnClickListener(listener);
             textView = (TextView) view1.findViewById(R.id.login_out_tx2);
-
             textView.setOnClickListener(listener);
+            builder.setView(view1);
             loginougDialog = builder.create();
             loginougDialog.setCanceledOnTouchOutside(false);
         }

@@ -25,14 +25,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/cont_strok"
+            android:background="@color/bluetext"
             android:gravity="center"
             android:padding="15dp"
             android:text="取消"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="13sp" />
 
         <TextView
+            android:layout_marginLeft="5dp"
             android:id="@+id/login_out_tx2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

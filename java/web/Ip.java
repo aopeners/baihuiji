@@ -29,7 +29,7 @@ public abstract interface Ip {
     //更新
     public String update = ips + "getBaiHuiCheckUpdate";
     //下载更新包
-    public String downlod="http://baihuiji.weikebaba.com/BHJ_1.0.0.apk";
+    public String downlod="http://baihuiji.weikebaba.com/";
 }
 
 /* Location:           C:\Users\jkqme\Androids\Androids\classes_dex2jar.jar

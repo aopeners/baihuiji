@@ -13,6 +13,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import baihuiji.jkqme.baihuiji.MyApplaication;
 import baihuiji.jkqme.baihuiji.R;
 import web.BaihuijiNet;
@@ -73,7 +76,7 @@ public class Modifi_password extends Fragment {
                 EditText editText3 = (EditText) view.findViewById(R.id.modifi_password_verify_etx);
                 //初始密码正确
                 if (editText1.getText().toString().trim().equals(applaication.getDate("password"))) {
-                    String key[] = {"password", "uId", "MD5"};
+                    String key[] = {"updPass", "uId", "MD5"};
 
                     String value[] = {editText2.getText().toString(),
                             applaication.getDate("operateTel"), BaihuijiNet.getMd5_32("password&uId&=*" +
@@ -85,8 +88,13 @@ public class Modifi_password extends Fragment {
                     } else if (editText2.getText().toString().trim().equals(editText3.getText().toString().trim())) {
                         requst = BaihuijiNet.urlconection(Ip.upPass, json);
                         Log.i("ModifiPassword", requst);
-                        applaication.putData("password", editText1.getText().toString().trim());
-                        showToast("修改成功");
+                        if (modifySucess(requst)) {
+                            applaication.putData("password", editText1.getText().toString().trim());
+                            showToast("修改成功");
+                        }else {
+                            showToast("修改失败");
+                        }
+
                     } else {
                         showToast("新密码不一致");
                     }
@@ -96,6 +104,24 @@ public class Modifi_password extends Fragment {
             }
         }).start();
 
+    }
+
+    private boolean modifySucess(String requst) {
+        JSONObject jsonObject;
+        try {
+            jsonObject = new JSONObject(requst);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return false;
+        }
+        try {
+            if (jsonObject.getString("errcode").equals("100")) {
+                return true;
+            } else return false;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     @Override

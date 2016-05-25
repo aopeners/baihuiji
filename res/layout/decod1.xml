@@ -55,6 +55,7 @@
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/select_paytype_linear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">

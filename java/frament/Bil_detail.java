@@ -38,7 +38,6 @@ import java.util.HashMap;
 import baihuiji.jkqme.baihuiji.HomPage;
 import baihuiji.jkqme.baihuiji.MyApplaication;
 import baihuiji.jkqme.baihuiji.R;
-import web.BaihuijiNet;
 import web.Ip;
 
 /**
@@ -318,19 +317,21 @@ public class Bil_detail extends Fragment {
                     "ordSource", "operateId", "backPsw",
                     "ver", "MD5"};
             String valu[] = {applaication.getDate("merchantId")
-                    , map.get("singal"), "pc"
+                    , map.get("singal"), "app"
                     ,
-                    applaication.getDate("operateId"),
+                    applaication.getDate("operateTel"),
                     password,
                     "2.6",
                     getMd5_32("merchantId&orderNo&ordSource&operateId&backPsw&ver&=*"
-                            + applaication.getDate("merchantId") + "*" + map.get("singal") + "*" + "pc" + "*" + applaication.getDate("operateId") + "*" + password + "*" + "2.6")
+                            + applaication.getDate("merchantId") + "*" + map.get("singal") + "*" + "app" + "*" + applaication.getDate("operateTel") + "*" + password + "*" + "2.6")
             };
             String json = getJson(key, valu, "MD5");
+
             String requst;
 
             @Override
             public void run() {
+                Log.i("Bile_detail_Refound",json);
                 requst = urlconection(Ip.refund, json);
                 Log.i("OnRefund", requst);
                 Looper.prepare();
@@ -339,11 +340,18 @@ public class Bil_detail extends Fragment {
                     map.put("backTime", getJsonValu(requst, "time"));
                     state = false;
                     showToast("已退款");
+                    ((HomPage) getParentFragment().getActivity()).onRefound();
                     handler.sendEmptyMessage(1);
                 } else {
                     state = true;
                     handler.sendEmptyMessage(1);
-                    showToast("超过最大退款日期，不能进行退款。");
+                    try {
+                        JSONObject jsonObject = new JSONObject(requst);
+                        showToast(jsonObject.getString("msg"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
                 }
             }
         }).start();
@@ -364,7 +372,7 @@ public class Bil_detail extends Fragment {
             return false;
         }
         try {
-            if (jsonObject.getString("msg").equals("成功"))
+            if (jsonObject.getString("code").equals("100"))
                 return true;
 
         } catch (JSONException e) {

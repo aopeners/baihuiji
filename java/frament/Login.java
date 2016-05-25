@@ -373,7 +373,7 @@ public class Login extends Fragment {
             userNameEtx.setText(sharedPreferences.getString("name", ""));
             if (sharedPreferences.contains("password")) {
                 passwordEtx.setText(sharedPreferences.getString("password", ""));
-                conect(sharedPreferences.getString("name", ""), sharedPreferences.getString("password", ""));
+               // conect(sharedPreferences.getString("name", ""), sharedPreferences.getString("password", ""));
                 return;
             }
         }
@@ -383,7 +383,6 @@ public class Login extends Fragment {
 
     private void showProgress() {
         if (progerss == null) {
-
             progerss = new AlertDialog.Builder(getContext(), R.style.mydiaog).create();
             progerss.setView(LayoutInflater.from(getContext()).inflate(R.layout.progress, null, true));
             progerss.setCanceledOnTouchOutside(false);

@@ -121,7 +121,7 @@ public class QRCodeReaderView extends SurfaceView implements SurfaceHolder.Callb
      * SurfaceHolder.Callback,Camera.PreviewCallback
      * 视图建立时调用
      ****************************************************/
-
+    SurfaceHolder holder;
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         try {
@@ -143,8 +143,10 @@ public class QRCodeReaderView extends SurfaceView implements SurfaceHolder.Callb
     //视图销毁时自动调用
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
+        this.holder=holder;
         Log.d(TAG, "surfaceDestroyed");
-        if (mCameraManager == null) {
+        //切屏时回收相机
+        if (mCameraManager != null) {
             mCameraManager.getCamera().setPreviewCallback(null);
             mCameraManager.getCamera().stopPreview();
             mCameraManager.getCamera().release();
@@ -317,6 +319,21 @@ public class QRCodeReaderView extends SurfaceView implements SurfaceHolder.Callb
         @Override
         protected void onPostExecute(String a) {
             super.onPostExecute(a);
+            mCameraManager.startPreview();
+            if(mCameraManager.getCamera()!=null){
+                if(!mCameraManager.isOpen()){
+                   if(holder!=null){
+                       surfaceCreated(holder);
+                   }else {
+                        holder=getHolder();
+                       if(holder!=null){
+                           surfaceCreated(holder);
+                       }else {
+                           Log.i("QRcodeview","can't ge Holder");
+                       }
+                   }
+                }
+            }
             inis();
         }
     }

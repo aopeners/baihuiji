@@ -11,6 +11,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -100,7 +101,7 @@ public class Decoder extends Activity {
                     finish();
                     break;
                 case R.id.decod1_bt_tx:
-                    swich(!toDecor);
+                    swich();
                     break;
                 case R.id.decod1_slect_tx:
 
@@ -138,6 +139,7 @@ public class Decoder extends Activity {
                     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
                 }
                 break;
+
             case 2:
                 if (applaication.getDate("payTypeStatus").charAt(2) == '1') {
                     payType = i;
@@ -228,6 +230,7 @@ public class Decoder extends Activity {
         Bundle bundle = new Bundle();
         bundle.putString("signal", sigal);
         bundle.putBoolean("refondSuccess", true);
+        bundle.putBoolean("backSuccess", true);
         intent.putExtra("signal", bundle);
 
         setResult(2, intent);
@@ -295,19 +298,21 @@ public class Decoder extends Activity {
      * 視圖
      * 視圖切换
      */
-    private void swich(boolean toDecor) {
+    private void swich() {
 
         //判断相机是否开启，如果是
 
-        if (readerView.getCameraManager().isOpen()) {
-            hashswich = false;
-        } else {
-            hashswich = true;
-        }
-        //如果相机开启，返回
+       /* if (readerView.getCameraManager().isOpen()&&layout.getVisibility() == View.VISIBLE) {
+            hashswich = false;//当相机开启时设置为可切换
+        } else if (readerView.getCameraManager().isOpen()&&layout.getVisibility() == View.VISIBLE) {
+        //如果相机开启，返回,hashswich 记录相机是否切换
         if (hashswich) {
             return;
 
+        }*/
+        //切换到了相机但相机还没开启，不能切换
+        if(hashswich&&!readerView.getCameraManager().isOpen()){
+           return;
         }
         Log.i("DecoderSwich", "" + toDecor);
         if (layout.getVisibility() == View.VISIBLE) {
@@ -317,7 +322,6 @@ public class Decoder extends Activity {
             readerView.setVisibility(View.INVISIBLE);
             if (readerView != null) {
                 readerView.getCameraManager().stopPreview();
-                readerView.getCameraManager().closeDriver();
             }
             layout.setVisibility(View.GONE);
             swichImg.setVisibility(View.VISIBLE);
@@ -328,7 +332,6 @@ public class Decoder extends Activity {
             merchantId.setVisibility(View.VISIBLE);
             merchatMoney.setVisibility(View.VISIBLE);
             showProgress();
-
             new MyAsy().execute("");
             hashswich = false;
         } else {
@@ -347,6 +350,7 @@ public class Decoder extends Activity {
             pleaseSwap.setText("将二维码放入框内即可自行扫码");
             pleaseSwap.setTextColor(getResources().getColor(R.color.white));
             bTextView.setText("切换成二维码收款");
+            hashswich=true;//切换到了相机
         }
     }
 
@@ -362,6 +366,10 @@ public class Decoder extends Activity {
         if (!bundle.getBoolean("isRefund")) {
             isRefund = false;
             payType = bundle.getInt("payType");
+            if(payType!=0){
+                LinearLayout linearLayout= (LinearLayout) findViewById(R.id.select_paytype_linear);
+                linearLayout.setVisibility(View.INVISIBLE);
+            }
             money = bundle.getString("money");
             boolean fukuanma = bundle.getBoolean("fukuan", false);
             Log.i("Decoder", " fukuanma " + fukuanma);
@@ -379,8 +387,8 @@ public class Decoder extends Activity {
                     e.printStackTrace();
                 }
                 readerView.setVisibility(View.INVISIBLE);
-                readerView.getCameraManager().closeDriver();
-                //   readerView.getCameraManager().stopPreview();
+               // readerView.getCameraManager().closeDriver();
+                readerView.getCameraManager().stopPreview();
                 layout.setVisibility(View.GONE);
                 swichImg.setVisibility(View.VISIBLE);
                 pleaseSwap.setText("请顾客扫描二维码");
@@ -407,7 +415,7 @@ public class Decoder extends Activity {
 
     protected void onDestroy() {
         if (readerView != null) {
-            Log.i("Decoder","Destroy");
+            Log.i("Decoder", "Destroy");
             this.readerView.getCameraManager().stopPreview();
         /*    CameraManager manager = readerView.getCameraManager();
             manager.getCamera().release();*/
@@ -440,13 +448,11 @@ public class Decoder extends Activity {
         }
         CameraManager manager = readerView.getCameraManager();
         if (readerView.getCameraManager() != null) {
-
-            this.readerView.getCameraManager().startPreview();
+           this.readerView.getCameraManager().startPreview();
         } else {
-
             readerView.getCameramanager();
         }
-        getDate();
+    //    getDate();
     }
 
     /**
@@ -603,7 +609,7 @@ public class Decoder extends Activity {
             public void run() {
                 MyApplaication applaication = (MyApplaication) getApplication();
                 String key[] = {"merchantId", "ordSource", "MD5"};
-                String value[] = {applaication.getDate(key[0]), "app", getMd5_32("merchantId&ordSource&=*" + applaication.getDate(key[0]) + "*" + "pc")};
+                String value[] = {applaication.getDate(key[0]), "app", getMd5_32("merchantId&ordSource&=*" + applaication.getDate(key[0]) + "*" + "app")};
                 String json = getJson(key, value, "MD5");
                 //获取订单
                 String orRequst = urlconection(ordSource, json);
@@ -876,19 +882,19 @@ public class Decoder extends Activity {
     @Override
     public void onStop() {
         if (readerView != null) {
-            CameraManager manager = readerView.getCameraManager();
-            manager.stopPreview();
+            // CameraManager manager = readerView.getCameraManager();
+            readerView.getCameraManager().stopPreview();
             //   manager.getCamera().release();
         }
         super.onStop();
 
 
     }
-
+    private SurfaceHolder holder;
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
+        holder=readerView.getHolder();
     }
 
     class MyAsy extends AsyncTask<String, String, Bitmap> {
@@ -897,7 +903,6 @@ public class Decoder extends Activity {
         protected Bitmap doInBackground(String... strings) {
             return getOrderBitmap();
         }
-
         @Override
         protected void onPostExecute(Bitmap bitmap) {
             super.onPostExecute(bitmap);

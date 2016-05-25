@@ -69,6 +69,7 @@ public class HomPage extends FragmentActivity {
                 case R.id.service_phone_call_tx:
                     dialog.setCancelable(true);
                     dialog.cancel();
+                    onDownLoad();
                     break;
             }
 
@@ -243,6 +244,9 @@ public class HomPage extends FragmentActivity {
             Bundle bundle = data.getBundleExtra("signal");
             signal = bundle.getString("signal");
             bill.setSignal(signal);
+            if (bundle.getBoolean("backSuccess", false)) {
+                home_fragment.getDate();
+            }
             dialogCancle();
             //收款返回
         } else if (resultCode == 3) {
@@ -259,9 +263,14 @@ public class HomPage extends FragmentActivity {
         } else {
             dialogCancle();
         }
-
     }
 
+    /**
+     * 退款页面调用
+     */
+    public void onRefound(){
+        home_fragment.getDate();
+    }
     protected void onCreate(Bundle paramBundle) {
         super.onCreate(paramBundle);
         requestWindowFeature(1);
@@ -414,11 +423,11 @@ public class HomPage extends FragmentActivity {
     }
 
     private AlertDialog dialog;
-
+    private String apkName;
     /**
      * 显示更新
      *
-     * @param string
+     * @param string,更新版本，
      */
     private void showNotification(String string) {
         SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
@@ -438,9 +447,17 @@ public class HomPage extends FragmentActivity {
                 dialog = builder.create();
                 builder.setCancelable(false);
             }
+            apkName="BHJ_"+string+".apk";
             dialog.show();
         }
 
+    }
+
+    /**
+     * 下载跟新apk方法
+     */
+    private void onDownLoad(){
+        new MyNotifi(apkName,this);
     }
 }
 

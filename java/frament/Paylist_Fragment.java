@@ -1,7 +1,5 @@
 package frament;
 
-import adpter.BillAdpter;
-
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,16 +17,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
-import baihuiji.jkqme.baihuiji.HomPage;
-import baihuiji.jkqme.baihuiji.MyApplaication;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -37,6 +31,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import adpter.BillAdpter;
+import baihuiji.jkqme.baihuiji.HomPage;
+import baihuiji.jkqme.baihuiji.MyApplaication;
 import baihuiji.jkqme.baihuiji.R;
 import web.BaihuijiNet;
 import web.Ip;
@@ -211,7 +208,9 @@ public class Paylist_Fragment extends Fragment {
     private void jumptoDecode() {
         if (jsjump) {
             jsjump = false;
+
             ((HomPage) getParentFragment().getActivity()).jumbtoDecoderForRefund();
+            ((HomPage) getParentFragment().getActivity()).showProgress();
             jsjump = true;
         }
     }
@@ -319,7 +318,7 @@ public class Paylist_Fragment extends Fragment {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            HomPage homPage= (HomPage) getParentFragment().getActivity();
+            HomPage homPage = (HomPage) getParentFragment().getActivity();
             homPage.dialogCancle();
             if (s != null) {
                 if (s.trim().length() > 0)
