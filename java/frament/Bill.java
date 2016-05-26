@@ -46,7 +46,7 @@ public class Bill extends Fragment {
             this.transaction = this.manager.beginTransaction();
             this.transaction.hide(this.curentFragment);
             this.transaction.show(paramFragment);
-            this.transaction.commit();
+            this.transaction.commitAllowingStateLoss();
             this.curentFragment = paramFragment;
         }
         if (curentFragment.hashCode() == paylist_Fragment.hashCode()) {

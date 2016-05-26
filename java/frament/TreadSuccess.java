@@ -24,6 +24,7 @@ public class TreadSuccess extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.decod_sucess, null, true);
         TextView textView = (TextView) view.findViewById(R.id.bill_detail_refund_bt_tx);
+        textView.setOnClickListener(listener);
         return view;
     }
 
@@ -43,7 +44,7 @@ public class TreadSuccess extends Fragment {
      * 显示首页
      */
     private void onGoHome() {
-        Home_fragment home_fragment= (Home_fragment) getParentFragment();
+        Home_fragment home_fragment = (Home_fragment) getParentFragment();
         home_fragment.showFragment(0);
     }
 

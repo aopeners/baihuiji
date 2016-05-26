@@ -50,7 +50,7 @@ public class Home_fragment extends Fragment {
             this.transaction = this.manager.beginTransaction();
             this.transaction.hide(this.curentFragment);
             this.transaction.show(paramFragment);
-            this.transaction.commit();
+            this.transaction.commitAllowingStateLoss();
             this.curentFragment = paramFragment;
         }
         if (curentFragment.hashCode() == hDisplay_fragment.hashCode()) {

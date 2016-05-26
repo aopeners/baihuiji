@@ -155,6 +155,7 @@ public class Bil_detail extends Fragment {
         if (state) {
             ((Bill) getParentFragment()).showFragment(0);
         } else {
+            ((Bill) getParentFragment()).showFragment(0);
             ((Bill) getParentFragment()).onBillDateChange();
         }
     }

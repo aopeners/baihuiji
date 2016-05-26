@@ -73,7 +73,7 @@
                     android:layout_weight="1.0"
                     android:gravity="top|center"
                     android:padding="8.0dip"
-                    android:text="¥1532.00"
+                    android:text="¥0"
                     android:textColor="@color/black"
                     android:textSize="22sp" />
             </LinearLayout>
@@ -101,7 +101,7 @@
                     android:layout_weight="1.0"
                     android:gravity="right"
                     android:padding="13.0dip"
-                    android:text="微客巴巴"
+                    android:text="0"
                     android:textColor="@color/black"
                     android:textSize="13.0sp" />
             </LinearLayout>
@@ -129,7 +129,7 @@
                     android:layout_weight="1.0"
                     android:gravity="right"
                     android:padding="13.0dip"
-                    android:text="波波的小店"
+                    android:text="0"
                     android:textColor="@color/black"
                     android:textSize="13.0sp" />
             </LinearLayout>
@@ -157,7 +157,7 @@
                     android:layout_weight="1.0"
                     android:gravity="right"
                     android:padding="13.0dip"
-                    android:text="001"
+                    android:text="0"
                     android:textColor="@color/black"
                     android:textSize="13.0sp" />
             </LinearLayout>
@@ -185,7 +185,7 @@
                     android:layout_weight="1.0"
                     android:gravity="right"
                     android:padding="13.0dip"
-                    android:text="支付成功"
+                    android:text="0"
                     android:textColor="@color/black"
                     android:textSize="13.0sp" />
             </LinearLayout>
@@ -213,7 +213,7 @@
                     android:layout_weight="1.0"
                     android:gravity="right"
                     android:padding="13.0dip"
-                    android:text="支付宝"
+                    android:text="0"
                     android:textColor="@color/black"
                     android:textSize="13.0sp" />
             </LinearLayout>
@@ -244,7 +244,7 @@
                     android:layout_weight="1.0"
                     android:gravity="right"
                     android:padding="13.0dip"
-                    android:text="46456fdsafsadfdddddddddddddddddddddddd"
+                    android:text="0"
                     android:textColor="@color/black"
                     android:textSize="13.0sp" />
             </LinearLayout>
@@ -272,7 +272,7 @@
                     android:layout_weight="1.0"
                     android:gravity="right"
                     android:padding="13.0dip"
-                    android:text="2015-12-03"
+                    android:text="0"
                     android:singleLine="true"
                     android:ellipsize="end"
                     android:textColor="@color/black"
@@ -302,7 +302,7 @@
                     android:layout_weight="1.0"
                     android:gravity="right"
                     android:padding="13.0dip"
-                    android:text="2015-12-03"
+                    android:text="0"
                     android:textColor="@color/black"
                     android:textSize="13.0sp" />
             </LinearLayout>

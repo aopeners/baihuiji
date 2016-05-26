@@ -187,6 +187,11 @@ public class Decoder extends Activity {
                 //是否已获得订单号
                 if (!onOrder) {
                     onOrder = true;
+                    if(payType>0&&payType<3){
+                        payType++;
+                    }else {
+                        payType=1;
+                    }
                     // showToast(paramAnonymousString);
                     String a = paramAnonymousString.split(" ")[0];
                     a = a.trim();
@@ -649,7 +654,8 @@ public class Decoder extends Activity {
                 } else {
                     showToast("获取订单失败");
                 }
-                //
+
+                //onOrderSuccess(getTime("66666"));
                 onOrder = false;
             }
         }).start();

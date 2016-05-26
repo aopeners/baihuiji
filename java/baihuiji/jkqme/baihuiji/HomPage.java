@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -46,6 +48,13 @@ public class HomPage extends FragmentActivity {
     private Fragment currentFragment;
     private ArrayList<Fragment> flist = new ArrayList();
     private Home_fragment home_fragment;
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            onDecoderBack(msg.getData());
+        }
+    };
     private OnClickListener listener = new OnClickListener() {
         public void onClick(View paramAnonymousView) {
             switch (paramAnonymousView.getId()) {
@@ -75,6 +84,7 @@ public class HomPage extends FragmentActivity {
 
         }
     };
+
     private MyViewPager mViewPager;
     private FragmentManager manager = getSupportFragmentManager();
     private MineHome mineHome;
@@ -240,9 +250,13 @@ public class HomPage extends FragmentActivity {
         super.onActivityResult(requestCode, resultCode, data);
         //退款返回
         if (resultCode == 2) {
-            String signal;
+            Message message=new Message();
+            // String signal;
             Bundle bundle = data.getBundleExtra("signal");
-            signal = bundle.getString("signal");
+            bundle.putBoolean("ispay",false);
+            message.setData(bundle);
+            handler.sendMessageDelayed(message,500);
+            /*signal = bundle.getString("signal");
 
             showFragment(bill);
             bill.showFragment(2);
@@ -251,11 +265,52 @@ public class HomPage extends FragmentActivity {
             if (bundle.getBoolean("backSuccess", false)) {
                 home_fragment.getDate();
             }
-            dialogCancle();
+            dialogCancle();*/
             //收款返回
         } else if (resultCode == 3) {
+            Message message=new Message();
             Bundle bundle = data.getBundleExtra("onTradSuccess");
+            message.setData(bundle);
+            bundle.putBoolean("ispay",true);
+            handler.sendMessageDelayed(message,500);
+            /*showFragment(home_fragment);
+            home_fragment.showFragment(2);
 
+            home_fragment.setTreadSuccessDate(bundle.getString("payType"),
+                    bundle.getString("signal"), bundle.getString("paytime"),
+                    bundle.getString("payTotal"));
+            //设置日收入和月收入
+            if (bundle.getBoolean("getSuccess", false)) {
+                home_fragment.getDate();
+                bill.onBillDateChange();
+            }
+            dialogCancle();*/
+        } else {
+            dialogCancle();
+        }
+    }
+
+    /**
+     * 退款，收款成功时的返回
+     *
+     * @param bundle 返回的bundle
+     *
+     */
+    private void onDecoderBack(Bundle bundle) {
+
+        if (!bundle.getBoolean("ispay")) {//如果是退款返回
+            String signal;
+            signal = bundle.getString("signal");
+
+            showFragment(bill);
+            bill.showFragment(2);
+
+            bill.setSignal(signal);
+            if (bundle.getBoolean("backSuccess", false)) {//交易成功时改变太
+                home_fragment.getDate();
+            }
+            dialogCancle();
+        } else {
             showFragment(home_fragment);
             home_fragment.showFragment(2);
 
@@ -267,8 +322,6 @@ public class HomPage extends FragmentActivity {
                 home_fragment.getDate();
                 bill.onBillDateChange();
             }
-            dialogCancle();
-        } else {
             dialogCancle();
         }
     }
