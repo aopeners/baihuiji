@@ -621,6 +621,7 @@ public class Decoder extends Activity {
      */
     private void getOrder(String authCode) {
         showProgress();
+        //readerView.getCameraManager().stopPreview();
         final String authcods = authCode;
         new Thread(new Runnable() {
             @Override
