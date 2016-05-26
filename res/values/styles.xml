@@ -15,10 +15,14 @@
         <item name="android:background">@android:color/transparent</item>
         <item name="android:adjustViewBounds">true</item>
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:paddingLeft">10dip</item>  //图片与左边距的距离
-        <item name="android:paddingRight">10dip</item> //message与右边距的距离
-        <item name="android:textSize">20sp</item>      //message字体的大小
-        <item name="android:textColor">@android:color/white</item>  //message字体的颜色
+        <item name="android:paddingLeft">10dip</item>
+        //图片与左边距的距离
+        <item name="android:paddingRight">10dip</item>
+        //message与右边距的距离
+        <item name="android:textSize">20sp</item>
+        //message字体的大小
+        <item name="android:textColor">@android:color/white</item>
+        //message字体的颜色
     </style>
 
     <style name="customer_progress_dialog" parent="@android:style/Widget.ProgressBar">
@@ -47,6 +51,10 @@
         <item name="android:backgroundDimEnabled">false</item>
         <item name="android:windowFrame">@null</item>
         <item name="android:windowBackground">@color/dialogbck</item>
+    </style>
+
+    <style name="mydatapic" parent="android:Widget.Holo.DatePicker">
+
     </style>
 </resources>
 

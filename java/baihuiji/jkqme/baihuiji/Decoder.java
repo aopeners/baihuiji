@@ -36,6 +36,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -177,20 +178,27 @@ public class Decoder extends Activity {
         }
 
         public void onQRCodeRead(String paramAnonymousString, PointF[] paramAnonymousArrayOfPointF) {
-            Log.i("QRcode", paramAnonymousString + "   " + onOrder);
+
             // Toast.makeText(Decoder.this,paramAnonymousString,Toast.LENGTH_LONG).show();
             //  authCode=paramAnonymousString;
             //是否退款
+            Log.i("QRcodeListener", paramAnonymousString + "   " + onOrder);
             if (!isRefund) {
                 //是否已获得订单号
                 if (!onOrder) {
                     onOrder = true;
-                    getOrder(paramAnonymousString);
+                    // showToast(paramAnonymousString);
+                    String a = paramAnonymousString.split(" ")[0];
+                    a = a.trim();
+                    getOrder(a);
+
                 }
             } else {
                 if (!onOrder) {
+                    String a = paramAnonymousString.split(" ")[0];
+                    a = a.trim();
                     onOrder = true;
-                    onReFound(paramAnonymousString);
+                    onReFound(a);
                 }
 
             }
@@ -246,7 +254,7 @@ public class Decoder extends Activity {
         }
 
         finish();
-
+        onOrder = false;
     }
 
     //
@@ -311,8 +319,8 @@ public class Decoder extends Activity {
 
         }*/
         //切换到了相机但相机还没开启，不能切换
-        if(hashswich&&!readerView.getCameraManager().isOpen()){
-           return;
+        if (hashswich && !readerView.getCameraManager().isOpen()) {
+            return;
         }
         Log.i("DecoderSwich", "" + toDecor);
         if (layout.getVisibility() == View.VISIBLE) {
@@ -350,7 +358,7 @@ public class Decoder extends Activity {
             pleaseSwap.setText("将二维码放入框内即可自行扫码");
             pleaseSwap.setTextColor(getResources().getColor(R.color.white));
             bTextView.setText("切换成二维码收款");
-            hashswich=true;//切换到了相机
+            hashswich = true;//切换到了相机
         }
     }
 
@@ -359,16 +367,20 @@ public class Decoder extends Activity {
      */
     private void getDate() {
         MyApplaication applaication = (MyApplaication) getApplication();
-        onOrder=false;
+        onOrder = false;
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("count");
         //判断是否为退款
         if (!bundle.getBoolean("isRefund")) {
             isRefund = false;
             payType = bundle.getInt("payType");
-            if(payType!=0){
-                LinearLayout linearLayout= (LinearLayout) findViewById(R.id.select_paytype_linear);
+            //选择了支付方式进来的情况
+            if (payType != 0) {
+                LinearLayout linearLayout = (LinearLayout) findViewById(R.id.select_paytype_linear);
                 linearLayout.setVisibility(View.INVISIBLE);
+                view1.setVisibility(View.INVISIBLE);
+            } else {//没有选择支付方式时默认为微信支付
+                payType = 1;
             }
             money = bundle.getString("money");
             boolean fukuanma = bundle.getBoolean("fukuan", false);
@@ -387,7 +399,7 @@ public class Decoder extends Activity {
                     e.printStackTrace();
                 }
                 readerView.setVisibility(View.INVISIBLE);
-               // readerView.getCameraManager().closeDriver();
+                // readerView.getCameraManager().closeDriver();
                 readerView.getCameraManager().stopPreview();
                 layout.setVisibility(View.GONE);
                 swichImg.setVisibility(View.VISIBLE);
@@ -449,11 +461,11 @@ public class Decoder extends Activity {
         }
         CameraManager manager = readerView.getCameraManager();
         if (readerView.getCameraManager() != null) {
-           this.readerView.getCameraManager().startPreview();
+            this.readerView.getCameraManager().startPreview();
         } else {
             readerView.getCameramanager();
         }
-    //    getDate();
+        //    getDate();
     }
 
     /**
@@ -466,10 +478,10 @@ public class Decoder extends Activity {
             return null;
         }
         String date = "operateTel";
-
+        money = new BigDecimal(money).multiply(new BigDecimal("100")).toString();
         String key[] = {"merchantId", "ordSource", "payType", "totalFee", "operateId", "MD5"};
-        String value[] = {applaication.getDate(key[0]), "app", payType + "", money.replace(".", "") + "", applaication.getDate(date), getMd5_32("merchantId&ordSource&payType&totalFee&operateId&=*"
-                + applaication.getDate(key[0]) + "*" + "app" + "*" + payType + "*" + money.replace(".", "") + "*" + applaication.getDate(date))};
+        String value[] = {applaication.getDate(key[0]), "app", payType + "", money.replace(".00", ""), applaication.getDate(date), getMd5_32("merchantId&ordSource&payType&totalFee&operateId&=*"
+                + applaication.getDate(key[0]) + "*" + "app" + "*" + payType + "*" + money.replace(".00", "") + "*" + applaication.getDate(date))};
         String json = getJson(key, value, "MD5");
         String requst = urlconection(getMonny_bySwap, json);
 
@@ -618,10 +630,11 @@ public class Decoder extends Activity {
                 if (getOrderSucced(orRequst)) {
                     orderNO = getOrderNo(orRequst);
                     //收款部分
+                    money = new BigDecimal(money).multiply(new BigDecimal("100")).toString();
                     String key1[] = {"authCode", "merchantId", "orderNo", "ordSource", "payType", "totalFee", "operateId", "MD5"};
-                    String value1[] = {authcods, applaication.getDate(key1[1]), orderNO, "app", payType + "", money.replace(".", "") + "", applaication.getDate(key1[6]),
+                    String value1[] = {authcods, applaication.getDate(key1[1]), orderNO, "app", payType + "", money.replace(".00", ""), applaication.getDate(key1[6]),
                             getMd5_32("authCode&merchantId&orderNo&ordSource&payType&totalFee&operateId&=*"
-                                    + authcods + "*" + applaication.getDate(key1[1]) + "*" + orderNO + "*" + "app" + "*" + payType + "*" + money.replace(".", "") + "*" + applaication.getDate(key1[6]))};
+                                    + authcods + "*" + applaication.getDate(key1[1]) + "*" + orderNO + "*" + "app" + "*" + payType + "*" + money.replace(".00", "") + "*" + applaication.getDate(key1[6]))};
                     String json1 = getJson(key1, value1, "MD5");
                     String requst1 = urlconection(getMony, json1);
                     Log.i("Decoder_getOrder", requst1);
@@ -637,7 +650,7 @@ public class Decoder extends Activity {
                     showToast("获取订单失败");
                 }
                 //
-
+                onOrder = false;
             }
         }).start();
 
@@ -891,11 +904,13 @@ public class Decoder extends Activity {
 
 
     }
+
     private SurfaceHolder holder;
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-       // holder=readerView.getHolder();
+        // holder=readerView.getHolder();
     }
 
     class MyAsy extends AsyncTask<String, String, Bitmap> {
@@ -904,6 +919,7 @@ public class Decoder extends Activity {
         protected Bitmap doInBackground(String... strings) {
             return getOrderBitmap();
         }
+
         @Override
         protected void onPostExecute(Bitmap bitmap) {
             super.onPostExecute(bitmap);
@@ -919,8 +935,10 @@ public class Decoder extends Activity {
     private void showToast(final String string) {
         runOnUiThread(new Runnable() {
             public void run() {
-                progerss.setCancelable(true);
-                progerss.cancel();
+                if (progerss != null) {
+                    progerss.setCancelable(true);
+                    progerss.cancel();
+                }
                 Toast.makeText(Decoder.this, string, Toast.LENGTH_LONG).show();
             }
         });

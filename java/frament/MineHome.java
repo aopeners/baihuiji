@@ -25,6 +25,7 @@ public class MineHome extends Fragment {
     private AboutUs aboutUs;
     private Modifi_password modifi_password;
     private Help help;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +33,7 @@ public class MineHome extends Fragment {
         mineFragment = new MineFragment();
         modifi_password = new Modifi_password();
         aboutUs = new AboutUs();
-        help=new Help();
+        help = new Help();
     }
 
     @Nullable
@@ -102,9 +103,11 @@ public class MineHome extends Fragment {
             case 1:
                 showFragment(this.modifi_password);
                 break;
-            case 2:showFragment(this.aboutUs);
-             break;
-            case 3:showFragment(this.help);
+            case 2:
+                showFragment(this.aboutUs);
+                break;
+            case 3:
+                showFragment(this.help);
                 break;
         }
 
@@ -123,6 +126,14 @@ public class MineHome extends Fragment {
             showFragment(mineFragment);
             ((HomPage) getActivity()).showButtom();
             return true;
+        }
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (mineFragment != null) {
+            mineFragment.onHiddenChanged(hidden);
         }
     }
 }

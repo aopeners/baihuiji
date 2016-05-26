@@ -5,9 +5,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -16,14 +16,13 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
+
+import java.io.File;
+import java.util.ArrayList;
 
 import frament.Login;
 import frament.NormalPage;
 import frament.Viewpage4;
-
-import java.io.File;
-import java.util.ArrayList;
 
 /**
  * 开始页面，采用viewPage与logFragment分开显示
@@ -150,6 +149,14 @@ public class PageView extends FragmentActivity {
         if(preferences.getBoolean("isFirst",true)){
             SharedPreferences.Editor editor=preferences.edit();
             editor.putBoolean("isFirst",false);
+            MyApplaication applaication = (MyApplaication) getApplication();
+            //当前版本路径
+            String path = Environment.getExternalStorageDirectory().getPath() + File.separator +
+                    "Download" + File.separator + "baihuiji" + File.separator;
+            File file = new File(path + "BHJ_" + applaication.getDate("update") + ".apk");
+            if (file.exists()) {
+                file.delete();//第一次登陆时删除当前版本
+            }
             editor.commit();
             return false;
         }else {

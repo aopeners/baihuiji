@@ -25,7 +25,7 @@ public class MyApplaication extends Application {
         width = wn.getDefaultDisplay().getWidth();
         Log.i("MyApplaictinOnCreate", height + "  " + width);
         //版本号
-        map.put("update","1.0.1");
+        map.put("update","1.0.2");
     }
 
     public void putData(String paramString1, String paramString2) {

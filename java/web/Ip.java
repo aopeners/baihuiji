@@ -24,11 +24,11 @@ public abstract interface Ip {
     public String static1 = ips + "aide/masCount";
     //点击统计的金额部分
     public String monthstatistic = ips + "aide/moneyDayCount";
-    //点击统计的交易次数部分ips+""
+    //点击统计的交易次数部分ips+""`
     public String saleDayCount = ips + "aide/saleDayCount";
     public String upPass = ips+ "aide/updPass";
     //更新
-    public String update = ips + "getBaiHuiCheckUpdate";
+    public String update = ips + "getBaiHuiCheckUpdate_android";
     //下载更新包
     public String downlod="http://baihuiji.weikebaba.com/";
 }

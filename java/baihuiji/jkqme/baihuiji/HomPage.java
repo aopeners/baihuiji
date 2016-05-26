@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -26,7 +25,6 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import frament.Bill;
@@ -461,13 +459,6 @@ public class HomPage extends FragmentActivity {
                 builder.setView(view);
                 dialog = builder.create();
                 builder.setCancelable(false);
-            }
-            //当前版本路径
-            String path = Environment.getExternalStorageDirectory().getPath() + File.separator +
-                    "Download" + File.separator + "baihuiji" + File.separator;
-            File file = new File(path + "BHJ_" + applaication.getDate("update") + ".apk");
-            if (file.exists()) {
-                file.delete();//删除当前版本
             }
             apkName = "BHJ_" + string + ".apk";
             dialog.show();

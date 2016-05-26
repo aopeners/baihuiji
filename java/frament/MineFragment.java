@@ -16,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -30,6 +29,7 @@ import java.net.URL;
 
 import baihuiji.jkqme.baihuiji.MyApplaication;
 import baihuiji.jkqme.baihuiji.R;
+import views.CircleImg;
 import web.BaihuijiNet;
 
 /**
@@ -38,7 +38,7 @@ import web.BaihuijiNet;
 public class MineFragment extends Fragment {
     private AlertDialog loginougDialog;//退出登录弹出框
 
-    private ImageView imageView;
+    private CircleImg imageView;
     private AlertDialog dialog;//服务电话弹出框
     private String loginOutRequst;
     private TextView loginout;
@@ -132,7 +132,7 @@ public class MineFragment extends Fragment {
 
     private void loadComponent(View paramView) {
         MyApplaication localMyApplaication = (MyApplaication) getActivity().getApplication();
-        imageView = (ImageView) paramView.findViewById(R.id.mine_head_img);
+        imageView = (CircleImg) paramView.findViewById(R.id.mine_head_img);
         this.loginout = ((TextView) paramView.findViewById(R.id.mine_loginout_tx));
         this.loginout.setOnClickListener(this.listener);
         LinearLayout linearLayout = (LinearLayout) paramView.findViewById(R.id.mine_password_linear);
@@ -155,7 +155,7 @@ public class MineFragment extends Fragment {
             textView = (TextView) paramView.findViewById(textId[i]);
             textView.setText(text[i]);
         }
-        loadImg();
+
     }
 
     private void loadImg() {
@@ -279,12 +279,25 @@ public class MineFragment extends Fragment {
         @Override
         protected void onPostExecute(Bitmap bitmap) {
             super.onPostExecute(bitmap);
+            Log.i("MineFragmet_setImg", "  willset");
             if (bitmap != null) {
-                imageView.setImageBitmap(bitmap);
+                Log.i("MineFragmet_setImg", "  setHead");
+                imageView.setBitmap(bitmap);
+                hasLoadImg = true;
             }
         }
     }
 
+    private boolean hasLoadImg = false;
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        Log.i("MineFragmentChange","  "+((!hidden) && (!hasLoadImg)));
+        if ((!hidden) && (!hasLoadImg)) {
+            loadImg();
+        }
+    }
 }
 
 /* Location:           C:\Users\jkqme\Androids\Androids\classes_dex2jar.jar
