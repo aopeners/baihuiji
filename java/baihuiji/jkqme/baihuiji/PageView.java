@@ -84,7 +84,7 @@ public class PageView extends FragmentActivity {
 
         MyApplaication localMyApplaication = (MyApplaication) getApplication();
 
-       // SQLiteDatabase localSQLiteDatabase = SQLiteDatabase.openOrCreateDatabase(localMyApplaication.helper.dbPath, null);
+        // SQLiteDatabase localSQLiteDatabase = SQLiteDatabase.openOrCreateDatabase(localMyApplaication.helper.dbPath, null);
         if (perferensexist()) {
             jumptoLogin();
             return;
@@ -144,11 +144,11 @@ public class PageView extends FragmentActivity {
     }
 
     private boolean perferensexist() {
-        SharedPreferences preferences=getSharedPreferences("user",Context.MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences("user", Context.MODE_PRIVATE);
 
-        if(preferences.getBoolean("isFirst",true)){
-            SharedPreferences.Editor editor=preferences.edit();
-            editor.putBoolean("isFirst",false);
+        if (preferences.getBoolean("isFirst", true)) {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("isFirst", false);
             MyApplaication applaication = (MyApplaication) getApplication();
             //当前版本路径
             String path = Environment.getExternalStorageDirectory().getPath() + File.separator +
@@ -159,7 +159,7 @@ public class PageView extends FragmentActivity {
             }
             editor.commit();
             return false;
-        }else {
+        } else {
             return true;
         }
 

@@ -62,26 +62,29 @@
         android:orientation="horizontal"
 
         >
+
         <View
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
         <TextView
             android:id="@+id/dialog_refund_tx1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/buleeblank"
+            android:layout_weight="2"
+            android:background="@drawable/onrefound"
             android:gravity="center"
             android:padding="10dp"
-            android:layout_weight="2"
             android:text="退款"
             android:textColor="@color/white"
             android:textSize="13sp" />
+
         <View
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
     </LinearLayout>
 
 

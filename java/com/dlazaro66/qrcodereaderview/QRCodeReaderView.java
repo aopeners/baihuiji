@@ -105,6 +105,10 @@ public class QRCodeReaderView extends SurfaceView implements SurfaceHolder.Callb
     private void init() {
         if (checkCameraHardware(getContext())) {
             mCameraManager = new CameraManager(getContext());
+            if (mCameraManager == null) {
+                mCameraManager = (CameraManager) getContext().getSystemService(Context.CAMERA_SERVICE);
+            }
+            //new HandlerThread();
             mHolder = this.getHolder();
             mHolder.addCallback(this);
             mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);  // Need to set this flag despite it's deprecated
@@ -122,6 +126,7 @@ public class QRCodeReaderView extends SurfaceView implements SurfaceHolder.Callb
      * 视图建立时调用
      ****************************************************/
     SurfaceHolder holder;
+
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         try {
@@ -140,10 +145,11 @@ public class QRCodeReaderView extends SurfaceView implements SurfaceHolder.Callb
             mCameraManager.closeDriver();
         }
     }
+
     //视图销毁时自动调用
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        this.holder=holder;
+        this.holder = holder;
         Log.d(TAG, "surfaceDestroyed");
         //切屏时回收相机
         if (mCameraManager != null) {
@@ -313,28 +319,34 @@ public class QRCodeReaderView extends SurfaceView implements SurfaceHolder.Callb
         protected String doInBackground(Context... strings) {
 
             mCameraManager = new CameraManager(strings[0]);
+            if (mCameraManager == null) {
+                Log.i("QRCodeReaderView", "cameraManager==null");
+                mCameraManager = (CameraManager) strings[0].getSystemService(Context.CAMERA_SERVICE);
+            }
             return "";
         }
 
         @Override
         protected void onPostExecute(String a) {
             super.onPostExecute(a);
-            mCameraManager.startPreview();
-            if(mCameraManager.getCamera()!=null){
-                if(!mCameraManager.isOpen()){
-                   if(holder!=null){
-                       surfaceCreated(holder);
-                   }else {
-                        holder=getHolder();
-                       if(holder!=null){
-                           surfaceCreated(holder);
-                       }else {
-                           Log.i("QRcodeview","can't ge Holder");
-                       }
-                   }
+            if (mCameraManager != null) {
+                mCameraManager.startPreview();
+                if (mCameraManager.getCamera() != null) {
+                    if (!mCameraManager.isOpen()) {
+                        if (holder != null) {
+                            surfaceCreated(holder);
+                        } else {
+                            holder = getHolder();
+                            if (holder != null) {
+                                surfaceCreated(holder);
+                            } else {
+                                Log.i("QRcodeview", "can't ge Holder");
+                            }
+                        }
+                    }
                 }
+                inis();
             }
-            inis();
         }
     }
 

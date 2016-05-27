@@ -117,7 +117,7 @@ public class Modifi_password extends Fragment {
             return false;
         }
         try {
-            if (jsonObject.getString("errcode").equals("100")) {
+            if (jsonObject.getString("errcode").equals("0")) {
                 return true;
             } else return false;
         } catch (JSONException e) {

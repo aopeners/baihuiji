@@ -68,6 +68,10 @@ public class Paylist_Fragment extends Fragment {
     };
     private TextView textView;
 
+    /**
+     * 获得列表数据
+     * @return
+     */
     private String getDate() {
 
         MyApplaication applaication = (MyApplaication) Paylist_Fragment.this.getParentFragment().getActivity().getApplication();
@@ -142,6 +146,10 @@ public class Paylist_Fragment extends Fragment {
 
     private ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
 
+    /**
+     * 解析jison
+     * @param paramString
+     */
     private void getDate(String paramString) {
         JSONObject jsonObject = null;
         JSONArray jsonArray = null;
@@ -300,15 +308,21 @@ public class Paylist_Fragment extends Fragment {
         }
         //  Log.i("ONhiddenChange", "paramBoolean");
     }
+
+    /**
+     * 页面数据更新时调用
+     */
     public void onDateChange(){
+        list .removeAll(list);
         new MyAsyn().execute("");
     }
     /**
      * 退款时的动作
      */
     public void setOnRefound() {
-        getDate();
-        list = new ArrayList<HashMap<String, String>>();
+        list .removeAll(list);
+        new MyAsyn().execute("");
+
     }
 
     private class MyAsyn extends AsyncTask<String, String, String> {

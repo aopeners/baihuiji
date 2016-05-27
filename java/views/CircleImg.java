@@ -23,7 +23,7 @@ import baihuiji.jkqme.baihuiji.R;
  */
 public class CircleImg extends View {
     private Bitmap bitmap;//头像
-    private Paint paint;
+    private Paint paint = new Paint();
     private int width;
     private Canvas canvas;
 
@@ -42,7 +42,7 @@ public class CircleImg extends View {
     };
 
     public void setBitmap(Bitmap bitmap) {
-        this.bitmap = delBitmaps(bitmap);
+        this.bitmap = bitmap;
         handler.sendEmptyMessageDelayed(1, 500);
     }
 
@@ -50,7 +50,8 @@ public class CircleImg extends View {
     private void ini() {
         width = getMeasuredWidth();
         Log.i("CircleImg_ine", "   " + width);
-        width = 100;
+        // width = 100;
+        bitmap = delBitmaps(bitmap);
         invalidate();
     }
 
@@ -61,7 +62,8 @@ public class CircleImg extends View {
             RectF rectF = new RectF(0, 0, width, width);
             this.canvas.drawRoundRect(rectF, width / 2, width / 2, paint);
             this.canvas.drawBitmap(bitmap, null, rectF, paint);*/
-            canvas.drawBitmap(bitmap, 0, 0, paint);
+            Log.i("onDraw", bitmap.getWidth() + "   " + bitmap.getHeight());
+            canvas.drawBitmap(bitmap, bitmap.getWidth(), bitmap.getWidth(), paint);
         }
         super.onDraw(canvas);
 
@@ -89,36 +91,38 @@ public class CircleImg extends View {
         //设置选择相交的部分 IN
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         paint.setAntiAlias(true);
+        Log.i("DelBit","   "+width);
         Bitmap backGround = Bitmap.createBitmap(width, width, Bitmap.Config.ARGB_8888);
 
         canvas = new Canvas(backGround);//这样可以直接将画的东西作为bit
+        canvas.setBitmap(backGround);
         paint.setColor(getResources().getColor(R.color.red));
         RectF rectF = new RectF(0, 0, width, width);
         //画圆，第二、三个参数为半径
         canvas.drawRoundRect(rectF, width / 2, width / 2, paint);
         Matrix matrix = new Matrix();
-        //缩放处理
+       /* //缩放处理
         if (bwidth > bheight) {
             matrix.reset();
-            matrix.setScale(1, bwidth / bheight);
+            matrix.postScale(1, bwidth / bheight);
             bitmap = Bitmap.createBitmap(bitmap, 0, 0, bwidth, bheight, matrix, true);
         } else if (bwidth < bheight) {
             matrix.reset();
-            matrix.setScale(bheight / bwidth, 1);
+            matrix.postScale(bheight / bwidth, 1);
             bitmap = Bitmap.createBitmap(bitmap, 0, 0, bwidth, bheight, matrix, true);
-        }
+        }*/
         bwidth = bitmap.getWidth();
         bheight = bitmap.getHeight();
 
         if (bwidth != width) {
             matrix.reset();
-            matrix.setScale(width / bheight, width / bheight);
+            matrix.setScale(0, 0);
             //亚索输出？,图片压缩
             Log.i("DeilBitmap", bwidth + "  " + bheight);
             //不可用的缩放方式
             // bitmap = Bitmap.createBitmap(bitmap, 1, 1, bheight-1, bwidth-1, matrix, true);
-
         }
+        matrix.postScale(width / bheight, width / bheight);
         canvas.drawBitmap(bitmap, matrix, paint);
         return backGround;
     }

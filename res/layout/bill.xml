@@ -61,7 +61,7 @@
                 android:layout_weight="1.0"
                 android:hint="请输入订单号进行查询和退款"
                 android:padding="12.0sp"
-
+                android:background="@drawable/blank"
                 android:textColor="@color/black"
                 android:textSize="13.0sp" />
 

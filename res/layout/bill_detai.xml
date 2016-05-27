@@ -315,7 +315,7 @@
                 android:layout_marginLeft="17.0dip"
                 android:layout_marginRight="17.0dip"
                 android:layout_marginTop="23.0dip"
-                android:background="@drawable/grey_ranctangle"
+                android:background="@drawable/to_refound"
                 android:gravity="center"
                 android:padding="10.0dip"
                 android:text="退款"

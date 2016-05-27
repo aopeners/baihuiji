@@ -8,7 +8,6 @@ import android.net.NetworkInfo.State;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
@@ -137,7 +136,7 @@ public class BaihuijiNet {
             dataOutputStream = new DataOutputStream(connection.getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();
-            return "上传失败0";
+            return "网络未连接";
         }
         try {
             dataOutputStream.writeBytes(paramString2);

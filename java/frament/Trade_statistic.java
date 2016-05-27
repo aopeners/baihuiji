@@ -246,7 +246,7 @@ public class Trade_statistic extends Fragment {
     /**
      * 当子项被点击时，新成访问字符串
      *
-     * @param a 被点击的项
+     * @param a 被点击的项  0到8
      */
     private void onStatisticItemClic(int a, String paytype) {
         StringBuffer buffer = new StringBuffer();

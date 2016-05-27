@@ -16,8 +16,6 @@
 
 package com.google.zxing.client.android.camera.open;
 
-import java.io.IOException;
-
 import android.content.Context;
 import android.graphics.Point;
 import android.hardware.Camera;
@@ -25,6 +23,8 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 
 import com.google.zxing.PlanarYUVLuminanceSource;
+
+import java.io.IOException;
 
 /**
  * This object wraps the Camera service object and expects to be the only one talking to it. The
@@ -45,6 +45,7 @@ public final class CameraManager {
   private final Context context;
   private final CameraConfigurationManager configManager;
   private Camera camera;
+
   private AutoFocusManager autoFocusManager;
   private boolean initialized;
   private boolean previewing;

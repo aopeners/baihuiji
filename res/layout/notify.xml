@@ -5,9 +5,11 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/notify_baihuiji_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="白汇集" />
+        android:layout_gravity="center_horizontal"
+        android:text="百汇集" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,10 +17,11 @@
         android:orientation="horizontal">
 
         <ImageView
+            android:id="@+id/notify_down_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/arrow_down_alt1" />
+            android:src="@drawable/stop" />
 
         <ProgressBar
             android:id="@+id/notify_progress"

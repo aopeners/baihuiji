@@ -249,7 +249,7 @@ public class Login extends Fragment {
             localJSONObject1 = new JSONObject(paramString);
         } catch (JSONException e) {
             e.printStackTrace();
-            showToast("");
+            showToast(paramString);
             return false;
         }
 
@@ -318,7 +318,6 @@ public class Login extends Fragment {
     }
 
 
-
     private void writDb() {
         ((PageView) getActivity()).writDb();
     }
@@ -373,7 +372,7 @@ public class Login extends Fragment {
             userNameEtx.setText(sharedPreferences.getString("name", ""));
             if (sharedPreferences.contains("password")) {
                 passwordEtx.setText(sharedPreferences.getString("password", ""));
-               // conect(sharedPreferences.getString("name", ""), sharedPreferences.getString("password", ""));
+                // conect(sharedPreferences.getString("name", ""), sharedPreferences.getString("password", ""));
                 return;
             }
         }
@@ -391,6 +390,7 @@ public class Login extends Fragment {
         }
         progerss.show();
     }
+
     private void showToast(final String string) {
         getActivity().runOnUiThread(new Runnable() {
             public void run() {

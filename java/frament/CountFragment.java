@@ -64,7 +64,7 @@ public class CountFragment extends Fragment {
                         if (!isMesurd) {
                             int height;
                             height = view.getHeight();
-                            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) view.getLayoutParams();
+                           // LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) view.getLayoutParams();
                             currentY = currentY + height;
                             //   Log.i("CountFragment", "  currentY  " + currentY);
                             // isMesurd=true;

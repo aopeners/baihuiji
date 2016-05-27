@@ -186,6 +186,7 @@ public class HomPage extends FragmentActivity {
             button = (Button) findViewById(btId[i]);
             //如果不是选中的图片
             if (i != paramInt) {
+               // button.setTextColor(getColor(R.color.black));
                 button.setTextColor(getResources().getColor(R.color.black));
                 button.setCompoundDrawablesWithIntrinsicBounds(0, drawb[i], 0, 0);
             } else {
@@ -331,6 +332,7 @@ public class HomPage extends FragmentActivity {
      */
     public void onRefound() {
         home_fragment.getDate();
+        bill.onBillDateChange();
     }
 
     protected void onCreate(Bundle paramBundle) {

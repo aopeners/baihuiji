@@ -6,14 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -74,7 +72,7 @@ public class MonthAdpter extends BaseAdapter {
         //设置月显示栏
         if (monthChage(list.get(paramInt).get("totalDate"))) {
             holder.lv_month_bill_tx.setText(month + "月");
-            holder.lv_month_bill_tx.setVisibility(View.VISIBLE);
+           // holder.lv_month_bill_tx.setVisibility(View.VISIBLE);
         }
         // holder.lv_message_time_tx.setText(list.get(paramInt).get("totalDate"));
         // holder.lv_message_time1_tx.setText(list.get(paramInt).get("totalDate"));

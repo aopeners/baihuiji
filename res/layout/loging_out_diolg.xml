@@ -10,7 +10,7 @@
         android:background="@color/loginback"
         android:gravity="center"
         android:padding="35dp"
-        android:text="您要退出白汇集吗？"
+        android:text="您要退出百汇集吗？"
         android:textColor="@color/black"
 
         android:textSize="13sp" />
@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/bluetext"
+            android:background="@drawable/log_out"
             android:gravity="center"
             android:padding="15dp"
             android:text="取消"
@@ -33,12 +33,12 @@
             android:textSize="13sp" />
 
         <TextView
-            android:layout_marginLeft="5dp"
             android:id="@+id/login_out_tx2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
             android:layout_weight="1 "
-            android:background="@color/bluetext"
+            android:background="@drawable/log_out"
             android:gravity="center"
             android:padding="15dp"
             android:text="确定"

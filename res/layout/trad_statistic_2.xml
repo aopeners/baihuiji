@@ -18,7 +18,7 @@
             android:layout_centerHorizontal="true"
             android:gravity="center"
             android:padding="8.0dip"
-            android:text="威客巴巴百汇集"
+            android:text="微客巴巴百汇集"
             android:textColor="@android:color/white"
             android:textSize="13.0sp" />
 

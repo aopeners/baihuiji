@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PointF;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.util.Log;
@@ -54,6 +55,7 @@ import views.MyView;
  * 接收的 requst  不用判断
  */
 public class Decoder extends Activity {
+    private String systmeBuild = Build.VERSION.RELEASE;//系统版本号
     private boolean toDecor = true;
     private boolean isRefund;//是否退款
     private boolean tradSucess = false;//交易成功判断
@@ -187,10 +189,10 @@ public class Decoder extends Activity {
                 //是否已获得订单号
                 if (!onOrder) {
                     onOrder = true;
-                    if(payType>0&&payType<3){
+                    if (payType > 0 && payType < 3) {
                         payType++;
-                    }else {
-                        payType=1;
+                    } else {
+                        payType = 1;
                     }
                     // showToast(paramAnonymousString);
                     String a = paramAnonymousString.split(" ")[0];
@@ -276,6 +278,7 @@ public class Decoder extends Activity {
     protected void onCreate(Bundle paramBundle) {
         super.onCreate(paramBundle);
         setContentView(R.layout.decod1);
+        Log.i("Decod_onCreate","SystemVersion        "+systmeBuild);
         this.readerView = ((QRCodeReaderView) findViewById(R.id.decode1_qv));
         this.readerView.setOnQRCodeReadListener(this.onQRCodeReadListener);
         this.bTextView = ((TextView) findViewById(R.id.decod1_bt_tx));
@@ -333,7 +336,7 @@ public class Decoder extends Activity {
             layout2.setVisibility(View.VISIBLE);
             onOrder = false;
             readerView.setVisibility(View.INVISIBLE);
-            if (readerView != null) {
+            if (readerView != null && readerView.getCameraManager() != null) {
                 readerView.getCameraManager().stopPreview();
             }
             layout.setVisibility(View.GONE);
@@ -351,7 +354,7 @@ public class Decoder extends Activity {
             layout1.setBackgroundColor(getResources().getColor(R.color.black));
             readerView.setVisibility(View.VISIBLE);
             layout2.setVisibility(View.INVISIBLE);
-            if (readerView != null) {
+            if (readerView != null && readerView.getCameraManager() != null) {
                 readerView.getCameraManager().startPreview();
             }
             layout.setVisibility(View.VISIBLE);
@@ -405,7 +408,8 @@ public class Decoder extends Activity {
                 }
                 readerView.setVisibility(View.INVISIBLE);
                 // readerView.getCameraManager().closeDriver();
-                readerView.getCameraManager().stopPreview();
+                if (readerView != null && readerView.getCameraManager() != null)
+                    readerView.getCameraManager().stopPreview();
                 layout.setVisibility(View.GONE);
                 swichImg.setVisibility(View.VISIBLE);
                 pleaseSwap.setText("请顾客扫描二维码");
@@ -434,7 +438,8 @@ public class Decoder extends Activity {
     protected void onDestroy() {
         if (readerView != null) {
             Log.i("Decoder", "Destroy");
-            this.readerView.getCameraManager().stopPreview();
+            if (readerView != null && readerView.getCameraManager() != null)
+                this.readerView.getCameraManager().stopPreview();
         /*    CameraManager manager = readerView.getCameraManager();
             manager.getCamera().release();*/
         }
@@ -451,7 +456,7 @@ public class Decoder extends Activity {
 
     protected void onPause() {
         super.onPause();
-        if (readerView != null) {
+        if (readerView != null && readerView.getCameraManager() != null) {
             this.readerView.getCameraManager().stopPreview();
            /* CameraManager manager = readerView.getCameraManager();
             manager.getCamera().release();*/
@@ -902,7 +907,7 @@ public class Decoder extends Activity {
 
     @Override
     public void onStop() {
-        if (readerView != null) {
+        if (readerView != null && readerView.getCameraManager() != null) {
             // CameraManager manager = readerView.getCameraManager();
             readerView.getCameraManager().stopPreview();
             //   manager.getCamera().release();

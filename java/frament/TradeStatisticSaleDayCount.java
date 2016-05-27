@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import adpter.DayCoutAdpter;
-import adpter.MonyStatisticByTypeAdpter;
 import baihuiji.jkqme.baihuiji.HomPage;
 import baihuiji.jkqme.baihuiji.R;
 
@@ -147,6 +146,8 @@ public class TradeStatisticSaleDayCount extends Fragment {
 
             dayCoutAdpter = new DayCoutAdpter(payType, getParentFragment().getActivity(), list);
             listView.setAdapter(dayCoutAdpter);
+        } else {
+            dayCoutAdpter.setDate(payType, list);
         }
         int tId[] = {R.id.month_bill_num1_tx, R.id.month_bill_get1_tx, R.id.month_bill_back1_tx};
         //设置顶部数据
@@ -158,7 +159,7 @@ public class TradeStatisticSaleDayCount extends Fragment {
             textView = (TextView) view.findViewById(tId[i]);
 
             if (i == 0) {
-                textView.setText(payTotleNum);
+                textView.setText(payTotle + backTotle);
             } else if (i == 1) {
                 textView.setText(payTotle + "");
             } else {
@@ -283,7 +284,7 @@ public class TradeStatisticSaleDayCount extends Fragment {
         this.payType = payType;
         this.time = time;
         this.payTotleNum = payTotleNumber;
-        HomPage homPage= (HomPage) getParentFragment().getActivity();
+        HomPage homPage = (HomPage) getParentFragment().getActivity();
         homPage.showProgress();
         new MyAsyn().execute(requst);
     }
@@ -299,7 +300,7 @@ public class TradeStatisticSaleDayCount extends Fragment {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             Log.i("MonthBillASy", s + "   onpost");
-            HomPage homPage= (HomPage) getParentFragment().getActivity();
+            HomPage homPage = (HomPage) getParentFragment().getActivity();
             homPage.dialogCancle();
             if (s != null) {
                 if (s.trim().length() > 0)

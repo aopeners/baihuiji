@@ -8,15 +8,16 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
 import baihuiji.jkqme.baihuiji.R;
 
+/**
+ * 账单列表的Adapter
+ */
 public class BillAdpter extends BaseAdapter {
     private Context context;
     private final long dayTime = 86400L;
