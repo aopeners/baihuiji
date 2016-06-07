@@ -13,7 +13,7 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 
 import baihuiji.jkqme.baihuiji.HomPage;
-import baihuiji.jkqme.baihuiji.R;
+import baihuiji.jkqme.baihuiji0.R;
 
 /**
  * 管理账单的地一层fragment

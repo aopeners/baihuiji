@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import baihuiji.jkqme.baihuiji.R;
+import baihuiji.jkqme.baihuiji0.R;
 
 /**
  * 只包含一个TexView 的aDpter

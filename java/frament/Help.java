@@ -14,7 +14,7 @@ import android.widget.ListView;
 
 import adpter.HelpAdpter;
 import baihuiji.jkqme.baihuiji.MyApplaication;
-import baihuiji.jkqme.baihuiji.R;
+import baihuiji.jkqme.baihuiji0.R;
 
 /**
  * 我的————帮助中心

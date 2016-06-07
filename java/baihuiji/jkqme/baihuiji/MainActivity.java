@@ -4,6 +4,8 @@ import android.app.Activity;
 
 import android.os.Bundle;
 
+import baihuiji.jkqme.baihuiji0.R;
+
 public class MainActivity extends Activity
 {
     @Override

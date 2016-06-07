@@ -31,7 +31,7 @@ import java.util.Map;
 
 import baihuiji.jkqme.baihuiji.MyApplaication;
 import baihuiji.jkqme.baihuiji.PageView;
-import baihuiji.jkqme.baihuiji.R;
+import baihuiji.jkqme.baihuiji0.R;
 import web.BaihuijiNet;
 import web.Ip;
 

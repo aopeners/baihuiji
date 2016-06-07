@@ -15,7 +15,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
-import baihuiji.jkqme.baihuiji.R;
+import baihuiji.jkqme.baihuiji0.R;
 
 /**
  * 绘制圆形头像的类

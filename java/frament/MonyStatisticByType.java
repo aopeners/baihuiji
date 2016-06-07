@@ -32,7 +32,7 @@ import java.util.HashMap;
 
 import adpter.MonyStatisticByTypeAdpter;
 import baihuiji.jkqme.baihuiji.HomPage;
-import baihuiji.jkqme.baihuiji.R;
+import baihuiji.jkqme.baihuiji0.R;
 
 /**
  * 统计部分的金额统计被点击后的frgment

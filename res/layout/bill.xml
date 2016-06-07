@@ -52,16 +52,19 @@
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
             android:background="@drawable/bill_rund_ranctangl"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="23dp">
 
             <EditText
                 android:id="@+id/bill_etx"
                 android:layout_width="0.0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
+                android:background="@drawable/blank"
+                android:ellipsize="end"
                 android:hint="请输入订单号进行查询和退款"
                 android:padding="12.0sp"
-                android:background="@drawable/blank"
+                android:singleLine="true"
                 android:textColor="@color/black"
                 android:textSize="13.0sp" />
 

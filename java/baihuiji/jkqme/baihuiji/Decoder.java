@@ -47,6 +47,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
+import baihuiji.jkqme.baihuiji0.R;
 import views.MyView;
 
 
@@ -55,7 +56,9 @@ import views.MyView;
  * 接收的 requst  不用判断
  */
 public class Decoder extends Activity {
-    private String systmeBuild = Build.VERSION.RELEASE;//系统版本号
+    private String systmeBuild = Build.VERSION.RELEASE;//系统版本号,可用，Android版本
+    private String factor=Build.MANUFACTURER;//厂家
+    private String mode=Build.MODEL;  //对应厂家版本
     private boolean toDecor = true;
     private boolean isRefund;//是否退款
     private boolean tradSucess = false;//交易成功判断
@@ -139,7 +142,8 @@ public class Decoder extends Activity {
                     payType = i;
                     new MyAsy().execute("");
                 } else {
-                    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+
+                    showToast(msg);
                 }
                 break;
 
@@ -148,7 +152,7 @@ public class Decoder extends Activity {
                     payType = i;
                     new MyAsy().execute("");
                 } else {
-                    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+                    showToast(msg);
                 }
                 break;
             case 3:
@@ -156,7 +160,7 @@ public class Decoder extends Activity {
                     payType = i;
                     new MyAsy().execute("");
                 } else {
-                    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+                    showToast(msg);
                 }
                 break;
             case 4:
@@ -164,7 +168,7 @@ public class Decoder extends Activity {
                     payType = i;
                     new MyAsy().execute("");
                 } else {
-                    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+                    showToast(msg);
                 }
                 break;
         }
@@ -278,7 +282,7 @@ public class Decoder extends Activity {
     protected void onCreate(Bundle paramBundle) {
         super.onCreate(paramBundle);
         setContentView(R.layout.decod1);
-        Log.i("Decod_onCreate","SystemVersion        "+systmeBuild);
+        Log.i("Decod_onCreate","SystemVersion        "+systmeBuild+"  factor   "+factor+"   mode  "+mode);
         this.readerView = ((QRCodeReaderView) findViewById(R.id.decode1_qv));
         this.readerView.setOnQRCodeReadListener(this.onQRCodeReadListener);
         this.bTextView = ((TextView) findViewById(R.id.decod1_bt_tx));
@@ -395,6 +399,7 @@ public class Decoder extends Activity {
             Log.i("Decoder", " fukuanma " + fukuanma);
             merchantId.setText(applaication.getDate("merName"));
             merchatMoney.setText("¥" + money);
+            money = new BigDecimal(money).multiply(new BigDecimal("100")).toString();
             if (fukuanma) {
                 //toDecor = false;
                 layout1.setBackgroundColor(getResources().getColor(R.color.loginback));
@@ -488,7 +493,6 @@ public class Decoder extends Activity {
             return null;
         }
         String date = "operateTel";
-        money = new BigDecimal(money).multiply(new BigDecimal("100")).toString();
         String key[] = {"merchantId", "ordSource", "payType", "totalFee", "operateId", "MD5"};
         String value[] = {applaication.getDate(key[0]), "app", payType + "", money.replace(".00", ""), applaication.getDate(date), getMd5_32("merchantId&ordSource&payType&totalFee&operateId&=*"
                 + applaication.getDate(key[0]) + "*" + "app" + "*" + payType + "*" + money.replace(".00", "") + "*" + applaication.getDate(date))};
@@ -641,7 +645,7 @@ public class Decoder extends Activity {
                 if (getOrderSucced(orRequst)) {
                     orderNO = getOrderNo(orRequst);
                     //收款部分
-                    money = new BigDecimal(money).multiply(new BigDecimal("100")).toString();
+
                     String key1[] = {"authCode", "merchantId", "orderNo", "ordSource", "payType", "totalFee", "operateId", "MD5"};
                     String value1[] = {authcods, applaication.getDate(key1[1]), orderNO, "app", payType + "", money.replace(".00", ""), applaication.getDate(key1[6]),
                             getMd5_32("authCode&merchantId&orderNo&ordSource&payType&totalFee&operateId&=*"
@@ -853,6 +857,10 @@ public class Decoder extends Activity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                if(progerss!=null){
+                    progerss.setCancelable(true);
+                    progerss.cancel();
+                }
                 Toast.makeText(Decoder.this, str, Toast.LENGTH_LONG).show();
             }
         });

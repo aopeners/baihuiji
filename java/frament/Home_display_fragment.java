@@ -27,7 +27,7 @@ import baihuiji.jkqme.baihuiji.MyApplaication;
 
 import java.util.ArrayList;
 
-import baihuiji.jkqme.baihuiji.R;
+import baihuiji.jkqme.baihuiji0.R;
 import web.BaihuijiNet;
 import web.Ip;
 

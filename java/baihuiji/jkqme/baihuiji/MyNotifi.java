@@ -26,6 +26,7 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
+import baihuiji.jkqme.baihuiji0.R;
 import web.Ip;
 
 /**

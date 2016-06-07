@@ -7,7 +7,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import baihuiji.jkqme.baihuiji.R;
+import baihuiji.jkqme.baihuiji0.R;
 
 /**
  * Created by Administrator on 2016/5/21.

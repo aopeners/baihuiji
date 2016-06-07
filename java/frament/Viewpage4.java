@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import baihuiji.jkqme.baihuiji.PageView;
-import baihuiji.jkqme.baihuiji.R;
+import baihuiji.jkqme.baihuiji0.R;
 
 public class Viewpage4 extends Fragment {
     private TextView img;

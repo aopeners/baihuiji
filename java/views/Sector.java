@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 
 import java.math.BigDecimal;
 
-import baihuiji.jkqme.baihuiji.R;
+import baihuiji.jkqme.baihuiji0.R;
 
 
 /**

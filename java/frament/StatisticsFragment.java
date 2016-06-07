@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import baihuiji.jkqme.baihuiji.MyApplaication;
-import baihuiji.jkqme.baihuiji.R;
+import baihuiji.jkqme.baihuiji0.R;
 import views.Sector;
 import web.BaihuijiNet;
 import web.Ip;

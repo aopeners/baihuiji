@@ -20,6 +20,7 @@ import android.view.View;
 import java.io.File;
 import java.util.ArrayList;
 
+import baihuiji.jkqme.baihuiji0.R;
 import frament.Login;
 import frament.NormalPage;
 import frament.Viewpage4;

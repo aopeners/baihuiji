@@ -14,7 +14,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
-import baihuiji.jkqme.baihuiji.R;
+import baihuiji.jkqme.baihuiji0.R;
 
 /**
  * 关于matrix 应用的类，matrix 使用前要set一下，再用pre 和post

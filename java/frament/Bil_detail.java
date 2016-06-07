@@ -37,7 +37,7 @@ import java.util.HashMap;
 
 import baihuiji.jkqme.baihuiji.HomPage;
 import baihuiji.jkqme.baihuiji.MyApplaication;
-import baihuiji.jkqme.baihuiji.R;
+import baihuiji.jkqme.baihuiji0.R;
 import web.Ip;
 
 /**

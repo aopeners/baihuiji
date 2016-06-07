@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import java.lang.reflect.Field;
 
 import baihuiji.jkqme.baihuiji.HomPage;
-import baihuiji.jkqme.baihuiji.R;
+import baihuiji.jkqme.baihuiji0.R;
 
 /**
  * Created by jkqme on 2016/5/15.

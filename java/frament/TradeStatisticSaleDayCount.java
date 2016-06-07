@@ -31,7 +31,7 @@ import java.util.HashMap;
 
 import adpter.DayCoutAdpter;
 import baihuiji.jkqme.baihuiji.HomPage;
-import baihuiji.jkqme.baihuiji.R;
+import baihuiji.jkqme.baihuiji0.R;
 
 /**
  * 交易笔数的，子项点击进入
